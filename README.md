@@ -9,7 +9,7 @@ Made to use with ECALpro: https://github.com/lpernie/ECALpro. Current edition of
 You definitely need to change the filepath of where the python programs get the .root files. Note that I have
 made appropriate folders for these programs in respective programs (most of it should be called in runFills.py).
 Otherwise, everything else should be okay. The only TRUE difference between my code and your code would be 
-where we get the information needed to analyze (where the data is stored and where we output our results). 
+where we get the information needed to analyze (where the data is stored and where we output our results). This could be file paths, which run you are getting your data from, where you ouput your files.
 
 ##How to Run
 In LXPLUS, you should have these files within your CMSSW folder. Within your CMSSW folder, 
