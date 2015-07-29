@@ -9,7 +9,7 @@
 ##
 import ROOT as rt
 import sys, random, math
-import time
+import time, copy
 import os
 import stackNfit as snf
 import numpy as np
@@ -31,10 +31,14 @@ if __name__ == "__main__":
     fileList = os.listdir(retdir)
     
     #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett)
-    dataList = np.array([-1.0, "root file"]) #(mass, root file)
+    dataListf = np.array([-1.0, "root file"]) #(mass, by file [bins of 5]
+    dataListr = np.array([-1.0, "week of run"]) #(mass, by run)
     
     #creates a list of histograms (for range of ROOT files)
     histList = []
+    
+    #creates 1 histogram for run
+    histRun = rt.TH1F("Average Pi0 mass for Run 2015A","Pi0 mass (GeV) for Run 2015A",1000,0,1)
     
     #creates a list of root files used
     roofiles = []
@@ -49,17 +53,23 @@ if __name__ == "__main__":
             
             #makes the histogram for pi0 mass
             histname = "Average Pi0 mass in Barrel for time instance (%s)" %(fileList[k])
-            histtitle = "Pi0 mass (GeV) for time instance (%s)" %(fileList[k])
-            histmass = rt.TH1F(histname,histtitle,1000,0,1000))
+            histtitle = "Pi0 mass (GeV) for ROOT file cluster (%s)" %(fileList[k])
+            histmass = rt.TH1F(histname,histtitle,1000,0,1)
             
-            #fills the histogram with data
-            histmass = snf.stackMassEta(rTree,mass)
+            #fills the mass histogram list with ROOT files oriented folder
+            histmass = snf.stackMass(rTree,histmass)
+            histList.append(copy.copy(histmass))
+            print histmass
+            print histList[0]
+
+            #Fills large histogram for the entire run's dataset
+            histRun = snf.stackMass(rTree,histRun)
+
             rootFile.Close()
 
-            histList.append(histmass)
-
     #fits the histograms and saves 1D in tree
-    histList = snf.fitMass(histList)
+    massvalues = snf.fitMassROOT(histList)
+    avemass = snf.fitMass(histRun)
 
     # Same procedure, going back to original working directory.
     retdir = os.getcwd()
@@ -69,11 +79,13 @@ if __name__ == "__main__":
     print "Directory changed successfully %s" % retdir
 
     #saving all 1D histograms in tree
-    f = rt.TFile("MassEB_"+str(int(time.time()))+".root","new")
+    f = rt.TFile("MassEBAll_"+str(int(time.time()))+".root","new")
     for file in range(0,len(histList)):
         histList[file].Write()
+        histRun.Write()
         #Saving value of data in tuple list
-        dataList = np.vstack((dataList, [mass, roofiles]))
+        dataListf = np.vstack((dataListf, [massvalues[file], roofiles[file]]))
+    dataListr = np.vstack((dataListr, [avemass, '2015A']))
 
-    np.save("etaMassResponseEB_0T.npy", dataList)
-    pbar.finish()
+    np.save("MassEBf_0T.npy", dataListf)
+    np.save("MassEBr_0T.npy", dataListr)

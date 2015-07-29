@@ -250,9 +250,8 @@ def fitTimeEta(histlist, htime):
     return htime
 
 
-# This will stack time response based upon each eta ring
-# This is for barrel
-def stackMassEta(rTree,histlist):
+# This will stack mass based on the ROOT file
+def stackMass(rTree,histmass):
     
     #gets number of entries (collision bunches)
     nentries = rTree.GetEntries()
@@ -264,25 +263,24 @@ def stackMassEta(rTree,histlist):
         rTree.GetEntry(i)
         for rec in range(0,rTree.STr2_NPi0_rec):
             if rTree.STr2_Pi0recIsEB[rec]:
-                histlist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_mPi0_rec[rec])
+                histmass.Fill(rTree.STr2_mPi0_rec[rec])
         pbar.update(i+1)
     pbar.finish()
-    return histlist
+    return histmass
 
 
-#This will fit gaussians to all the eta rings
-def fitMassEta(histlist, hmass):
-    for eta in range(0,len(histlist)):
-        hist = histlist[eta]
+#This will fit the appropriate fit by ROOT files
+def fitMassROOT(histlist):
+    hmassvalues = [0]*len(histlist)
+    for j in range(1,len(histlist)):
+        hist = histlist[j]
         binmax = hist.GetMaximumBin()
         max = hist.GetXaxis().GetBinCenter(binmax)
         #print "binmax: " + str(binmax) + " and max: " + str(max)
-        m = rt.RooRealVar("mass","mass (GeV)",max-2.5,max+2.5)
+        m = rt.RooRealVar("mass","mass (MeV)",max-0.5,max+0.5)
         dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
         
         frame = m.frame(rt.RooFit.Title("Pi0 Mass"))
-        
-        
         frame.SetYTitle("Counts")
         frame.SetTitleOffset(1.4, "Y")
         
@@ -299,15 +297,45 @@ def fitMassEta(histlist, hmass):
         
         fr = gauss.fitTo(dh,rt.RooFit.Save())
         
-        if eta%11 == 0:
-            gauss.plotOn(frame)
-            c1 = rt.TCanvas()
-            #c1.SetLogy()
-            frame.Draw()
-            c1.Print("Pi0massEta"+str(eta)+".png")
+        gauss.plotOn(frame)
+        c1 = rt.TCanvas()
+        c1.SetLogy()
+        frame.Draw()
+        c1.Print("Pi0mass"+str(m)+".png")
+        hmassvalues[j] = mean.getVal()
+    return hmassvalues
+
+
+#This will fit the appropriate fit by the Run
+def fitMass(hist):
+    binmax = hist.GetMaximumBin()
+    max = hist.GetXaxis().GetBinCenter(binmax)
+    #print "binmax: " + str(binmax) + " and max: " + str(max)
+    m = rt.RooRealVar("mass","mass (MeV)",max-0.5,max+0.5)
+    dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
         
-        hmass.Fill(eta-85,mean.getVal())
-    return hmass
+    frame = m.frame(rt.RooFit.Title("Pi0 Mass"))
+    frame.SetYTitle("Counts")
+    frame.SetTitleOffset(1.4, "Y")
+    
+    dh.plotOn(frame)
+    
+    # define gaussian
+    mean = rt.RooRealVar("mean","mean",0.14,0,1.)
+    sigma = rt.RooRealVar("sigma","sigma",0.1,0.,1)
+    gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
+        
+    #Construct the composite model
+    #nsig = rt.RooRealVar("nsig","number of signal events", 100000., 0., 10000000)
+    #nbkg = rt.RooRealVar("nbkg", "number of background events", 10000, 0., 10000000)
+        
+    fr = gauss.fitTo(dh,rt.RooFit.Save())
+    gauss.plotOn(frame)
+    c1 = rt.TCanvas()
+    c1.SetLogy()
+    frame.Draw()
+    c1.Print("Pi0massRun2015A.png")
+    return mean.getVal()
 
 
 
