@@ -15,13 +15,13 @@ print "Current working directory %s" % retdir
 
 # Now change the directory
 os.chdir("..")
-os.chdir( retdir + "/ALL_2015A_RAW_Test1/cfgFile/Fill/" )
+os.chdir( os.getcwd() + "/ALL_2015B_RAW_Test1/cfgFile/Fill/" )
 
 # Check current working directory.
 retdir = os.getcwd()
 print "Directory changed successfully %s" % retdir
 
-for i in range(0,80):
+for i in range(0,30):
     filein = "fillEpsilonPlot_iter_0_job_%i.py" %i
     f = open(filein,'r')
     filedata = f.read()

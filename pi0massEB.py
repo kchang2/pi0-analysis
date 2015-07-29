@@ -23,7 +23,7 @@ if __name__ == "__main__":
     print "Current working directory %s" % retdir
     os.chdir('..')
     startdir = retdir = os.getcwd()
-    os.chdir( retdir + '/output/' )
+    os.chdir( retdir + '/ALL_2015A_RAW_Test1/cfgFile/Fill/output/' )
     retdir = os.getcwd()
     print "Directory changed successfully %s" % retdir
 

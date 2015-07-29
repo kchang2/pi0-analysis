@@ -24,7 +24,7 @@ if __name__ == "__main__":
     os.system('mkdir result')
 
     # Now change the directory
-    os.chdir( retdir + '/ALL_2015A_RAW_Test1/cfgFile/Fill/' )
+    os.chdir( retdir + '/ALL_2015B_RAW_Test1/cfgFile/Fill/' )
 
     # Check current working directory.
     retdir = os.getcwd()
@@ -34,14 +34,14 @@ if __name__ == "__main__":
     os.system('mkdir output')
     
     for k in range (0,1): #iterations
-        for j in range (10,80): #jobs
+        for j in range (0,10): #jobs
             file = "fillEpsilonPlot_iter_" + str(k) + "_job_" + str(j) + ".py"
             print "Running", file
             os.system('cmsRun ' + file)
 
 
-    for j in range (10,80):
-        shutil.move(retdir + "/2015A_EcalNtp_" + str(j) + ".root", retdir + "/output" + "/2015A_EcalNtp_" + str(j) + ".root")
+    for j in range (0,10):
+        shutil.move(retdir + "/2015B_EcalNtp_" + str(j) + ".root", retdir + "/output" + "/2015B_EcalNtp_" + str(j) + ".root")
 
 
 
