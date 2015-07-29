@@ -86,6 +86,7 @@ if __name__ == "__main__":
         #Saving value of data in tuple list
         dataListf = np.vstack((dataListf, [massvalues[file], roofiles[file]]))
     dataListr = np.vstack((dataListr, [avemass, '2015A']))
+    print avemass
 
     np.save("MassEBf_0T.npy", dataListf)
     np.save("MassEBr_0T.npy", dataListr)

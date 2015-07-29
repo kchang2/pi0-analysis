@@ -272,12 +272,12 @@ def stackMass(rTree,histmass):
 #This will fit the appropriate fit by ROOT files
 def fitMassROOT(histlist):
     hmassvalues = [0]*len(histlist)
-    for j in range(1,len(histlist)):
+    for j in range(0,len(histlist)):
         hist = histlist[j]
         binmax = hist.GetMaximumBin()
         max = hist.GetXaxis().GetBinCenter(binmax)
         #print "binmax: " + str(binmax) + " and max: " + str(max)
-        m = rt.RooRealVar("mass","mass (MeV)",max-0.5,max+0.5)
+        m = rt.RooRealVar("mass","mass (MeV)",max-0.2,max+0.2)
         dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
         
         frame = m.frame(rt.RooFit.Title("Pi0 Mass"))
@@ -301,7 +301,7 @@ def fitMassROOT(histlist):
         c1 = rt.TCanvas()
         c1.SetLogy()
         frame.Draw()
-        c1.Print("Pi0mass"+str(m)+".png")
+        c1.Print("Pi0mass"+str(hist)+".png")
         hmassvalues[j] = mean.getVal()
     return hmassvalues
 
@@ -311,7 +311,7 @@ def fitMass(hist):
     binmax = hist.GetMaximumBin()
     max = hist.GetXaxis().GetBinCenter(binmax)
     #print "binmax: " + str(binmax) + " and max: " + str(max)
-    m = rt.RooRealVar("mass","mass (MeV)",max-0.5,max+0.5)
+    m = rt.RooRealVar("mass","mass (MeV)",max-0.2,max+0.2)
     dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
         
     frame = m.frame(rt.RooFit.Title("Pi0 Mass"))
