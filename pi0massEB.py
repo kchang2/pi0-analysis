@@ -59,8 +59,8 @@ if __name__ == "__main__":
             #fills the mass histogram list with ROOT files oriented folder
             histmass = snf.stackMass(rTree,histmass)
             histList.append(copy.copy(histmass))
-            print histmass
-            print histList[0]
+            #print histmass
+            #print histList[0]
 
             #Fills large histogram for the entire run's dataset
             histRun = snf.stackMass(rTree,histRun)

@@ -277,7 +277,7 @@ def fitMassROOT(histlist):
         binmax = hist.GetMaximumBin()
         max = hist.GetXaxis().GetBinCenter(binmax)
         #print "binmax: " + str(binmax) + " and max: " + str(max)
-        m = rt.RooRealVar("mass","mass (MeV)",max-0.2,max+0.2)
+        m = rt.RooRealVar("mass","mass (MeV)",max-0.02,max+0.02)
         dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
         
         frame = m.frame(rt.RooFit.Title("Pi0 Mass"))
@@ -311,7 +311,7 @@ def fitMass(hist):
     binmax = hist.GetMaximumBin()
     max = hist.GetXaxis().GetBinCenter(binmax)
     #print "binmax: " + str(binmax) + " and max: " + str(max)
-    m = rt.RooRealVar("mass","mass (MeV)",max-0.2,max+0.2)
+    m = rt.RooRealVar("mass","mass (MeV)",max-0.02,max+0.02)
     dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
         
     frame = m.frame(rt.RooFit.Title("Pi0 Mass"))
