@@ -31,6 +31,5 @@ summer, everything should be tuned up and running smoothly and efficiently. As o
 efficiency in the code (more of a lack of POWER in memory I can use before getting booted off batch). I will be
 editing this in the course of the summer so that you can run it (albeit slower) in any busy server.
 
-##Want to make upgrades?
-Email me @ kchang2@caltech.edu if interested in commiting to this repository. I am relatively new with Github, so 
-I have absolutely no idea what I am doing. Basic coder.
+##Want to make this better?
+Email me @ kchang2@caltech.edu if interested in commiting to this repository. I am relatively new with Github, and relatively new with programming tasks involving big data, so I have a much smaller idea of what I am doing. Basic coder.
