@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # Now change the directory
     os.chdir('..')
     startdir = retdir = os.getcwd()
-    os.chdir( retdir + '/ALL_2015A_RAW_Test1/cfgFile/Fill/output/' )
+    os.chdir( retdir + '/output/' )
     
     # Check current working directory.
     retdir = os.getcwd()

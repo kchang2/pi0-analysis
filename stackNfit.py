@@ -12,11 +12,14 @@ from FastProgressBar import progressbar
 
 # This will stack time response based upon each individual crystal (both eta,phi and x,y)
 # This is for endcap and barrel
-def stackTime(rTree, histlist, histlist2, histlist3, histlist4):
+def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4):
 
-    #gets number of entries (collision bunches)
-    nentries = rTree.GetEntries()
-    
+    if entries != -1:
+        nentries = entries
+    else:
+        #gets number of entries (collision bunches)
+        nentries = rTree.GetEntries()
+
     #creates a progress bar
     pbar = progressbar("Stacking", nentries).start()
 
@@ -145,8 +148,8 @@ def fitTime(histlist, htime):
             dh.plotOn(frame)
                                                         
             # define gaussian
-            mean = rt.RooRealVar("mean","mean",0.14,0,1.)
-            sigma = rt.RooRealVar("sigma","sigma",0.1,0.,1)
+            mean = rt.RooRealVar("mean","mean",0.,-2,2.)
+            sigma = rt.RooRealVar("sigma","sigma",0.,-2,2)
             gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
                                                                     
             #Construct the composite model
@@ -168,10 +171,13 @@ def fitTime(histlist, htime):
 
 # This will stack time response based upon each eta ring
 # This is for barrel
-def stackTimeEta(rTree,histlist,histlist2):
+def stackTimeEta(rTree,entries,histlist,histlist2):
 
-    #gets number of entries (collision bunches)
-    nentries = rTree.GetEntries()
+    if entries != -1:
+        nentries = entries
+    else:
+        #gets number of entries (collision bunches)
+        nentries = rTree.GetEntries()
     
     #creates a progress bar
     pbar = progressbar("Stacking", nentries).start()
@@ -211,13 +217,12 @@ def stackTimeEta(rTree,histlist,histlist2):
 
 #This will fit gaussians to all the eta rings
 def fitTimeEta(histlist, htime):
+    fitdata = [[0 for values in range(4)] for eta in range(171)] #(mean,error,sigma,error)
     for eta in range(0,len(histlist)):
-        #print "completed " + str(eta) + " out of " + str(len(histlist)) + " columns."
         hist = histlist[eta]
         binmax = hist.GetMaximumBin()
         max = hist.GetXaxis().GetBinCenter(binmax)
-        #print "binmax: " + str(binmax) + " and max: " + str(max)
-        m = rt.RooRealVar("t","t (ns)",max-2.5,max+2.5)
+        m = rt.RooRealVar("t","t (ns)",max-1.5,max+1.5)
         dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
         
         frame = m.frame(rt.RooFit.Title("Time response"))
@@ -229,25 +234,25 @@ def fitTimeEta(histlist, htime):
         dh.plotOn(frame)
         
         # define gaussian
-        mean = rt.RooRealVar("mean","mean",0.14,0,1.)
-        sigma = rt.RooRealVar("sigma","sigma",0.1,0.,1)
+        mean = rt.RooRealVar("mean","mean",0.1,-2,2.)
+        sigma = rt.RooRealVar("sigma","sigma",0.1,-2.,2)
         gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
-        
-        #Construct the composite model
-        #nsig = rt.RooRealVar("nsig","number of signal events", 100000., 0., 10000000)
-        #nbkg = rt.RooRealVar("nbkg", "number of background events", 10000, 0., 10000000)
             
-        fr = gauss.fitTo(dh,rt.RooFit.Save())
-        
-        if eta%11 == 0:
+        fr = gauss.fitTo(dh,rt.RooFit.Save(),rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
+
+        if eta <10:
             gauss.plotOn(frame)
             c1 = rt.TCanvas()
             #c1.SetLogy()
             frame.Draw()
             c1.Print("timeresponseEta"+str(eta)+".png")
-        
+
+        fitdata[eta][0]=mean.getVal()
+        fitdata[eta][1]=mean.getError()
+        fitdata[eta][2]=sigma.getVal()
+        fitdata[eta][3]=sigma.getError()
         htime.Fill(eta-85,mean.getVal())
-    return htime
+    return htime, fitdata
 
 
 # This will stack mass based on the ROOT file
@@ -287,8 +292,8 @@ def fitMassROOT(histlist):
         dh.plotOn(frame)
         
         # define gaussian
-        mean = rt.RooRealVar("mean","mean",0.14,0,1.)
-        sigma = rt.RooRealVar("sigma","sigma",0.1,0.,1)
+        mean = rt.RooRealVar("mean","mean",0.,-2,2.)
+        sigma = rt.RooRealVar("sigma","sigma",0.,-2,2)
         gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
         
         #Construct the composite model
@@ -321,8 +326,8 @@ def fitMass(hist):
     dh.plotOn(frame)
     
     # define gaussian
-    mean = rt.RooRealVar("mean","mean",0.14,0,1.)
-    sigma = rt.RooRealVar("sigma","sigma",0.1,0.,1)
+    mean = rt.RooRealVar("mean","mean",0.,-2,2.)
+    sigma = rt.RooRealVar("sigma","sigma",0.,-2,2)
     gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
         
     #Construct the composite model

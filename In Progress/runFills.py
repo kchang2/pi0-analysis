@@ -20,8 +20,8 @@ if __name__ == "__main__":
     retdir = os.getcwd()
     print "Current working directory %s" % retdir
     
-    # Makes new folder for all resulting .png
-    os.system('mkdir result')
+#    # Makes new folder for all resulting .png
+#    os.system('mkdir result')
 
     # Now change the directory
     os.chdir( retdir + '/ALL_2015B_RAW_Test1/cfgFile/Fill/' )

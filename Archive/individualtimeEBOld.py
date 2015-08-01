@@ -85,31 +85,93 @@ if __name__ == "__main__":
 
         a.openEB(nof,rootfilename,fileList, p.numberofEntries, histList, 0)
 
-    # Same procedure, going to results directory.
+    for k in range(0,len(fileList)):
+        if "2015A_EcalNtp_" in fileList[k]:
+            rootFile = rt.TFile.Open(fileList[k])
+            rTree = rootFile.Get("Tree_Optim")
+            print "successfully cut branch from " + fileList[k]
+            #rootFile.Print("v")
+                   
+            #fills the histogram with data
+#            histList = snf.stackTime(rTree,histList, 0, 0, 0)
+            histList1,histList2 = snf.stackTime(rTree,histList1, histList2, 1, 0)
+            rootFile.Close()
+
+
+    #fits the histograms
+#    htime = snf.fitTime(histList,htime)
+    htime1 = snf.fitTime(histList1,htime1)
+    htime2 = snf.fitTime(histList2,htime2)
+
+## Getting back to program file
+##
+    # Check current working directory.
     retdir = os.getcwd()
     print "Current working directory %s" % retdir
-    os.chdir(p.resultPath + '/' + p.folderName + '/')
-    folder = 'itEB'+str(int(time.time()))
-    os.system('mkdir ' + folder)
-    os.chdir(os.getcwd() + '/' + folder +'/')
+    
+    # Now change the directory
+    os.chdir( startdir + '/result/')
+    
+    # Check current working directory.
     retdir = os.getcwd()
     print "Directory changed successfully %s" % retdir
 
-    #fits the histograms and saves 1D in tree
-    if p.splitPhotons == True:
-        htime1, fitdata1 = snf.fitTime(histList1,htime1)
-        htime2, fitdata2 = snf.fitTime(histList2,htime2)
-        a.saveEB(p.runNumber,dataList1,dataList2,histList1,histList2,htime1,htime2,fitdata1,fitdata2)
-        np.save("TimeResponseEB1_0T.npy", dataList1)
-        np.save("TimeResponseEB2_0T.npy", dataList2)
+    #Progress bar for the saves
+#    pbar = progressbar("saving data", 171).start()
+    pbar = progressbar("saving data", 342).start()
 
-        #Tacks on histogram to canvas frame and ouputs on canvas
-        a.printPrettyPictureEB(p.runNumber,htime1,htime2)
-    else:
-        htime, fitdata = snf.fitTime(histList,htime)
-        a.saveEB(p.runNumber,dataList,0,histList,0,htime,0,fitdata,0)
-        np.save("TimeResponseEB_0T.npy", dataList)
-        
-        a.printPrettyPictureEB(p.runNumber,htime1,0)
+    #saving all 1D histograms in tree
+#    f = rt.TFile("timeEB"+str(int(time.time()))+".root","new")
+#    for eta in range(0,len(histList)):
+#        for phi in range(0, len(histList[0])):
+#            histList[eta][phi].Write()
+#            #Saving value of data in tuple list
+#            dataList = np.vstack((dataList, [eta-85, phi, htime.GetBinContent(eta+1, phi)]))
+#        pbar.update(eta+1)
+#    np.delete(dataList,0)
+#    htime.Write()
 
+    f = rt.TFile("timeEB1_"+str(int(time.time()))+".root","new")
+    for eta in range(0,len(histList1)):
+        for phi in range(0, len(histList1[0])):
+            histList1[eta][phi].Write()
+            #Saving value of data in tuple list
+            dataList1 = np.vstack((dataList1, [eta-85, phi, htime1.GetBinContent(eta+1, phi)]))
+        pbar.update(eta+1)
+    np.delete(dataList1,0)
+    htime1.Write()
+
+    f = rt.TFile("timeEB2_"+str(int(time.time()))+".root","new")
+    for eta in range(0,len(histList2)):
+        for phi in range(0, len(histList2[0])):
+            histList2[eta][phi].Write()
+            #Saving value of data in tuple list
+            dataList2 = np.vstack((dataList2, [eta-85, phi, htime2.GetBinContent(eta+1, phi)]))
+        pbar.update(eta+1)
+    np.delete(dataList2,0)
+    htime2.Write()
+
+
+#    np.save("TimeResponseEB_0T.npy", dataList)
+    np.save("TimeResponseEB1_0T.npy", dataList1)
+    np.save("TimeResponseEB2_0T.npy", dataList2)
+    pbar.finish()
+
+
+    #Tacks on histogram to canvas frame and ouputs on canvas
+    #htime.plotOn(frame)
+#    c = rt.TCanvas()
+#    htime.SetFillColor(0)
+#    htime.Draw("colz")
+#    c.Print("2DTimeResponseEB_0T.png")
+
+    c1 = rt.TCanvas()
+    htime1.SetFillColor(0)
+    htime1.Draw("colz")
+    c1.Print("2DTimeResponseEB1_0T.png")
+
+    c2 = rt.TCanvas()
+    htime2.SetFillColor(0)
+    htime2.Draw("colz")
+    c2.Print("2DTimeResponseEB2_0T.png")
 

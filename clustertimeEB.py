@@ -11,122 +11,102 @@ import ROOT as rt
 import sys, random, math
 import time
 import os
-import stackNfit as snf
 import numpy as np
+
+import stackNfit as snf
+import parameters as p
+import assemble as a
 
 from FastProgressBar import progressbar
 
 if __name__ == "__main__":
     
-    #creates histogram
-#    htime = rt.TH1F("Time Response in Barrel for all photons", "Eta relation",170,-85,85)
-    htime1 = rt.TH1F("Time Response in Barrel for photon 1", "Eta relation",170,-85,85)
-    htime2 = rt.TH1F("Time Response in Barrel for photon 2", "Eta relation",170,-85,85)
-    
-    #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett)
-#    dataList = np.array([-1.0, -1.0])
-    dataList1 = np.array([-1.0, -1.0])
-    dataList2 = np.array([-1.0, -1.0])
-
-    #creates a list of histograms (for range of eta)
-#    histList = [0 for eta in range(171)]
-    histList1 = [0 for eta in range(171)]
-    histList2 = [0 for eta in range(171)]
-    for eta in range (0,171):
-#        histname = "time on sc eta (%i) for all" %(eta-85)
-#        histtitle = "time response (ns) for eta (%i) for all" %(eta-85)
-        histname1 = "time on sc eta (%i) for photon 1" %(eta-85)
-        histtitle1 = "time response (ns) for eta (%i) for photon 1" %(eta-85)
-        histname2 = "time on sc eta (%i) for photon 2" %(eta-85)
-        histtitle2 = "time response (ns) for eta (%i) for photon 2" %(eta-85)
-#        histList[eta] = rt.TH1F(histname,histtitle,1000,-30,30)
-        histList1[eta] = rt.TH1F(histname1,histtitle1,1000,-30,30)
-        histList2[eta] = rt.TH1F(histname2,histtitle2,1000,-30,30)
-        
-
     #Check and change current working directory.
-    retdir = os.getcwd()
-    print "Current working directory %s" % retdir
-    os.chdir('..')
-    startdir = retdir = os.getcwd()
-    os.chdir( retdir + '/ALL_2015A_RAW_Test1/cfgFile/Fill/output/' )
+    stardir = os.getcwd()
+    print "Current working directory %s" % stardir
+    os.chdir(p.rootFileLocation)
     retdir = os.getcwd()
     print "Directory changed successfully %s" % retdir
-    
     
     # Get list of root files in directory
     fileList = os.listdir(retdir)
+    
+    # Root file name
+    rootfilename = p.runNumber + "EcalNtp_"
+    
+    # number of files to analyze
+    if p.numberofFiles == -1:
+        nof = len(fileList)
+    else:
+        nof = p.numberofFiles
 
-    for k in range(0,len(fileList)):
-        if "2015A_EcalNtp_" in fileList[k]:
-            rootFile = rt.TFile.Open(fileList[k])
-            rTree = rootFile.Get("Tree_Optim")
-            print "successfully cut branch from " + fileList[k]
-            #rootFile.Print("v")
-            
-            #fills the histogram with data
-            #histList = snf.stackTimeEta(rTree,histList,0)
-            histList1, histList2 = snf.stackTimeEta(rTree,histList1,histList2)
-            rootFile.Close()
+    #Here is where it splits based on track and decision
+    if p.splitPhotons == True:
+        #creates histogram
+        htime1 = rt.TH1F("Time Response in Barrel for photon 1", "Eta relation",170,-85,85)
+        htime2 = rt.TH1F("Time Response in Barrel for photon 2", "Eta relation",170,-85,85)
+    
+        #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett)
+        dataList1 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, mean, mean error, sigma, sigma error]
+        dataList2 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, time response, time response error, time resolution, time resolution error]
+    
+        #creates a list of histograms (for range of eta)
+        histList1 = [0 for eta in range(171)]
+        histList2 = [0 for eta in range(171)]
+        
+        #fills list of histograms with actual histograms
+        for eta in range (0,171):
+            histname1 = "time on sc eta (%i) for photon 1" %(eta-85)
+            histtitle1 = "time response (ns) for eta (%i) for photon 1" %(eta-85)
+            histname2 = "time on sc eta (%i) for photon 2" %(eta-85)
+            histtitle2 = "time response (ns) for eta (%i) for photon 2" %(eta-85)
+            histList1[eta] = rt.TH1F(histname1,histtitle1,1000,-30,30)
+            histList2[eta] = rt.TH1F(histname2,histtitle2,1000,-30,30)
 
-    #fits the histograms and saves 1D in tree
-#    htime = snf.fitTimeEta(histList,htime)
-    htime1 = snf.fitTimeEta(histList1,htime1)
-    htime2 = snf.fitTimeEta(histList2,htime2)
+        #stacks data onto the histograms
+        a.openEB(nof,rootfilename,fileList, p.numberofEntries, histList1, histList2)
+    
+    # No splitting, joining photon 1,photon 2 together
+    else:
+        htime = rt.TH1F("Time Response in Barrel for all photons", "Eta relation",170,-85,85)
+        dataList = np.array([-1.0, -1.0])
+        histList = [0 for eta in range(171)]
+        histname = "time on sc eta (%i) for all" %(eta-85)
+        histtitle = "time response (ns) for eta (%i) for all" %(eta-85)
+        for eta in range (0,171):
+            histList[eta] = rt.TH1F(histname,histtitle,1000,-30,30)
+        a.openEB(nof,rootfilename,fileList, p.numberofEntries, histList, 0)
 
-    # Same procedure, going back to original working directory.
+    # Same procedure, going back to directory where results are printed
     retdir = os.getcwd()
     print "Current working directory %s" % retdir
-    os.chdir( startdir + "/result/")
+    os.chdir(p.resultPath + '/' + p.folderName + '/')
+    folder = 'ctEB'+str(int(time.time()))
+    os.system('mkdir ' + folder)
+    os.chdir(os.getcwd() + '/' + folder +'/')
     retdir = os.getcwd()
     print "Directory changed successfully %s" % retdir
 
-    #Progress bar for the saves
-#    pbar = progressbar("saving data", 171).start()
-    pbar = progressbar("saving data", 342).start()
+    #fits the histograms and saves 1D in tree
+    if p.splitPhotons == True:
+        htime1, fitdata1 = snf.fitTimeEta(histList1,htime1)
+        htime2, fitdata2 = snf.fitTimeEta(histList2,htime2)
 
-    #saving all 1D histograms in tree
-#    f = rt.TFile("clustertimeEBAll_"+str(int(time.time()))+".root","new")
-#    for eta in range(0,len(histList)):
-#        histList[eta].Write()
-#        #Saving value of data in tuple list
-#        dataList = np.vstack((dataList, [eta-85, htime.GetBinContent(eta+1)]))
-#        pbar.update(i+1)
-#    htime.Write()
+        #saving all 1D histograms in tree
+        a.saveEB(p.runNumber,dataList1,dataList2,histList1,histList2,htime1,htime2,fitdata1,fitdata2)
+        #saving all data into a numpy file for analyzing later
+        np.save("A_etaTimeResponseEB1_0T.npy", dataList1)
+        np.save("A_etaTimeResponseEB2_0T.npy", dataList2)
 
-    f = rt.TFile("clustertimeEB1_"+str(int(time.time()))+".root","new")
-    for eta in range(0,len(histList1)):
-        histList1[eta].Write()
-        #Saving value of data in tuple list
-        dataList1 = np.vstack((dataList1, [eta-85, htime1.GetBinContent(eta+1)]))
-        pbar.update(eta+1)
-    htime1.Write()
+        #Tacks on histogram to canvas frame and ouputs on canvas
+        a.printPrettyPictureEB(p.runNumber,htime1,htime2)
 
-    f = rt.TFile("clustertimeEB2_"+str(int(time.time()))+".root","new")
-    for eta in range(0,len(histList2)):
-        histList2[eta].Write()
-        #Saving value of data in tuple list
-        dataList2 = np.vstack((dataList2, [eta-85, htime2.GetBinContent(eta+1)]))
-        pbar.update(eta+1)
-    htime2.Write()
+    else:
+        htime, fitdata = snf.fitTimeEta(histList,htime)
+        a.saveEB(p.runNumber,dataList,0,histList,0,htime,0,fitdata,0)
+        np.save("etaTimeResponseEBAll_0T.npy", dataList)
 
-#    np.save("etaTimeResponseEBAll_0T.npy", dataList)
-    np.save("etaTimeResponseEB1_0T.npy", dataList1)
-    np.save("etaTimeResponseEB2_0T.npy", dataList2)
-    pbar.finish()
+        a.printPrettyPictureEB(p.runNumber,htime,0)
 
 
-    #Tacks on histogram to canvas frame and ouputs on canvas
-    #htime.plotOn(frame)
-#    c = rt.TCanvas()
-#    htime.Draw()
-#    c.Print("etaTimeResponseEBAll_0T.png")
-
-    c1 = rt.TCanvas()
-    htime1.Draw()
-    c1.Print("etaTimeResponseEB1_0T.png")
-
-    c2 = rt.TCanvas()
-    htime2.Draw()
-    c2.Print("etaTimeResponseEB2_0T.png")
 
