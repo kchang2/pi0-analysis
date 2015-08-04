@@ -172,15 +172,19 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
 
 #draws the graphs you want to see and saves them as .png in respective folders
 def printPrettyPictureEB(runNumber,htime1,htime2):
+    color = [x * 1 for x in range(0,20)]
+    level = [x * 0.5 for x in range(-10,11)]
     if type(htime1) != rt.TH1F:
         if htime2 != 0:
             c1 = rt.TCanvas()
             htime1.SetFillColor(0)
+            htime1.setContour(color,level)
             htime1.Draw("colz")
             c1.Print(runNumber+"IndivTimeResponseEB1_0T.png")
 
             c2 = rt.TCanvas()
             htime2.SetFillColor(0)
+            htime2.setContour(color,level)
             htime2.Draw("colz")
             c2.Print(runNumber+"IndivTimeResponseEB2_0T.png")
         else:
@@ -207,33 +211,41 @@ def printPrettyPictureEB(runNumber,htime1,htime2):
 
 #draws the graphs you want to see and saves them as .png in respective folders
 def printPrettyPictureEE(runNumber,htimep1,htimep2,htimem1,htimem2):
+    color = [x * 1 for x in range(0,20)]
+    level = [x * 0.5 for x in range(-10,11)]
     if type(htimep2) == rt.TH2F:
         c1 = rt.TCanvas()
         htimep1.SetFillColor(0)
+        htimep1.setContour(color,level)
         htimep1.Draw("colz")
         c1.Print(runNumber+"IndivTimeResponseEEp1.png")
             
         c2 = rt.TCanvas()
         htimep2.SetFillColor(0)
+        htimep2.setContour(color,level)
         htimep2.Draw("colz")
         c2.Print(runNumber+"IndivTimeResponseEEp2.png")
     
         c3 = rt.TCanvas()
         htimem1.SetFillColor(0)
+        htimem1.setContour(color,level)
         htimem1.Draw("colz")
         c3.Print(runNumber+"IndivTimeResponseEEm1.png")
         
         c4 = rt.TCanvas()
         htimem2.SetFillColor(0)
+        htimem2.setContour(color,level)
         htimem2.Draw("colz")
         c4.Print(runNumber+"IndivTimeResponseEEm2.png")
     else:
         c = rt.TCanvas()
         htimep.SetFillColor(0)
+        htimep.setContour(color,level)
         htimep.Draw("colz")
         c.Print(runNumber+"IndivTimeResponseEEp_c.png")
 
         c2 = rt.TCanvas()
         htimem.SetFillColor(0)
+        htimem.setContour(color,level)
         htimem.Draw("colz")
         c2.Print(runNumber+"IndivTimeResponseEEm_c.png")
