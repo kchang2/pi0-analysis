@@ -119,7 +119,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4):
 
 
 # This will fit gaussians to all the individual crystal time response histograms and converge them into a 2d histogram with the mean value.
-def fitTime(histlist, htime):
+def fitTime(histlist, htime, minstat):
     fitdata = [[[0 for values in range(4)] for phi in range(361)] for eta in range(171)]
         #(mean,error,sigma,error) for [eta or x ,phi or y]
 
@@ -134,6 +134,8 @@ def fitTime(histlist, htime):
         #print "completed " + str(x) + " out of " + str(len(histlist)) + " columns."
         for y in range(0,len(histlist[0])):
             hist = histlist[x][y]
+            if hist.GetEntries() < minstat:
+                continue
             binmax = hist.GetMaximumBin()
             max = hist.GetXaxis().GetBinCenter(binmax)
             
@@ -220,10 +222,13 @@ def stackTimeEta(rTree,entries,histlist,histlist2):
     return histlist, histlist2
 
 #This will fit gaussians to all the eta rings
-def fitTimeEta(histlist, htime):
+def fitTimeEta(histlist, htime, minstat):
     fitdata = [[0 for values in range(4)] for eta in range(171)] #(mean,error,sigma,error)
     for eta in range(0,len(histlist)):
         hist = histlist[eta]
+        if hist.GetEntries() < minstat:
+            print 'sorry sir'
+            continue
         binmax = hist.GetMaximumBin()
         max = hist.GetXaxis().GetBinCenter(binmax)
         m = rt.RooRealVar("t","t (ns)",max-1.5,max+1.5)

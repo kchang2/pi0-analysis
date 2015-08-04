@@ -44,8 +44,8 @@ if __name__ == "__main__":
     #Here is where it splits based on track and decision
     if p.splitPhotons == True:
         #creates histogram of time
-        htime1 = rt.TH1F("Time Response in Barrel for photon 1", "Eta relation",170,-85,85)
-        htime2 = rt.TH1F("Time Response in Barrel for photon 2", "Eta relation",170,-85,85)
+        htime1 = rt.TH1F("Time Response in Barrel for photon 1", "Time Response vs iEta in EB for photon 1; iEta;ns",170,-85,85)
+        htime2 = rt.TH1F("Time Response in Barrel for photon 2", "Time Response vs iEta in EB for photon 2; iEta;ns",170,-85,85)
     
         #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett)
         dataList1 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, mean, mean error, sigma, sigma error]
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     
     # No splitting, joining photon 1, photon 2 together
     else:
-        htime = rt.TH1F("Time Response in Barrel for all photons", "Eta relation",170,-85,85)
+        htime = rt.TH1F("Time Response in Barrel for all photons", "Time Response vs iEta in EB; iEta;ns",170,-85,85)
         dataList = np.array([-1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, mean, mean error, sigma, sigma error]
         histList = [0 for eta in range(171)]
         histname = "time on sc eta (%i) for all" %(eta-85)
@@ -94,8 +94,8 @@ if __name__ == "__main__":
 
     #fits the histograms and saves 1D in tree
     if p.splitPhotons == True:
-        htime1, fitdata1 = snf.fitTimeEta(histList1,htime1)
-        htime2, fitdata2 = snf.fitTimeEta(histList2,htime2)
+        htime1, fitdata1 = snf.fitTimeEta(histList1,htime1,p.minStat)
+        htime2, fitdata2 = snf.fitTimeEta(histList2,htime2,p.minStat)
 
         #saving all 1D histograms in tree
         a.saveEB(p.runNumber,dataList1,dataList2,histList1,histList2,htime1,htime2,fitdata1,fitdata2)
@@ -104,7 +104,7 @@ if __name__ == "__main__":
         a.printPrettyPictureEB(p.runNumber,htime1,htime2)
 
     else:
-        htime, fitdata = snf.fitTimeEta(histList,htime)
+        htime, fitdata = snf.fitTimeEta(histList,htime,p.minStat)
         a.saveEB(p.runNumber,dataList,0,histList,0,htime,0,fitdata,0)
 
         a.printPrettyPictureEB(p.runNumber,htime,0)

@@ -46,10 +46,10 @@ if __name__ == "__main__":
     
     if p.splitPhotons == True:
         #creates histogram for time response
-        htimep1 = rt.TH2F("Time Response in Endcap plus for photon 1", "X vs Y",100,0,100,100,0,100)
-        htimep2 = rt.TH2F("Time Response in Endcap plus for photon 2", "X vs Y",100,0,100,100,0,100)
-        htimem1 = rt.TH2F("Time Response in Endcap minus for photon 1", "X vs Y",100,0,100,100,0,100)
-        htimem2 = rt.TH2F("Time Response in Endcap minus for photon 2", "X vs Y",100,0,100,100,0,100)
+        htimep1 = rt.TH2F("Time Response in Endcap plus for photon 1", "Time Response in EE+ for photon 1; iEta;iPhi;ns",100,0,100,100,0,100)
+        htimep2 = rt.TH2F("Time Response in Endcap plus for photon 2", "Time Response in EE+ for photon 2; iEta;iPhi;ns",100,0,100,100,0,100)
+        htimem1 = rt.TH2F("Time Response in Endcap minus for photon 1", "Time Response in EE- for photon 1; iEta;iPhi;ns",100,0,100,100,0,100)
+        htimem2 = rt.TH2F("Time Response in Endcap minus for photon 2", "Time Response in EE- for photon 2; iEta;iPhi;ns",100,0,100,100,0,100)
     
         #creates a list of histograms
         histListp1 = [[0 for x in range(101)] for y in range(101)]
@@ -76,8 +76,8 @@ if __name__ == "__main__":
         #stack data on histograms
         runinfo = a.openEE(rootfilename,rootList,runinfo,bf,ef,p.numberofEntries,histListp1, histListm1,histListp2,histListm2)
     else:
-        htimep = rt.TH2F("Time Response in Endcap plus for all photons", "X vs Y",100,0,100,100,0,100)
-        htimem = rt.TH2F("Time Response in Endcap minus for all photons", "X vs Y",100,0,100,100,0,100)
+        htimep = rt.TH2F("Time Response in Endcap plus for all photons", "Time Response in EE+; iEta;iPhi;ns",100,0,100,100,0,100)
+        htimem = rt.TH2F("Time Response in Endcap minus for all photons", "Time Response in EE-; iEta;iPhi;ns",100,0,100,100,0,100)
         histListp = [[0 for x in range(101)] for y in range(101)]
         histListm = [[0 for x in range(101)] for y in range(101)]
 
@@ -107,10 +107,10 @@ if __name__ == "__main__":
     np.save(p.runNumber+"RunInfoEEAll.npy", runinfo)
 
     if p.splitPhotons == True:
-        htimep1,fitdatap1 = snf.fitTime(histListp1,htimep1)
-        htimem1,fitdatam1 = snf.fitTime(histListm1,htimem1)
-        htimep2,fitdatap2 = snf.fitTime(histListp2,htimep2)
-        htimem2,fitdatam2 = snf.fitTime(histListm2,htimem2)
+        htimep1,fitdatap1 = snf.fitTime(histListp1,htimep1,p.minStat)
+        htimem1,fitdatam1 = snf.fitTime(histListm1,htimem1,p.minStat)
+        htimep2,fitdatap2 = snf.fitTime(histListp2,htimep2,p.minStat)
+        htimem2,fitdatam2 = snf.fitTime(histListm2,htimem2,p.minStat)
 
         #saving all 1D histograms in tree
         a.saveEE(p.runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histListm2,htimep1,htimep2,htimem1,htimem2,fitdatap1,fitdatap2,fitdatam1,fitdatam2)
@@ -118,8 +118,8 @@ if __name__ == "__main__":
         #Tacks on histogram to canvas frame and ouputs on canvas
         a.printPrettyPictureEE(p.runNumber,htimep1,htimep2,htimem1,htimem2)
     else:
-        htimep,fitdatap = snf.fitTime(histListp,htimep)
-        htimem,fitdatam = snf.fitTime(histListm,htimem)
+        htimep,fitdatap = snf.fitTime(histListp,htimep,p.minStat)
+        htimem,fitdatam = snf.fitTime(histListm,htimem,p.minStat)
 
         #saving all 1D histograms in tree
         a.saveEE(p.runNumber,dataListp,dataListm,histListp,0,histListm,0,htimep,0,htimem,0,fitdatap,0,fitdatam,0)
