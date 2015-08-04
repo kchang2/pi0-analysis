@@ -121,7 +121,7 @@ if p.runFormat == 'B':
                 f.write(newscript)
                 f.close()
                 
-                os.system(prefix + filein + '.sh')
+                os.system(prefix + filein)
 
                 #return to original
                 f = open(filein, 'r')
