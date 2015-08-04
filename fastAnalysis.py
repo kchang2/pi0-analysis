@@ -13,6 +13,7 @@
 
 import ROOT as rt
 import sys, random, math
+import fileinput
 import time
 import os
 import numpy as np
@@ -86,12 +87,13 @@ if p.runFormat == 'B':
     prefix = 'bsub -q %s < ' %(p.runBatchLength)
     if p.runAll == True:
         for k in range(0,len(iterFiles)-1):
-            f = open("runAnalysis.sh", 'r')
+            f = open(p.analFile, 'r')
             filedata = f.read()
             f.close()
             
             newscript = filedata.replace(".py",".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
-            f = open(filein,'w')
+            
+            f = open(p.analFile,'w')
             f.write(newscript)
             f.close()
             
@@ -99,7 +101,8 @@ if p.runFormat == 'B':
     else:
         for name in p.ifFalsethenWhat:
             for k in range(0,len(iterFiles)-1):
-                f = open("run" + name + ".sh",'r')
+                filein = "run" + name + ".sh"
+                f = open(filein,'r')
                 filedata = f.read()
                 f.close()
             

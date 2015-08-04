@@ -31,15 +31,16 @@ folderName = 'result'       #name of folder your files will go into
 
 
 #Script Info [fastLoopAnalysis]
-runFormat = 'L'               #Batch [B], LXPLUS [X], Locally [L]
-runBatchLength = '1nw'      #if isBatch = True, specificy how long program runs normally
+runFormat = 'B'               #Batch [B], LXPLUS [X], Locally [L]
+runBatchLength = '1nd'      #if isBatch = True, specificy how long program runs normally
 displayOutput = False       #False = don't display each fit parameters, True = display on Terminal
 runAll = False               #True = run all analysis. False = individual analysis
-ifFalsethenWhat = ['fast_individualtimeEE']       #Look at the the python files
+ifFalsethenWhat = ['fast_clustertimeEB']       #Look at the the python files
 isEvenSplit = True          #whether you want the ROOT files to be split evenly in batches
-jobIterFiles = -1          #How do you want to break down your batches in terms of files (Ex. 5 jobs per batch), -1 or 0 means directly all in 1
+jobIterFiles = 12          #How do you want to break down your batches in terms of files (Ex. 5 jobs per batch), -1 or 0 means directly all in 1
 manualSplit = [0,5,10,15,23,28,76,77]        #isEvenSplit = False, then manually split -> Refer to datedList.txt for specific days of runs
 
 
 ## Do NOT modify unless you know what you are doing ##
 filesforAll = ['fast_clustertimeEB','fast_clustertimeEB','fast_individualtimeEB','fast_individualtimeEB']
+analFile = 'runAnalysis.sh'
