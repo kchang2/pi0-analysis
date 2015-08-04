@@ -124,11 +124,11 @@ if p.runFormat == 'B':
                 os.system(prefix + filein + '.sh')
 
                 #return to original
-                f = open(p.analFile, 'r')
+                f = open(filein, 'r')
                 filedata = f.read()
                 f.close()
                 newscript = filedata.replace(".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]), ".py")
-                f = open(p.analFile,'w')
+                f = open(filein,'w')
                 f.write(newscript)
                 f.close()
 
