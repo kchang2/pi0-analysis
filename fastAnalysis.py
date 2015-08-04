@@ -84,7 +84,7 @@ else:
 ## checks which format you want to run from ##
 if p.runFormat == 'B':
     prefix = 'bsub -q %s < ' %(p.runBatchLength)
-    if runAll == True:
+    if p.runAll == True:
         for k in range(0,len(iterFiles)-1):
             f = open("runAnalysis.sh", 'r')
             filedata = f.read()
@@ -97,7 +97,7 @@ if p.runFormat == 'B':
             
             os.system(prefix + 'runAnalysis.sh')
     else:
-        for name in ifFalsethenWhat:
+        for name in p.ifFalsethenWhat:
             for k in range(0,len(iterFiles)-1):
                 f = open("run" + name + ".sh",'r')
                 filedata = f.read()
