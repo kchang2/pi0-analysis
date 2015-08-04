@@ -68,16 +68,18 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, htime1,htime2,
                 for phi in range(0, len(histList1[0])):
                     histList1[eta][phi].Write()
                     #Saving value of data in tuple list
-                    dataList1 = np.vstack((dataList1, [eta-85, phi, fitdata1[eta][0],fitdata1[eta][1],fitdata1[eta][2],fitdata1[eta][3]]))
+                    dataList1 = np.vstack((dataList1, [eta-85, phi, fitdata1[eta][phi][0],fitdata1[eta][phi][1],fitdata1[eta][phi][2],fitdata1[eta][phi][3]]))
             htime1.Write()
+            f.Close()
 
             f2 = rt.TFile(runNumber+"IndivtimeEB2.root","new")
             for eta in range(0,len(histList2)):
                 for phi in range(0, len(histList2[0])):
                     histList2[eta][phi].Write()
                     #Saving value of data in tuple list
-                    dataList2 = np.vstack((dataList2, [eta-85, phi, fitdata1[eta][0],fitdata1[eta][1],fitdata1[eta][2],fitdata1[eta][3]]))
+                    dataList2 = np.vstack((dataList2, [eta-85, phi, fitdata1[eta][phi][0],fitdata1[eta][phi][1],fitdata1[eta][phi][2],fitdata1[eta][phi][3]]))
             htime2.Write()
+            f2.Close()
     
             np.save(runNumber+"TimeResponseEB1_0T.npy", dataList1)
             np.save(runNumber+"TimeResponseEB2_0T.npy", dataList2)
@@ -88,8 +90,9 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, htime1,htime2,
                 for phi in range(0, len(histList[0])):
                     histList[eta][phi].Write()
                     #Saving value of data in tuple list
-                    dataList1 = np.vstack((dataList1, [eta-85, phi, fitdata1[eta][0],fitdata1[eta][1],fitdata1[eta][2],fitdata1[eta][3]]))
+                    dataList1 = np.vstack((dataList1, [eta-85, phi, fitdata1[eta][phi][0],fitdata1[eta][phi][1],fitdata1[eta][phi][2],fitdata1[eta][phi][3]]))
             htime.Write()
+            f.Close()
 
             np.save("TimeResponseEB_0T.npy", dataList)
     else:
@@ -100,6 +103,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, htime1,htime2,
                 #Saving value of data in tuple list
                 dataList1 = np.vstack((dataList1, [eta-85, fitdata1[eta][0],fitdata1[eta][1],fitdata1[eta][2],fitdata1[eta][3]]))
             htime1.Write()
+            f.Close()
         
             f2 = rt.TFile(runNumber+"clustertimeEB2.root","new")
             for eta in range(0,len(histList2)):
@@ -107,6 +111,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, htime1,htime2,
                 #Saving value of data in tuple list
                 dataList2 = np.vstack((dataList2, [eta-85, fitdata2[eta][0],fitdata2[eta][1],fitdata2[eta][2],fitdata2[eta][3]]))
             htime2.Write()
+            f2.Close()
             
             #saving all data into a numpy file for analyzing later
             np.save(runNumber+"etaTimeResponseEB1_0T.npy", dataList1)
@@ -118,7 +123,8 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, htime1,htime2,
                 #Saving value of data in tuple list
                 dataList1 = np.vstack((dataList, [eta-85, fitdata1[eta][0],fitdata1[eta][1],fitdata1[eta][2],fitdata1[eta][3]]))
             htime1.Write()
-
+            f.Close()
+            
             #saving all data into a numpy file for analyzing later
             np.save(runNumber+"etaTimeResponseEBAll_0T.npy", dataList1)
 
@@ -136,6 +142,7 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
                 dataListp = np.vstack((dataListp, ["p2", x, y, fitdatap2[x][y][0],fitdatap2[x][y][1],fitdatap2[x][y][2],fitdatap2[x][y][3]]))
         htimep1.Write()
         htimep2.Write()
+        f.Close()
             
         f2 = rt.TFile(runNumber+"IndivtimeEEm.root","new")
         for x in range(0,len(histListm1)):
@@ -147,6 +154,7 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
                 dataListm = np.vstack((dataListm, ["m2", x, y, fitdatam2[x][y][0],fitdatam2[x][y][1],fitdatam2[x][y][2],fitdatam2[x][y][3]]))
         htimem1.Write()
         htimem2.Write()
+        f2.Close()
         
         np.save(runNumber+"TimeResponseEEp.npy", dataListp)
         np.save(runNumber+"TimeResponseEEm.npy", dataListm)
@@ -157,6 +165,7 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
                 histListp1[x][y].Write()
                 dataListp = np.vstack((dataListp, ["p", x, y, fitdatap1[x][y][0],fitdatap1[x][y][1],fitdatap1[x][y][2],fitdatap1[x][y][3]]))
         htimep.Write()
+        f.Close()
         
         f2 = rt.TFile(runNumber+"IndivtimeEEm_c.root","new")
         for x in range(0,len(histListm1)):
@@ -164,6 +173,7 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
                 histListm1[x][y].Write()
                 dataListm = np.vstack((dataListm, ["m", x, y, fitdatam1[x][y][0],fitdatam1[x][y][1],fitdatam1[x][y][2],fitdatam1[x][y][3]]))
         htimem.Write()
+        f2.Close()
 
         #saving all data into a numpy file for analyzing later
         np.save(runNumber+"TimeResponseEEp_c.npy", dataListp)

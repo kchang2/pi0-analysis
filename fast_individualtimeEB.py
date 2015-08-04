@@ -94,7 +94,7 @@ if __name__ == "__main__":
     shutil.copyfile(stardir + '/' + 'unpack.py', retdir + '/unpack.py')
     
     #saving run info to a numpy file for reference later
-    np.save(p.runNumber+"etaRunInfoEBAll.npy", runinfo)
+    np.save(p.runNumber+"individualRunInfoEBAll.npy", runinfo)
 
     #fits the histograms and saves 1D in tree
     if p.splitPhotons == True:
