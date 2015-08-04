@@ -3,8 +3,8 @@
 ## data, mapping to 1 to 1 crystals. This is the more comprehensive
 ## result, but runs much slower.
 ##
-## Updated as of 08/03/2015
-## NOT Running as of 08/03/2015
+## Updated as of 08/04/2015
+## Running as of 08/04/2015
 ##
 import ROOT as rt
 import sys, random, math
@@ -48,8 +48,8 @@ if __name__ == "__main__":
         htime2 = rt.TH2F("Time Response in Barrel for photon 2", "iPhi vs. iEta",170,-85,85,360,0,360)
 
         #creation of numpy array for faster analysis(courtesy of Ben Bartlett)
-        dataList1 = np.array([-1.0, -1.0, -1.0]) #(eta, phi, time response)
-        dataList2 = np.array([-1.0, -1.0, -1.0]) #(eta, phi, time response)
+        dataList1 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(eta, phi, mean, mean error, sigma, sigma error)
+        dataList2 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(eta, phi, time response, time response error, time resolution, time resolution error)
 
         #creates a list of histograms
         histList1 = [[0 for phi in range(361)] for eta in range(171)]

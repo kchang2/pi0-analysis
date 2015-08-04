@@ -59,6 +59,32 @@ def openEE(filename, fileList, runinfo, startfilepos, endfilepos, entries, histL
     return runinfo
 
 
+#opens the files for the barrel
+def openMass(filename, fileList, runinfo, startfilepos, endfilepos, entries, histList, histRun):
+    rTree = rt.TChain("Tree_Optim")
+    for k in range(startfilepos, endfilepos):
+        if filename in fileList[k]:
+            rTree.Add(fileList[k])
+            print "successfully cut branch from " + fileList[k]
+            #Saving run info in tuple list
+            runinfo = np.vstack((runinfo, [fileList[k]]))
+
+            #makes the histogram for pi0 mass
+            histname = "Average Pi0 mass in Barrel for time instance (%s)" %(fileList[k])
+            histtitle = "Pi0 mass (GeV) for ROOT file cluster (%s)" %(fileList[k])
+            histmass = rt.TH1F(histname,histtitle,1000,0,1)
+            
+            #fills the mass histogram list with ROOT files oriented folder
+            histmass = snf.stackMass(rTree,histmass)
+            histList.append(copy.copy(histmass))
+            
+            #Fills large histogram for the entire run's dataset
+            histRun = snf.stackMass(rTree,histRun)
+    
+    return runinfo, histList, histrun
+
+
+
 #saves the histograms, fits, and others for the barrel
 def saveEB(runNumber, dataList1, dataList2, histList1, histList2, htime1,htime2,fitdata1,fitdata2):
     if isinstance(histList1[0],list) == True: #Individual barrel crystals
@@ -77,7 +103,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, htime1,htime2,
                 for phi in range(0, len(histList2[0])):
                     histList2[eta][phi].Write()
                     #Saving value of data in tuple list
-                    dataList2 = np.vstack((dataList2, [eta-85, phi, fitdata1[eta][phi][0],fitdata1[eta][phi][1],fitdata1[eta][phi][2],fitdata1[eta][phi][3]]))
+                    dataList2 = np.vstack((dataList2, [eta-85, phi, fitdata2[eta][phi][0],fitdata2[eta][phi][1],fitdata2[eta][phi][2],fitdata2[eta][phi][3]]))
             htime2.Write()
             f2.Close()
     

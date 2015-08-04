@@ -90,7 +90,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4):
         pbar.finish()
         return histlist, histlist2
     else: #is endcap
-        for i in range(0, nentries): ####CHANGED####
+        for i in range(0, nentries):
             rTree.GetEntry(i)
             for rec in range(0,rTree.STr2_NPi0_rec):
                 if rTree.STr2_Eta_1[rec] > 1.4:
