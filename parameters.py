@@ -30,7 +30,7 @@ resultPathLXPLUS = '/afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_2/src/Cali
 folderName = 'result'       #name of folder your files will go into
 
 
-#Script Info [fastLoopAnalysis]
+#Script Info [fastAnalysis]
 runFormat = 'B'               #Batch [B], LXPLUS [X], Locally [L]
 runBatchLength = '1nd'      #if isBatch = True, specificy how long program runs normally
 displayOutput = False       #False = don't display each fit parameters, True = display on Terminal
