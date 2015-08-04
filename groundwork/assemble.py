@@ -1,3 +1,13 @@
+##
+## This is the powerhouse file that opens the files, stacks the
+## respective data from the files (its attributes), then calls for
+## histogram fits, pulls the fits and statistics, and then packages
+## it into readable and small files.
+##
+## Updated as of 08/03/2015
+## Working as of 07/23/2015
+##
+
 import ROOT as rt
 import sys, random, math
 import time
@@ -6,6 +16,7 @@ import numpy as np
 
 import stackNfit as snf
 
+#opens the files for the barrel
 def openEB(numofFiles, filename, fileList, entries, histList1, histList2):
     for k in range(0, numofFiles):
         if filename in fileList[k]:
@@ -27,6 +38,7 @@ def openEB(numofFiles, filename, fileList, entries, histList1, histList2):
                     histList1 = snf.stackTimeEta(rTree,entries,histList1,0)
             rootFile.Close()
 
+#saves the histograms, fits, and others for the barrel
 def saveEB(runNumber, dataList1, dataList2, histList1, histList2, htime1,htime2,fitdata1,fitdata2):
     if isinstance(histList1[0],list) == True: #Individual barrel crystals
         if histList2 !=0:
@@ -80,6 +92,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, htime1,htime2,
                 dataList1 = np.vstack((dataList, [eta-85, fitdata1[eta][0],fitdata1[eta][1],fitdata1[eta][2],fitdata1[eta][3]]))
             htime1.Write()
 
+#draws the graphs you want to see and saves them as .png in respective folders
 def printPrettyPictureEB(runNumber,htime1,htime2):
     if type(htime1) != rt.TH1F:
         if htime2 != 0:

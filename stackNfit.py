@@ -120,8 +120,8 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4):
 
 # This will fit gaussians to all the individual crystal time response histograms and converge them into a 2d histogram with the mean value.
 def fitTime(histlist, htime):
-    #rt.RooMsgService.instance().setSilentMode(True)
-    #rt.RooFit.PrintEvalErrors(-1)
+    fitdata = [[[0 for values in range(4)] for phi in range(361)] for eta in range(171)]
+        #(mean,error,sigma,error) for [eta or x ,phi or y]
 
     if len(histlist) != 101:
         yaxis = "phi"
@@ -156,17 +156,21 @@ def fitTime(histlist, htime):
             #nsig = rt.RooRealVar("nsig","number of signal events", 100000., 0., 10000000)
             #nbkg = rt.RooRealVar("nbkg", "number of background events", 10000, 0., 10000000)
 
-            fr = gauss.fitTo(dh,rt.RooFit.Save())
+            fr = gauss.fitTo(dh,rt.RooFit.Save(), rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
 
-            if x == 0 and y == 0:
-                gauss.plotOn(frame)
-                c1 = rt.TCanvas()
-                #c1.SetLogy()
-                frame.Draw()
-                c1.Print("timeresponse"+str(x)+str(yaxis)+str(y)+".png")
-            
+#            if x == 0 and y == 0:
+#                gauss.plotOn(frame)
+#                c1 = rt.TCanvas()
+#                #c1.SetLogy()
+#                frame.Draw()
+#                c1.Print("timeresponse"+str(x)+str(yaxis)+str(y)+".png")
+
+            fitdata[x][y][0] = mean.getVal()
+            fitdata[x][y][1] = mean.getError()
+            fitdata[x][y][2] = sigma.getVal()
+            fitdata[x][y][3] = sigma.getError()
             htime.Fill(x+adjust,y,mean.getVal())
-    return htime
+    return htime, fitdata
 
 
 # This will stack time response based upon each eta ring
@@ -240,12 +244,12 @@ def fitTimeEta(histlist, htime):
             
         fr = gauss.fitTo(dh,rt.RooFit.Save(),rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
 
-        if eta <10:
-            gauss.plotOn(frame)
-            c1 = rt.TCanvas()
-            #c1.SetLogy()
-            frame.Draw()
-            c1.Print("timeresponseEta"+str(eta)+".png")
+#        if eta <10:
+#            gauss.plotOn(frame)
+#            c1 = rt.TCanvas()
+#            #c1.SetLogy()
+#            frame.Draw()
+#            c1.Print("timeresponseEta"+str(eta)+".png")
 
         fitdata[eta][0]=mean.getVal()
         fitdata[eta][1]=mean.getError()

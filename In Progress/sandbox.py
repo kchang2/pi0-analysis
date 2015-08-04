@@ -3,11 +3,21 @@
 ## on larger scale.
 ##
 
-x=3
+make t-chain: TChain
+chain.setName("Tree_Optim")
+LOOP over fiel names
+Chain.add(full path to filen)
 
-if x==3:
-    print 'hel'
-else:
-    print 'good'
 
-print 'bye'
+
+
+
+# files to analyze
+if sys.argv[1] == -1:
+    bfread = 0 #beginning file read
+        efread = len(fileList) #end file read
+            else:
+                bfread = sys.argv[1]
+                    efread = sys.argv[2]
+
+

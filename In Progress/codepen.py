@@ -49,6 +49,11 @@
                    #creates a progress bar
                    pbar = progressbar.ProgressBar(maxval=nentries, widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()]).start()
 
+                   
+                   #creates histogram for event count
+                   #hevent = rt.TH2F("Events in Barrel", "X vs Y",100,0,100,100,0,100)
+                   
+
 
 
 
