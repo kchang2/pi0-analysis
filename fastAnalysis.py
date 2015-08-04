@@ -27,6 +27,7 @@ if p.runFormat == 'L':
 else:
     fileLocation = p.rootFileLocationLXPLUS
     resultLocation = p.resultPathLXPLUS
+analysisLocation = os.getcwd()
 
 ## Division Group marks for files ##
 iterFiles = []
@@ -97,11 +98,20 @@ if p.runFormat == 'B':
             f.write(newscript)
             f.close()
             
-            os.system(prefix + 'runAnalysis.sh')
+            os.system(prefix + p.analFile)
+            
+            #return to original
+            f = open(p.analFile, 'r')
+            filedata = f.read()
+            f.close()
+            newscript = = filedata.replace(".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]), ".py")
+            f = open(p.analFile,'w')
+            f.write(newscript)
+            f.close()
     else:
         for name in p.ifFalsethenWhat:
             for k in range(0,len(iterFiles)-1):
-                filein = "run" + name + ".sh"
+                filein = 'run' + name + '.sh'
                 f = open(filein,'r')
                 filedata = f.read()
                 f.close()
@@ -111,7 +121,16 @@ if p.runFormat == 'B':
                 f.write(newscript)
                 f.close()
                 
-                os.system(prefix + name + '.sh')
+                os.system(prefix + filein + '.sh')
+
+                #return to original
+                f = open(p.analFile, 'r')
+                filedata = f.read()
+                f.close()
+                newscript = = filedata.replace(".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]), ".py")
+                f = open(p.analFile,'w')
+                f.write(newscript)
+                f.close()
 
 # running on LXPLUS or local#
 else:
