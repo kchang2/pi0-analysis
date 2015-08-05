@@ -16,6 +16,7 @@ import numpy as np
 import stackNfit as snf
 import parameters as p
 import fast_assemble as a
+
 from FastProgressBar import progressbar
 
 if __name__ == "__main__":
@@ -41,10 +42,11 @@ if __name__ == "__main__":
     runinfo = np.array("ROOT info") #ROOT file
     
     #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett). Note in Endcap, we don't differentiate with splitPhotons -> they are all saved in their respective plus and minus sections.
-    dataListp = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, mean, mean error, sigma, sigma error)
-    dataListm = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, time response, time response error, time resolution, time resolution error)
+    dataListp = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, mean, mean error, sigma, sigma error)
+    dataListm = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, time response, time response error, time resolution, time resolution error)
     
     if p.splitPhotons == True:
+        fname = 'p1p2_'
         #creates histogram for time response
         htimep1 = rt.TH2F("Time Response in Endcap plus for photon 1", "Time Response in EE+ for photon 1; iEta;iPhi;ns",100,0,100,100,0,100)
         htimep2 = rt.TH2F("Time Response in Endcap plus for photon 2", "Time Response in EE+ for photon 2; iEta;iPhi;ns",100,0,100,100,0,100)
@@ -68,16 +70,17 @@ if __name__ == "__main__":
                 histtitlep2 = "time response (ns) for plus crystal (%i,%i) for photon 2" %(x,y)
                 histnamem2 = "time on minus sc (%i,%i) for photon 2" %(x,y)
                 histtitlem2 = "time response (ns) for minus crystal (%i,%i) for photon 2" %(x,y)
-                histListp1[x][y] = rt.TH1F(histnamep1,histtitlep1,1000,-30,30)
-                histListm1[x][y] = rt.TH1F(histnamem1,histtitlem1,1000,-30,30)
-                histListp2[x][y] = rt.TH1F(histnamep2,histtitlep2,1000,-30,30)
-                histListm2[x][y] = rt.TH1F(histnamem2,histtitlem2,1000,-30,30)
+                histListp1[x][y] = rt.TH1F(histnamep1,histtitlep1,1200,-30,30)
+                histListm1[x][y] = rt.TH1F(histnamem1,histtitlem1,1200,-30,30)
+                histListp2[x][y] = rt.TH1F(histnamep2,histtitlep2,1200,-30,30)
+                histListm2[x][y] = rt.TH1F(histnamem2,histtitlem2,1200,-30,30)
 
         #stack data on histograms
         runinfo = a.openEE(rootfilename,rootList,runinfo,bf,ef,p.numberofEntries,histListp1, histListm1,histListp2,histListm2)
     else:
-        htimep = rt.TH2F("Time Response in Endcap plus for all photons", "Time Response in EE+; iEta;iPhi;ns",100,0,100,100,0,100)
-        htimem = rt.TH2F("Time Response in Endcap minus for all photons", "Time Response in EE-; iEta;iPhi;ns",100,0,100,100,0,100)
+        fname = 'c_'
+        htimep = rt.TH2F("Time Response in Endcap plus for all photons", "Time Response in EE+; iX;iY;ns",100,0,100,100,0,100)
+        htimem = rt.TH2F("Time Response in Endcap minus for all photons", "Time Response in EE-; iX;iY;ns",100,0,100,100,0,100)
         histListp = [[0 for x in range(101)] for y in range(101)]
         histListm = [[0 for x in range(101)] for y in range(101)]
 
@@ -96,7 +99,7 @@ if __name__ == "__main__":
     retdir = os.getcwd()
     print "Current working directory %s" % retdir
     os.chdir(resultLocation + '/' + p.folderName + '/')
-    folder = 'ctEE' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    folder = 'ctEE_' + fname + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     os.system('mkdir ' + folder)
     os.chdir(os.getcwd() + '/' + folder +'/')
     retdir = os.getcwd()
@@ -104,25 +107,25 @@ if __name__ == "__main__":
     shutil.copyfile(stardir + '/' + 'unpack.py', retdir + '/unpack.py')
     
     #saving run info to a numpy file for reference later
-    np.save(p.runNumber+"RunInfoEEAll.npy", runinfo)
+    np.save(p.runNumber+"ClusterRunInfoEE.npy", runinfo)
 
     if p.splitPhotons == True:
-        htimep1,fitdatap1 = snf.fitTime(histListp1,htimep1,p.minStat)
-        htimem1,fitdatam1 = snf.fitTime(histListm1,htimem1,p.minStat)
-        htimep2,fitdatap2 = snf.fitTime(histListp2,htimep2,p.minStat)
-        htimem2,fitdatam2 = snf.fitTime(histListm2,htimem2,p.minStat)
+        htimep1,fitdatap1, seedmapp1 = snf.fitTime(histListp1,htimep1,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pp1_")
+        htimem1,fitdatam1, seedmapm1 = snf.fitTime(histListm1,htimem1,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mp1_")
+        htimep2,fitdatap2, seedmapp2 = snf.fitTime(histListp2,htimep2,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pp2_")
+        htimem2,fitdatam2, seedmapm2 = snf.fitTime(histListm2,htimem2,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mp2_")
 
         #saving all 1D histograms in tree
-        a.saveEE(p.runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histListm2,htimep1,htimep2,htimem1,htimem2,fitdatap1,fitdatap2,fitdatam1,fitdatam2)
+        a.saveEE(p.runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histListm2,htimep1,htimep2,htimem1,htimem2,fitdatap1,fitdatap2,fitdatam1,fitdatam2,seedmapp1,seedmapm1,seedmapp2,seedmapm2)
     
         #Tacks on histogram to canvas frame and ouputs on canvas
-        a.printPrettyPictureEE(p.runNumber,htimep1,htimep2,htimem1,htimem2)
+        a.printPrettyPictureEE(p.runNumber,htimep1,htimep2,htimem1,htimem2,seedmapp1,seedmapm1,seedmapp2,seedmapm2)
     else:
-        htimep,fitdatap = snf.fitTime(histListp,htimep,p.minStat)
-        htimem,fitdatam = snf.fitTime(histListm,htimem,p.minStat)
+        htimep,fitdatap,seedmapp = snf.fitTime(histListp,htimep,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pc_")
+        htimem,fitdatam,seedmapm = snf.fitTime(histListm,htimem,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mc_")
 
         #saving all 1D histograms in tree
-        a.saveEE(p.runNumber,dataListp,dataListm,histListp,0,histListm,0,htimep,0,htimem,0,fitdatap,0,fitdatam,0)
+        a.saveEE(p.runNumber,dataListp,dataListm,histListp,0,histListm,0,htimep,0,htimem,0,fitdatap,0,fitdatam,0,seedmapp,0,seedmapm,0)
 
         #Tacks on histogram to canvas frame and ouputs on canvas
-        a.printPrettyPictureEE(p.runNumber,htimep,0,htimem,0)
+        a.printPrettyPictureEE(p.runNumber,htimep,0,htimem,0,seedmapp,seedmapm,0,0)

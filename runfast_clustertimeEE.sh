@@ -5,7 +5,7 @@ cd /afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_2/src/CalibCode/submit/anal
 eval `scramv1 runtime -sh`
 #python runFills.py
 #python individualtimeEB.py
-python individualtimeEE.py
+python clustertimeEE.py
 #python clustertimeEB.py
 
 

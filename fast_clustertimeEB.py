@@ -43,6 +43,7 @@ if __name__ == "__main__":
 
     #Here is where it splits based on track and decision
     if p.splitPhotons == True:
+        fname = 'p1p2_'
         #creates histogram of time
         htime1 = rt.TH1F("Time Response in Barrel for photon 1", "Time Response vs iEta in EB for photon 1; iEta;ns",170,-85,85)
         htime2 = rt.TH1F("Time Response in Barrel for photon 2", "Time Response vs iEta in EB for photon 2; iEta;ns",170,-85,85)
@@ -61,20 +62,24 @@ if __name__ == "__main__":
             histtitle1 = "time response (ns) for eta (%i) for photon 1" %(eta-85)
             histname2 = "time on sc eta (%i) for photon 2" %(eta-85)
             histtitle2 = "time response (ns) for eta (%i) for photon 2" %(eta-85)
-            histList1[eta] = rt.TH1F(histname1,histtitle1,1000,-30,30)
-            histList2[eta] = rt.TH1F(histname2,histtitle2,1000,-30,30)
+            histList1[eta] = rt.TH1F(histname1,histtitle1,1200,-30,30)
+            histList2[eta] = rt.TH1F(histname2,histtitle2,1200,-30,30)
 
         #stacks data onto the histograms
         runinfo = a.openEB(rootfilename, rootList, runinfo, bf, ef, p.numberofEntries, histList1, histList2)
     
     # No splitting, joining photon 1, photon 2 together
     else:
+        fname = 'c_'
         htime = rt.TH1F("Time Response in Barrel for all photons", "Time Response vs iEta in EB; iEta;ns",170,-85,85)
         dataList = np.array([-1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, mean, mean error, sigma, sigma error]
+        
+        #creates histogram list
         histList = [0 for eta in range(171)]
-        histname = "time on sc eta (%i) for all" %(eta-85)
-        histtitle = "time response (ns) for eta (%i) for all" %(eta-85)
+        
         for eta in range (0,171):
+            histname = "time on sc eta (%i) for all" %(eta-85)
+            histtitle = "time response (ns) for eta (%i) for all" %(eta-85)
             histList[eta] = rt.TH1F(histname,histtitle,1000,-30,30)
         runinfo = a.openEB(rootfilename,rootList, runinfo, bf, ef, p.numberofEntries, histList, 0)
 
@@ -82,7 +87,7 @@ if __name__ == "__main__":
     retdir = os.getcwd()
     print "Current working directory %s" % retdir
     os.chdir(resultLocation + '/' + p.folderName + '/')
-    folder = 'ctEB' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    folder = 'ctEB_' + fname + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     os.system('mkdir ' + folder)
     os.chdir(os.getcwd() + '/' + folder +'/')
     retdir = os.getcwd()
@@ -90,24 +95,24 @@ if __name__ == "__main__":
     shutil.copyfile(stardir + '/' + 'unpack.py', retdir + '/unpack.py')
     
     #saving run info to a numpy file for reference later
-    np.save(p.runNumber+"etaRunInfoEBAll.npy", runinfo)
+    np.save(p.runNumber+"EtaRunInfoEB.npy", runinfo)
 
     #fits the histograms and saves 1D in tree
     if p.splitPhotons == True:
-        htime1, fitdata1 = snf.fitTimeEta(histList1,htime1,p.minStat)
-        htime2, fitdata2 = snf.fitTimeEta(histList2,htime2,p.minStat)
+        htime1, fitdata1, seedmap1 = snf.fitTimeEta(histList1,htime1,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"p1_")
+        htime2, fitdata2, seedmap2 = snf.fitTimeEta(histList2,htime2,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"p2_")
 
         #saving all 1D histograms in tree
-        a.saveEB(p.runNumber,dataList1,dataList2,histList1,histList2,htime1,htime2,fitdata1,fitdata2)
+        a.saveEB(p.runNumber,dataList1,dataList2,histList1,histList2,htime1,htime2,fitdata1,fitdata2,seedmap1,seedmap2)
 
         #Tacks on histogram to canvas frame and ouputs on canvas
-        a.printPrettyPictureEB(p.runNumber,htime1,htime2)
+        a.printPrettyPictureEB(p.runNumber,htime1,htime2,seedmap1,seedmap2)
 
     else:
-        htime, fitdata = snf.fitTimeEta(histList,htime,p.minStat)
-        a.saveEB(p.runNumber,dataList,0,histList,0,htime,0,fitdata,0)
+        htime, fitdata, seedmap = snf.fitTimeEta(histList,htime,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"c_")
+        a.saveEB(p.runNumber,dataList,0,histList,0,htime,0,fitdata,0,seedmap,0)
 
-        a.printPrettyPictureEB(p.runNumber,htime,0)
+        a.printPrettyPictureEB(p.runNumber,htime,0,seedmap,0)
 
 
 

@@ -119,33 +119,49 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4):
 
 
 # This will fit gaussians to all the individual crystal time response histograms and converge them into a 2d histogram with the mean value.
-def fitTime(histlist, htime, minstat):
+def fitTime(histlist, htime, minstat,includehitcounter,manualcut,name):
     fitdata = [[[0 for values in range(4)] for phi in range(361)] for eta in range(171)]
         #(mean,error,sigma,error) for [eta or x ,phi or y]
-
+    
+    #selection of random control fit response coordinates
+    prntableGraphsX = random.sample(xrange(len(histlist)), 11)
+    prntableGraphsY = random.sample(xrange(len(histlist[0])), 11)
+    prntable = []
+    for i in range (0,len(prntableGraphsX)):
+        prntable.append((prntableGraphsX[i],prntableGraphsY[i]))
+    
+    #differentiate between barrel and endcap
     if len(histlist) != 101:
         yaxis = "phi"
         adjust = -85
+        labelnTitle = "Seed photon density for EB (min stats = %i);iEta;iPhi;counts" %(minstat)
+        seedmap = rt.TH2F("Spd"+name, labelnTitle,170,-85,85,360,0,360)
     else:
         yaxis = "Y"
         adjust = 0
+        labelnTitle = "Seed photon density for EE (min stats = %i);iX;iY;counts" %(minstat)
+        seedmap = rt.TH2F("Spd"+name, labelnTitle,100,0,100,100,0,100)
 
     for x in range(0,len(histlist)):
         #print "completed " + str(x) + " out of " + str(len(histlist)) + " columns."
         for y in range(0,len(histlist[0])):
             hist = histlist[x][y]
-            if hist.GetEntries() < minstat:
-                continue
             binmax = hist.GetMaximumBin()
-            max = hist.GetXaxis().GetBinCenter(binmax)
             
+            entries = pevents(hist,binmax,manualcut,40)
+            seedmap.Fill(x+adjust,y,entries)
+
+            if entries < minstat:
+                htime.Fill(x+adjust,y,-999)
+                continue
+
+            max = hist.GetXaxis().GetBinCenter(binmax)
             m = rt.RooRealVar("t","t (ns)",max-2,max+2)
             dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
                                         
             frame = m.frame(rt.RooFit.Title("Time response"))
-                                            
             frame.SetYTitle("Counts")
-            frame.SetTitleOffset (1.4, "Y")
+            frame.SetTitleOffset (2.6, "Y")
             
             dh.plotOn(frame)
                                                         
@@ -153,27 +169,26 @@ def fitTime(histlist, htime, minstat):
             mean = rt.RooRealVar("mean","mean",0.,-2,2.)
             sigma = rt.RooRealVar("sigma","sigma",0.,-2,2)
             gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
-                                                                    
-            #Construct the composite model
-            #nsig = rt.RooRealVar("nsig","number of signal events", 100000., 0., 10000000)
-            #nbkg = rt.RooRealVar("nbkg", "number of background events", 10000, 0., 10000000)
 
             fr = gauss.fitTo(dh,rt.RooFit.Save(), rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
 
-#            if x == 0 and y == 0:
-#                gauss.plotOn(frame)
-#                c1 = rt.TCanvas()
-#                #c1.SetLogy()
-#                frame.Draw()
-#                c1.Print("timeresponse"+str(x)+str(yaxis)+str(y)+".png")
+            if (x,y) in prntable:
+                gauss.plotOn(frame)
+                c1 = rt.TCanvas()
+                c1.SetLogy()
+                frame.Draw()
+                c1.Print("timeresponse_"+name+str(x)+"_"+yaxis+"_"+str(y)+".png")
 
             fitdata[x][y][0] = mean.getVal()
             fitdata[x][y][1] = mean.getError()
             fitdata[x][y][2] = sigma.getVal()
             fitdata[x][y][3] = sigma.getError()
             htime.Fill(x+adjust,y,mean.getVal())
-    return htime, fitdata
 
+    if includehitcounter == True:
+        return htime, fitdata, seedmap
+    else:
+        return htime, fitdata, 0
 
 # This will stack time response based upon each eta ring
 # This is for barrel
@@ -222,23 +237,31 @@ def stackTimeEta(rTree,entries,histlist,histlist2):
     return histlist, histlist2
 
 #This will fit gaussians to all the eta rings
-def fitTimeEta(histlist, htime, minstat):
+def fitTimeEta(histlist, htime, minstat, includehitcounter, manualcut,name):
+
     fitdata = [[0 for values in range(4)] for eta in range(171)] #(mean,error,sigma,error)
+    labelnTitle = "Seed photon density for EB (min stats = %i);iEta;counts" %(minstat)
+    seedmap = rt.TH1F("Spd"+name, labelnTitle,170,-85,85)
+    prntableGraphs = random.sample(xrange(len(histlist)), 7)
     for eta in range(0,len(histlist)):
         hist = histlist[eta]
-        if hist.GetEntries() < minstat:
-            print 'sorry sir'
-            continue
         binmax = hist.GetMaximumBin()
+
+        entries = pevents(hist,binmax,manualcut,30)
+        seedmap.Fill(eta-85,entries)
+
+        if entries < minstat:
+            #htime.Fill(eta-85,0) <-- you don't need for TH1
+            continue
+
         max = hist.GetXaxis().GetBinCenter(binmax)
         m = rt.RooRealVar("t","t (ns)",max-1.5,max+1.5)
         dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
-        
+
         frame = m.frame(rt.RooFit.Title("Time response"))
-        
-        
+
         frame.SetYTitle("Counts")
-        frame.SetTitleOffset(1.4, "Y")
+        frame.SetTitleOffset(2.6, "Y")
         
         dh.plotOn(frame)
         
@@ -249,19 +272,23 @@ def fitTimeEta(histlist, htime, minstat):
             
         fr = gauss.fitTo(dh,rt.RooFit.Save(),rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
 
-#        if eta <10:
-#            gauss.plotOn(frame)
-#            c1 = rt.TCanvas()
-#            #c1.SetLogy()
-#            frame.Draw()
-#            c1.Print("timeresponseEta"+str(eta)+".png")
+        if eta in prntableGraphs:
+            gauss.plotOn(frame)
+            c1 = rt.TCanvas()
+            #c1.SetLogy()
+            frame.Draw()
+            c1.Print("timeresponse_"+name+"Eta_"+str(eta-85)+".png")
 
         fitdata[eta][0]=mean.getVal()
         fitdata[eta][1]=mean.getError()
         fitdata[eta][2]=sigma.getVal()
         fitdata[eta][3]=sigma.getError()
         htime.Fill(eta-85,mean.getVal())
-    return htime, fitdata
+
+    if includehitcounter == True:
+        return htime, fitdata, seedmap
+    else:
+        return htime, fitdata, 0
 
 
 # This will stack mass based on the ROOT file
@@ -352,8 +379,12 @@ def fitMass(hist):
     return mean.getVal()
 
 
-
-
-
+def pevents(hist,binmax,manualcut,fitrange):
+    if manualcut < 0: #all values
+        return hist.GetEntries()
+    elif manualcut == 0: #fit range
+        return hist.Integral(binmax-fitrange, binmax+fitrange)
+    else: #self selection
+        return hist.Integral(binmax-manualcut, binmax+manualcut)
 
 
