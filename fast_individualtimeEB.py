@@ -45,8 +45,8 @@ if __name__ == "__main__":
     if p.splitPhotons == True:
         fname = 'p1p2_'
         #creates histogram
-        htime1 = rt.TH2F("Time Response in Barrel for photon 1", "Time Response in EB for photon 1; iEta;iPhi;ns",170,-85,85,360,0,360)
-        htime2 = rt.TH2F("Time Response in Barrel for photon 2", "Time Response in EB for photon 2; iEta;iPhi;ns",170,-85,85,360,0,360)
+        htime1 = rt.TH2F("Time Response in Barrel for photon 1", "Time Response in EB for photon 1; iEta;iPhi;ns",171,-85,86,361,0,361)
+        htime2 = rt.TH2F("Time Response in Barrel for photon 2", "Time Response in EB for photon 2; iEta;iPhi;ns",171,-85,86,361,0,361)
 
         #creation of numpy array for faster analysis(courtesy of Ben Bartlett)
         dataList1 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(eta, phi, mean, mean error, sigma, sigma error)
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     # No splitting, joining photon 1,photon 2 together
     else:
         fname = 'c_'
-        htime = rt.TH2F("Time Response in Barrel", "Time Response in Barrel; iEta;iPhi;ns",170,-85,85,360,0,360)
+        htime = rt.TH2F("Time Response in Barrel", "Time Response in Barrel; iEta;iPhi;ns",171,-85,86,361,0,361)
         dataList = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(eta, phi, time response, time response error, time resolution, time resolution error)
         histList = [[0 for phi in range(361)] for eta in range(171)]
 
