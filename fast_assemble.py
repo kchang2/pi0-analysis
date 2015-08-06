@@ -241,38 +241,58 @@ def printPrettyPictureEB(runNumber,htime1,htime2,seedmap1,seedmap2):
             htime1.SetAxisRange(-5., 5.,"Z")
             htime1.Draw("colz")
             c1.Print(runNumber+"IndivTimeResponseEB_p1.png")
+            c1.Close()
 
             c2 = rt.TCanvas()
             htime2.SetAxisRange(-5., 5.,"Z")
             htime2.Draw("colz")
             c2.Print(runNumber+"IndivTimeResponseEB_p2.png")
+            c2.Close()
         else:
             c = rt.TCanvas()
             htime1.SetAxisRange(-5., 5.,"Z")
             htime1.Draw("colz")
             c.Print(runNumber+"IndivTimeResponseEB_c.png")
+            c.Close()
     else:
         if htime2 != 0:
             c1 = rt.TCanvas()
+            htime1.SetAxisRange(-85,85,"X")
             htime1.Draw("E1")
             c1.Print(runNumber+"EtaTimeResponseEB_p1.png")
+            c1.Close()
+            
             c2 = rt.TCanvas()
+            htime2.SetAxisRange(-85,85,"X")
             htime2.Draw("E1")
             c2.Print(runNumber+"EtaTimeResponseEB_p2.png")
+            c2.Close()
 
         else:
             c = rt.TCanvas()
+            htime1.SetAxisRange(-85,85,"X")
             htime1.Draw("E1")
             c.Print(runNumber+"EtaTimeResponseEB_c.png")
+            c.Close()
 
     if seedmap1 != 0: #print 1 seed map
         s1 = rt.TCanvas()
-        seedmap1.Draw("colz")
+        if type(htime1) != rt.TH1F: #individual crystal
+            seedmap1.Draw("colz")
+        else:
+            seedmap1.SetAxisRange(-85,85,"X")
+            seedmap1.Draw()
         s1.Print(runNumber+"SeedDensityEB.png")
+        s1.Close()
         if seedmap2 != 0: #print both seed maps
             s2 = rt.TCanvas()
-            seedmap2.Draw("colz")
+            if type(htime1) != rt.TH1F: #individual crystal
+                seedmap2.Draw("colz")
+            else:
+                seedmap2.SetAxisRange(-85,85,"X")
+                seedmap2.Draw()
             s2.Print(runNumber+"SeedDensityEB_p2.png")
+            s2.Close()
 
 
 
@@ -286,46 +306,56 @@ def printPrettyPictureEE(runNumber,htimep1,htimep2,htimem1,htimem2,seedmapp1,see
         htimep1.SetAxisRange(-5., 5.,"Z")
         htimep1.Draw("colz")
         c1.Print(runNumber+"IndivTimeResponseEEp_p1.png")
+        c1.Close()
             
         c2 = rt.TCanvas()
         htimep2.SetAxisRange(-5., 5.,"Z")
         htimep2.Draw("colz")
         c2.Print(runNumber+"IndivTimeResponseEEp_p2.png")
+        c2.Close()
     
         c3 = rt.TCanvas()
         htimem1.SetAxisRange(-5., 5.,"Z")
         htimem1.Draw("colz")
         c3.Print(runNumber+"IndivTimeResponseEEm_p1.png")
+        c3.Close()
         
         c4 = rt.TCanvas()
         htimem2.SetAxisRange(-5., 5.,"Z")
         htimem2.Draw("colz")
         c4.Print(runNumber+"IndivTimeResponseEEm_p2.png")
+        c4.Close()
     else:
-        c = rt.TCanvas()
+        c1 = rt.TCanvas()
         htimep1.SetAxisRange(-5., 5.,"Z")
         htimep1.Draw("colz")
-        c.Print(runNumber+"IndivTimeResponseEEp_c.png")
+        c1.Print(runNumber+"IndivTimeResponseEEp_c.png")
+        c1.Close()
 
         c2 = rt.TCanvas()
         htimem1.SetAxisRange(-5., 5.,"Z")
         htimem1.Draw("colz")
         c2.Print(runNumber+"IndivTimeResponseEEm_c.png")
+        c2.Close()
 
     if seedmapp1 != 0: #print 1 seed map
         s1 = rt.TCanvas()
         seedmapp1.Draw("colz")
         s1.Print(runNumber+"SeedDensityEEp.png")
+        s1.Close()
+
+        s3 = rt.TCanvas()
+        seedmapm1.Draw("colz")
+        s3.Print(runNumber+"SeedDensityEEm.png")
+        s3.Close()
         if seedmapp2 != 0: #print both seed maps
             s2 = rt.TCanvas()
             seedmapp2.Draw("colz")
             s2.Print(runNumber+"SeedDensityEEp_p2.png")
-    if seedmapm1 !=0: #print1 seed map
-        s3 = rt.TCanvas()
-        seedmapm1.Draw("colz")
-        s3.Print(runNumber+"SeedDensityEEm.png")
-        if seedmapm2 !=0: #print1 seed map
+            s2.Close()
+
             s4 = rt.TCanvas()
             seedmapm2.Draw("colz")
             s4.Print(runNumber+"SeedDensityEEm_p2.png")
+            s4.Close()
 

@@ -48,10 +48,10 @@ if __name__ == "__main__":
     if p.splitPhotons == True:
         fname = 'p1p2_'
         #creates histogram for time response
-        htimep1 = rt.TH2F("Time Response in Endcap plus for photon 1", "Time Response in EE+ for photon 1; iEta;iPhi;ns",100,0,100,100,0,100)
-        htimep2 = rt.TH2F("Time Response in Endcap plus for photon 2", "Time Response in EE+ for photon 2; iEta;iPhi;ns",100,0,100,100,0,100)
-        htimem1 = rt.TH2F("Time Response in Endcap minus for photon 1", "Time Response in EE- for photon 1; iEta;iPhi;ns",100,0,100,100,0,100)
-        htimem2 = rt.TH2F("Time Response in Endcap minus for photon 2", "Time Response in EE- for photon 2; iEta;iPhi;ns",100,0,100,100,0,100)
+        htimep1 = rt.TH2F("Time Response in Endcap plus for photon 1", "Time Response in EE+ for photon 1; iEta;iPhi;ns",101,0,101,101,0,101)
+        htimep2 = rt.TH2F("Time Response in Endcap plus for photon 2", "Time Response in EE+ for photon 2; iEta;iPhi;ns",101,0,101,101,0,101)
+        htimem1 = rt.TH2F("Time Response in Endcap minus for photon 1", "Time Response in EE- for photon 1; iEta;iPhi;ns",101,0,101,101,0,101)
+        htimem2 = rt.TH2F("Time Response in Endcap minus for photon 2", "Time Response in EE- for photon 2; iEta;iPhi;ns",101,0,101,101,0,101)
     
         #creates a list of histograms
         histListp1 = [[0 for x in range(101)] for y in range(101)]
@@ -79,8 +79,8 @@ if __name__ == "__main__":
         runinfo = a.openEE(rootfilename,rootList,runinfo,bf,ef,p.numberofEntries,histListp1, histListm1,histListp2,histListm2)
     else:
         fname = 'c_'
-        htimep = rt.TH2F("Time Response in Endcap plus for all photons", "Time Response in EE+; iX;iY;ns",100,0,100,100,0,100)
-        htimem = rt.TH2F("Time Response in Endcap minus for all photons", "Time Response in EE-; iX;iY;ns",100,0,100,100,0,100)
+        htimep = rt.TH2F("Time Response in Endcap plus for all photons", "Time Response in EE+; iX;iY;ns",101,0,101,101,0,101)
+        htimem = rt.TH2F("Time Response in Endcap minus for all photons", "Time Response in EE-; iX;iY;ns",100,0,101,101,0,101)
         histListp = [[0 for x in range(101)] for y in range(101)]
         histListm = [[0 for x in range(101)] for y in range(101)]
 

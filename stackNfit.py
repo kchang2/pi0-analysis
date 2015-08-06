@@ -33,6 +33,8 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4):
             for i in range(0, nentries):
                 rTree.GetEntry(i)
                 for rec in range(0,rTree.STr2_NPi0_rec):
+                    if rTree.STr2_Pi0recIsEB[rec] != True:
+                        continue
                     if rTree.STr2_iEta_1[rec]+85 < 0 or rTree.STr2_iPhi_1[rec] < 0:
                         pass
                     else:
@@ -49,6 +51,8 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4):
             for i in range(0, nentries):
                 rTree.GetEntry(i)
                 for rec in range(0,rTree.STr2_NPi0_rec):
+                    if rTree.STr2_Pi0recIsEB[rec] == True:
+                        continue
                     if rTree.STr2_Eta_1[rec] > 1.4:
                         if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                             pass
@@ -135,12 +139,12 @@ def fitTime(histlist, htime, minstat,includehitcounter,manualcut,name):
         yaxis = "phi"
         adjust = -85
         labelnTitle = "Seed photon density for EB (min stats = %i);iEta;iPhi;counts" %(minstat)
-        seedmap = rt.TH2F("Spd"+name, labelnTitle,170,-85,85,360,0,360)
+        seedmap = rt.TH2F("Spd"+name, labelnTitle,171,-85,86,361,0,361)
     else:
         yaxis = "Y"
         adjust = 0
         labelnTitle = "Seed photon density for EE (min stats = %i);iX;iY;counts" %(minstat)
-        seedmap = rt.TH2F("Spd"+name, labelnTitle,100,0,100,100,0,100)
+        seedmap = rt.TH2F("Spd"+name, labelnTitle,101,0,101,101,0,101)
 
     for x in range(0,len(histlist)):
         #print "completed " + str(x) + " out of " + str(len(histlist)) + " columns."
@@ -184,6 +188,7 @@ def fitTime(histlist, htime, minstat,includehitcounter,manualcut,name):
             fitdata[x][y][2] = sigma.getVal()
             fitdata[x][y][3] = sigma.getError()
             htime.Fill(x+adjust,y,mean.getVal())
+            htime.SetBinError(x+1,y+1,mean.getError()) #this value is the bin number
 
     if includehitcounter == True:
         return htime, fitdata, seedmap
@@ -209,6 +214,8 @@ def stackTimeEta(rTree,entries,histlist,histlist2):
         for i in range(0, nentries):
             rTree.GetEntry(i)
             for rec in range(0,rTree.STr2_NPi0_rec):
+                if rTree.STr2_Pi0recIsEB[rec] != True:
+                    continue
                 if rTree.STr2_iEta_1[rec]+85 < 0:
                     pass
                 else:
@@ -224,6 +231,8 @@ def stackTimeEta(rTree,entries,histlist,histlist2):
     for i in range(0, nentries):
         rTree.GetEntry(i)
         for rec in range(0,rTree.STr2_NPi0_rec):
+            if rTree.STr2_Pi0recIsEB[rec] != 1:
+                continue
             if rTree.STr2_iEta_1[rec]+85 < 0:
                 pass
             else:
@@ -241,7 +250,7 @@ def fitTimeEta(histlist, htime, minstat, includehitcounter, manualcut,name):
 
     fitdata = [[0 for values in range(4)] for eta in range(171)] #(mean,error,sigma,error)
     labelnTitle = "Seed photon density for EB (min stats = %i);iEta;counts" %(minstat)
-    seedmap = rt.TH1F("Spd"+name, labelnTitle,170,-85,85)
+    seedmap = rt.TH1F("Spd"+name, labelnTitle,171,-85,86)
     prntableGraphs = random.sample(xrange(len(histlist)), 7)
     for eta in range(0,len(histlist)):
         hist = histlist[eta]
@@ -283,7 +292,8 @@ def fitTimeEta(histlist, htime, minstat, includehitcounter, manualcut,name):
         fitdata[eta][1]=mean.getError()
         fitdata[eta][2]=sigma.getVal()
         fitdata[eta][3]=sigma.getError()
-        htime.Fill(eta-85,mean.getVal())
+        htime.Fill(eta-85,mean.getVal()) #this value is the physical one (bin value)
+        htime.SetBinError(eta+1,mean.getError()) #this value is the bin number
 
     if includehitcounter == True:
         return htime, fitdata, seedmap
