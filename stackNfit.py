@@ -82,6 +82,8 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4):
         for i in range(0, nentries):
             rTree.GetEntry(i)
             for rec in range(0,rTree.STr2_NPi0_rec):
+                if rTree.STr2_Pi0recIsEB[rec] != True:
+                    continue
                 if rTree.STr2_iEta_1[rec]+85 < 0 or rTree.STr2_iPhi_1[rec] < 0:
                     pass
                 else:
@@ -97,6 +99,8 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4):
         for i in range(0, nentries):
             rTree.GetEntry(i)
             for rec in range(0,rTree.STr2_NPi0_rec):
+                if rTree.STr2_Pi0recIsEB[rec] == True:
+                    continue
                 if rTree.STr2_Eta_1[rec] > 1.4:
                     if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                         pass

@@ -36,6 +36,7 @@ if __name__ == "__main__":
     
     ## Root file path and file name you analyze ##
     rootList = os.listdir(fileLocation)
+    rootList.sort()
     rootfilename = p.runNumber + "EcalNtp_"
     
     ## Info about the Run ##
