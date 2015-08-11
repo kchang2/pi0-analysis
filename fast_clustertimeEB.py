@@ -41,21 +41,25 @@ if __name__ == "__main__":
     
     ## Info about the Run ##
     runinfo = np.array("ROOT info") #ROOT file
-
+    
     #Here is where it splits based on track and decision
     if p.splitPhotons == True:
         fname = 'p1p2_'
         #creates histogram of time
         htime1 = rt.TH1F("Time Response in Barrel for photon 1", "Time Response vs iEta in EB for photon 1; iEta;ns",171,-85,86)
         htime2 = rt.TH1F("Time Response in Barrel for photon 2", "Time Response vs iEta in EB for photon 2; iEta;ns",171,-85,86)
+        hlaser1 = rt.TH1F("Crystal Transparency in Barrel for photon 1","Laser Transparency vs iEta in EB for photon 1; iEta;Transparency Factor",171,-85,86)
+        hlaser2 = rt.TH1F("Crystal Transparency in Barrel for photon 2","Laser Transparency vs iEta in EB for photon 2; iEta;Transparency Factor",171,-85,86)
     
         #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett)
-        dataList1 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, mean, mean error, sigma, sigma error]
-        dataList2 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, time response, time response error, time resolution, time resolution error]
+        dataList1 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, mean, mean error, sigma, sigma error, t mean, t mean error]
+        dataList2 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, time response, time response error, time resolution, time resolution error, laser transparency mean, laser transparency error]
     
         #creates a list of histograms (for range of eta)
-        histList1 = [0 for eta in range(171)]
+        histList1 = [0 for eta in range(171)] #time response
         histList2 = [0 for eta in range(171)]
+        transList1 = [0 for eta in range(171)] #laser transparency
+        transList2 = [0 for eta in range(171)]
         
         #fills list of histograms with actual histograms
         for eta in range (0,171):
@@ -65,24 +69,37 @@ if __name__ == "__main__":
             histtitle2 = "time response (ns) for eta (%i) for photon 2" %(eta-85)
             histList1[eta] = rt.TH1F(histname1,histtitle1,1200,-30,30)
             histList2[eta] = rt.TH1F(histname2,histtitle2,1200,-30,30)
+        
+            transname1 = "transparency on sc eta (%i) for photon 1" %(eta-85)
+            transtitle1 = "transparency for eta (%i) for photon 1" %(eta-85)
+            transname2 = "transparency on sc eta (%i) for photon 2" %(eta-85)
+            transtitle2 = "transparency for eta (%i) for photon 2" %(eta-85)
+            transList1[eta] = rt.TH1F(transname1,transtitle1,1000,-5,5)
+            transList2[eta] = rt.TH1F(transname2,transtitle2,1000,-5,5)
 
         #stacks data onto the histograms
-        runinfo = a.openEB(rootfilename, rootList, runinfo, bf, ef, p.numberofEntries, histList1, histList2)
+        runinfo = a.openEB(rootfilename, rootList, runinfo, bf, ef, p.numberofEntries, histList1, histList2, transList1, transList2)
     
     # No splitting, joining photon 1, photon 2 together
     else:
         fname = 'c_'
-        htime = rt.TH1F("Time Response in Barrel for all photons", "Time Response vs iEta in EB; iEta;ns",171,-85,86)
-        dataList = np.array([-1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, mean, mean error, sigma, sigma error]
+        htime = rt.TH1F("Time Response in Barrel", "Time Response vs iEta in EB; iEta;ns",171,-85,86)
+        hlaser = rt.TH1F("Crystal Transparency in Barrel","Laser Transparency vs iEta in EB; iEta; Transparency Factor",171,-85,86)
+        dataList = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, mean, mean error, sigma, sigma error, t mean, t mean error]
         
         #creates histogram list
         histList = [0 for eta in range(171)]
+        transList = [0 for eta in range(171)]
         
         for eta in range (0,171):
             histname = "time on sc eta (%i) for all" %(eta-85)
             histtitle = "time response (ns) for eta (%i) for all" %(eta-85)
             histList[eta] = rt.TH1F(histname,histtitle,1000,-30,30)
-        runinfo = a.openEB(rootfilename,rootList, runinfo, bf, ef, p.numberofEntries, histList, 0)
+            transname = "transparency on sc eta (%i) for all" %(eta-85)
+            transtitle = "transparency for eta (%i) for all" %(eta-85)
+            transList[eta] = rt.TH1F(transname,transtitle,2000,-5,5)
+        
+        runinfo = a.openEB(rootfilename,rootList, runinfo, bf, ef, p.numberofEntries, histList, 0, transList, 0)
 
     # Same procedure, going back to directory where results are printed
     retdir = os.getcwd()
@@ -100,20 +117,20 @@ if __name__ == "__main__":
 
     #fits the histograms and saves 1D in tree
     if p.splitPhotons == True:
-        htime1, fitdata1, seedmap1 = snf.fitTimeEta(histList1,htime1,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"p1_")
-        htime2, fitdata2, seedmap2 = snf.fitTimeEta(histList2,htime2,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"p2_")
+        htime1, hlaser1, fitdata1, seedmap1 = snf.fitTimeEta(histList1, transList1, htime1, hlaser1, p.minStat,p.includeHitCounter,p.manualHitCounterCut,"p1_")
+        htime2, hlaser2, fitdata2, seedmap2 = snf.fitTimeEta(histList2, transList2, htime2, hlaser2, p.minStat,p.includeHitCounter,p.manualHitCounterCut,"p2_")
 
         #saving all 1D histograms in tree
-        a.saveEB(p.runNumber,dataList1,dataList2,histList1,histList2,htime1,htime2,fitdata1,fitdata2,seedmap1,seedmap2)
+        a.saveEB(p.runNumber,dataList1,dataList2,histList1,histList2,transList1,transList2,htime1,htime2,hlaser1,hlaser2,fitdata1,fitdata2,seedmap1,seedmap2)
 
         #Tacks on histogram to canvas frame and ouputs on canvas
-        a.printPrettyPictureEB(p.runNumber,htime1,htime2,seedmap1,seedmap2)
+        a.printPrettyPictureEB(p.runNumber,htime1,htime2,hlaser1,hlaser2,seedmap1,seedmap2)
 
     else:
-        htime, fitdata, seedmap = snf.fitTimeEta(histList,htime,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"c_")
-        a.saveEB(p.runNumber,dataList,0,histList,0,htime,0,fitdata,0,seedmap,0)
+        htime, hlaser, fitdata, seedmap = snf.fitTimeEta(histList,transList,htime,hlaser,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"c_")
+        a.saveEB(p.runNumber,dataList,0,histList,0,transList,0,htime,0,hlaser,0,fitdata,0,seedmap,0)
 
-        a.printPrettyPictureEB(p.runNumber,htime,0,seedmap,0)
+        a.printPrettyPictureEB(p.runNumber,htime,0,hlaser,0,seedmap,0)
 
 
 

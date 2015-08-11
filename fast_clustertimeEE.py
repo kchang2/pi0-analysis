@@ -43,8 +43,8 @@ if __name__ == "__main__":
     runinfo = np.array("ROOT info") #ROOT file
     
     #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett). Note in Endcap, we don't differentiate with splitPhotons -> they are all saved in their respective plus and minus sections.
-    dataListp = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, mean, mean error, sigma, sigma error)
-    dataListm = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, time response, time response error, time resolution, time resolution error)
+    dataListp = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, mean, mean error, sigma, sigma error, t mean, t mean error)
+    dataListm = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, time response, time response error, time resolution, time resolution error, laser transparency mean, laser transparency error)
     
     if p.splitPhotons == True:
         fname = 'p1p2_'
@@ -53,12 +53,23 @@ if __name__ == "__main__":
         htimep2 = rt.TH2F("Time Response in Endcap plus for photon 2", "Time Response in EE+ for photon 2; iEta;iPhi;ns",101,0,101,101,0,101)
         htimem1 = rt.TH2F("Time Response in Endcap minus for photon 1", "Time Response in EE- for photon 1; iEta;iPhi;ns",101,0,101,101,0,101)
         htimem2 = rt.TH2F("Time Response in Endcap minus for photon 2", "Time Response in EE- for photon 2; iEta;iPhi;ns",101,0,101,101,0,101)
+        #creates histogram for laser response
+        hlaserp1 = rt.TH2F("Transparency in Endcap plus for photon 1", "Transparency in EE+ for photon 1; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
+        hlaserp2 = rt.TH2F("Transparency in Endcap plus for photon 2", "Transparency in EE+ for photon 2; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
+        hlaserm1 = rt.TH2F("Transparency in Endcap minus for photon 1", "Transparency in EE- for photon 1; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
+        hlaserm2 = rt.TH2F("Transparency in Endcap minus for photon 2", "Transparency in EE- for photon 2; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
     
         #creates a list of histograms
         histListp1 = [[0 for x in range(101)] for y in range(101)]
         histListm1 = [[0 for x in range(101)] for y in range(101)]
         histListp2 = [[0 for x in range(101)] for y in range(101)]
         histListm2 = [[0 for x in range(101)] for y in range(101)]
+
+        transListp1 = [[0 for x in range(101)] for y in range(101)]
+        transListm1 = [[0 for x in range(101)] for y in range(101)]
+        transListp2 = [[0 for x in range(101)] for y in range(101)]
+        transListm2 = [[0 for x in range(101)] for y in range(101)]
+
     
         #fills the 2D histogram with 1D histograms
         for x in range (0,101):
@@ -75,15 +86,33 @@ if __name__ == "__main__":
                 histListm1[x][y] = rt.TH1F(histnamem1,histtitlem1,1200,-30,30)
                 histListp2[x][y] = rt.TH1F(histnamep2,histtitlep2,1200,-30,30)
                 histListm2[x][y] = rt.TH1F(histnamem2,histtitlem2,1200,-30,30)
+    
+                transnamep1 = "transparency on plus sc (%i,%i) for photon 1" %(x,y)
+                transtitlep1 = "transparency for plus crystal (%i,%i) for photon 1" %(x,y)
+                transnamem1 = "transparency on minus sc (%i,%i) for photon 1" %(x,y)
+                transtitlem1 = "transparency for minus crystal (%i,%i) for photon 1" %(x,y)
+                transnamep2 = "transparency on plus sc (%i,%i) for photon 2" %(x,y)
+                transtitlep2 = "transparency for plus crystal (%i,%i) for photon 2" %(x,y)
+                transnamem2 = "transparency on minus sc (%i,%i) for photon 2" %(x,y)
+                transtitlem2 = "transparency for minus crystal (%i,%i) for photon 2" %(x,y)
+                transListp1[x][y] = rt.TH1F(transnamep1,transtitlep1,1000,-5,5)
+                transListm1[x][y] = rt.TH1F(transnamem1,transtitlem1,1000,-5,5)
+                transListp2[x][y] = rt.TH1F(transnamep2,transtitlep2,1000,-5,5)
+                transListm2[x][y] = rt.TH1F(transnamem2,transtitlem2,1000,-5,5)
 
         #stack data on histograms
-        runinfo = a.openEE(rootfilename,rootList,runinfo,bf,ef,p.numberofEntries,histListp1, histListm1,histListp2,histListm2)
+        runinfo = a.openEE(rootfilename,rootList,runinfo,bf,ef,p.numberofEntries,histListp1, histListm1,histListp2,histListm2,transListp1,transListm1,transListp2,transListm2)
     else:
         fname = 'c_'
         htimep = rt.TH2F("Time Response in Endcap plus for all photons", "Time Response in EE+; iX;iY;ns",101,0,101,101,0,101)
         htimem = rt.TH2F("Time Response in Endcap minus for all photons", "Time Response in EE-; iX;iY;ns",100,0,101,101,0,101)
+        hlaserp = rt.TH2F("Transparency in Endcap plus for all photons", "Transparency in EE+; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
+        hlaserm = rt.TH2F("Transparency in Endcap minus for all photons", "Transparency in EE-; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
+
         histListp = [[0 for x in range(101)] for y in range(101)]
         histListm = [[0 for x in range(101)] for y in range(101)]
+        transListp = [[0 for x in range(101)] for y in range(101)]
+        transListm = [[0 for x in range(101)] for y in range(101)]
 
         for x in range (0,101):
             for y in range (0,101):
@@ -94,7 +123,14 @@ if __name__ == "__main__":
                 histListp[x][y] = rt.TH1F(histnamep,histtitlep,1000,-30,30)
                 histListm[x][y] = rt.TH1F(histnamem,histtitlem,1000,-30,30)
 
-        runinfo = a.openEE(rootfilename,rootList,runinfo,bf,ef,p.numberofEntries,histListp, histListm, 0, 0)
+                transnamep = "transparency on plus sc (%i,%i)" %(x,y)
+                transtitlep = "transparency for plus crystal (%i,%i)" %(x,y)
+                transnamem = "transparency on minus sc (%i,%i)" %(x,y)
+                transtitlem = "transparency for minus crystal (%i,%i)" %(x,y)
+                transListp[x][y] = rt.TH1F(transnamep,transtitlep,1000,-5,5)
+                transListm[x][y] = rt.TH1F(transnamem,transtitlem,1000,-5,5)
+
+        runinfo = a.openEE(rootfilename,rootList,runinfo,bf,ef,p.numberofEntries,histListp, histListm, 0, 0, transListp, transListm, 0, 0)
 
     # Same procedure, going back to directory where results are printed
     retdir = os.getcwd()
@@ -111,22 +147,22 @@ if __name__ == "__main__":
     np.save(p.runNumber+"ClusterRunInfoEE.npy", runinfo)
 
     if p.splitPhotons == True:
-        htimep1,fitdatap1, seedmapp1 = snf.fitTime(histListp1,htimep1,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pp1_")
-        htimem1,fitdatam1, seedmapm1 = snf.fitTime(histListm1,htimem1,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mp1_")
-        htimep2,fitdatap2, seedmapp2 = snf.fitTime(histListp2,htimep2,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pp2_")
-        htimem2,fitdatam2, seedmapm2 = snf.fitTime(histListm2,htimem2,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mp2_")
+        htimep1, hlaserp1, fitdatap1, seedmapp1 = snf.fitTime(histListp1,transListp1,htimep1,hlaserp1,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pp1_")
+        htimem1, hlaserm1, fitdatam1, seedmapm1 = snf.fitTime(histListm1,transListm1,htimem1,hlaserm1,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mp1_")
+        htimep2, hlaserp2, fitdatap2, seedmapp2 = snf.fitTime(histListp2,transListp2,htimep2,hlaserp2,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pp2_")
+        htimem2, hlaserm2, fitdatam2, seedmapm2 = snf.fitTime(histListm2,transListm2,htimem2,hlaserm2,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mp2_")
 
         #saving all 1D histograms in tree
-        a.saveEE(p.runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histListm2,htimep1,htimep2,htimem1,htimem2,fitdatap1,fitdatap2,fitdatam1,fitdatam2,seedmapp1,seedmapm1,seedmapp2,seedmapm2)
+        a.saveEE(p.runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histListm2,transListp1,transListp2,transListm1,transListm2,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlaserp2,hlaserm1,hlaserm2,fitdatap1,fitdatap2,fitdatam1,fitdatam2,seedmapp1,seedmapm1,seedmapp2,seedmapm2)
     
         #Tacks on histogram to canvas frame and ouputs on canvas
-        a.printPrettyPictureEE(p.runNumber,htimep1,htimep2,htimem1,htimem2,seedmapp1,seedmapm1,seedmapp2,seedmapm2)
+        a.printPrettyPictureEE(p.runNumber,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlaserp2,hlaserm1,hlaserm2,seedmapp1,seedmapm1,seedmapp2,seedmapm2)
     else:
-        htimep,fitdatap,seedmapp = snf.fitTime(histListp,htimep,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pc_")
-        htimem,fitdatam,seedmapm = snf.fitTime(histListm,htimem,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mc_")
+        htimep,hlaserp,fitdatap,seedmapp = snf.fitTime(histListp,transListp,htimep,hlaserp,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pc_")
+        htimem,hlaserm,fitdatam,seedmapm = snf.fitTime(histListm,transListm,htimem,hlaserm,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mc_")
 
         #saving all 1D histograms in tree
-        a.saveEE(p.runNumber,dataListp,dataListm,histListp,0,histListm,0,htimep,0,htimem,0,fitdatap,0,fitdatam,0,seedmapp,0,seedmapm,0)
+        a.saveEE(p.runNumber,dataListp,dataListm,histListp,0,histListm,0,transListp,0,transListm,0,htimep,0,htimem,0,hlaserp,0,hlaserm,0,fitdatap,0,fitdatam,0,seedmapp,0,seedmapm,0)
 
         #Tacks on histogram to canvas frame and ouputs on canvas
-        a.printPrettyPictureEE(p.runNumber,htimep,0,htimem,0,seedmapp,seedmapm,0,0)
+        a.printPrettyPictureEE(p.runNumber,htimep,0,htimem,0,hlaserp,0,hlaserm,0,seedmapp,seedmapm,0,0)

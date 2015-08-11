@@ -3,21 +3,11 @@
 ## on larger scale.
 ##
 
-make t-chain: TChain
-chain.setName("Tree_Optim")
-LOOP over fiel names
-Chain.add(full path to filen)
+if __name__ == "__main__":
+    variable = 2
+    variable1 = 5
+    variable2 = 6
+    variable3 = 7
 
-
-
-
-
-# files to analyze
-if sys.argv[1] == -1:
-    bfread = 0 #beginning file read
-        efread = len(fileList) #end file read
-            else:
-                bfread = sys.argv[1]
-                    efread = sys.argv[2]
-
+    print variable%i %(sys.arg[1])
 
