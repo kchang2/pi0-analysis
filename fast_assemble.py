@@ -108,7 +108,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
                     histList2[eta][phi].Write()
                     transList2[eta][phi].Write()
                     #Saving value of data in tuple list
-                    dataList2 = np.vstack((dataList2, [eta-85, phi, fitdata2[eta][phi][0],fitdata2[eta][phi][1],fitdata2[eta][phi][2],fitdata2[eta][phi][3],fitdata1[eta][phi][4],fitdata1[eta][phi][5]]))
+                    dataList2 = np.vstack((dataList2, [eta-85, phi, fitdata2[eta][phi][0],fitdata2[eta][phi][1],fitdata2[eta][phi][2],fitdata2[eta][phi][3],fitdata2[eta][phi][4],fitdata2[eta][phi][5]]))
             htime2.Write()
             hlaser2.Write()
             if seedmap1 != 0:
