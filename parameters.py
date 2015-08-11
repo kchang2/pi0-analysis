@@ -23,8 +23,8 @@ numberofFiles = -1          #Number of ROOT files you want to analyze
 runRangeStart = 0           #if numberofFiles != -1, specificy which file you want to start with
 splitPhotons = True         #True = maps photon 1,2 separately. False = joins photons together
 includeHitCounter = True    #True = map of hits per crystal, False = do not include a map of hits
-numberofEntries = -1        #Number of Entries per root file you want to analyze
-minStat = 10000             #Number of statistic to allow fit to pass. Too small = bad fit for our CORRECTION.
+numberofEntries = 1000        #Number of Entries per root file you want to analyze
+minStat = 100             #Number of statistic to allow fit to pass. Too small = bad fit for our CORRECTION.
 
 
 ###Output Path###
@@ -34,13 +34,13 @@ folderName = 'result'       #name of folder your files will go into
 
 
 ###Script Info [fastAnalysis]###
-runFormat = 'B'             #Batch [B], LXPLUS [X], Locally [L]
+runFormat = 'L'             #Batch [B], LXPLUS [X], Locally [L]
 runBatchLength = '2nd'      #if isBatch = True, specificy how long program runs normally
 displayOutput = False       #False = don't display each fit parameters, True = display on Terminal
 runAll = False              #True = run all analysis. False = individual analysis
 ifFalsethenWhat = ['fast_clustertimeEB']       #Look at the the python files
 isEvenSplit = True          #whether you want the ROOT files to be split evenly in batches
-jobIterFiles = 10           #How do you want to break down your batches in terms of files (Ex. 5 jobs per batch), -1 or 0 means directly all in 1
+jobIterFiles = -1           #How do you want to break down your batches in terms of files (Ex. 5 jobs per batch), -1 or 0 means directly all in 1
 manualSplit = [0,5,10,15,23,28,76,77]        #isEvenSplit = False, then manually split -> Refer to datedList.txt for specific days of runs
 
 
@@ -53,37 +53,34 @@ manualHitCounterCut = 0     #(mean-value,mean+value) -> -1 = all values, 0 = fit
 
 
 ###Cuts for Pi0###
-manualCuts = False          #False = use whatever cuts were intially provided. True = apply personal cuts below.
-#inner barrel
-Pi0PtCutEB_low = '1.8'
-gPtCutEB_low = '0.6'
-Pi0IsoCutEB_low = '0.2'
-#Pi0HLTIsoCutEB_low = "999"
-nXtal_1_EB_low = '4'
-nXtal_2_EB_low = '5'
-S4S9_EB_low = '0.6'
-#outer barrel
-Pi0PtCutEB_high = '2.6'
-gPtCutEB_high = '0.6'
-Pi0IsoCutEB_high = '0.05'
-#Pi0HLTIsoCutEB_high = "999"
-nXtal_1_EB_high = '4'
-nXtal_2_EB_high = '5'
-S4S9_EB_high = '0.75'
-#low eta EE
-Pi0PtCutEE_low = '3.6'
-gPtCutEE_low = '1.'
-Pi0IsoCutEE_low = '0.3'
-#Pi0HLTIsoCutEE_low = "999"
-nXtal_1_EE_low = '4'
-nXtal_2_EE_low = '5'
-S4S9_EE_low = '0.8'
-#high eta EE
-Pi0PtCutEE_high = '3.6'
-gPtCutEE_high = '1.'
-Pi0IsoCutEE_high = '0.3'
-#Pi0HLTIsoCutEE_high = "999"
-nXtal_1_EE_high = '4'
-nXtal_2_EE_high = '5'
-S4S9_EE_high = '0.8'
+manualCuts = True          #False = use whatever cuts were intially provided. True = apply personal cuts below.
+noCorr = True            #True = use data from nocorr or uncorrected values for containment corrections. False = use corrected values instead.
+## inner barrel
+Pi0PtCutEB_low = 1.8
+gPtCutEB_low = 0.6
+Pi0IsoCutEB_low = 0.2
+nXtal_1_EB_low = 4
+nXtal_2_EB_low = 5
+S4S9_EB_low = 0.6
+## outer barrel
+Pi0PtCutEB_high = 2.6
+gPtCutEB_high = 0.6
+Pi0IsoCutEB_high = 0.05
+nXtal_1_EB_high = 4
+nXtal_2_EB_high = 5
+S4S9_EB_high = 0.75
+## low eta EE
+Pi0PtCutEE_low = 3.6
+gPtCutEE_low = 1.
+Pi0IsoCutEE_low = 0.3
+nXtal_1_EE_low = 4
+nXtal_2_EE_low = 5
+S4S9_EE_low = 0.8
+## high eta EE
+Pi0PtCutEE_high = 3.6
+gPtCutEE_high = 1.
+Pi0IsoCutEE_high = 0.3
+nXtal_1_EE_high = 4
+nXtal_2_EE_high = 5
+S4S9_EE_high = 0.8
 

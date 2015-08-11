@@ -9,6 +9,7 @@ from __future__ import division
 import ROOT as rt
 import sys, random, math
 from FastProgressBar import progressbar
+import fast_cut as fc
 
 # This will stack time response based upon each individual crystal (both eta,phi and x,y)
 # This is for endcap and barrel
@@ -38,11 +39,15 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                     if rTree.STr2_iEta_1[rec]+85 < 0 or rTree.STr2_iPhi_1[rec] < 0:
                         pass
                     else:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                            continue
                         histlist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
                         translist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
                     if rTree.STr2_iEta_2[rec]+85 < 0 or rTree.STr2_iPhi_2[rec] < 0:
                         pass
                     else:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                            continue
                         histlist[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
                         translist[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
                 pbar.update(i+1)
@@ -59,24 +64,32 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                             pass
                         else:
+                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                                continue
                             histlist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                             translist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
                     elif rTree.STr2_Eta_1[rec] < -1.4:
                         if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                             pass
                         else:
+                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                                continue
                             histlist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                             translist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
                     if rTree.STr2_Eta_2[rec] > 1.4:
                         if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                             pass
                         else:
+                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                                continue
                             histlist[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                             translist[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
                     elif rTree.STr2_Eta_2[rec] < -1.4:
                         if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                             pass
                         else:
+                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                                continue
                             histlist2[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                             translist2[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
                 pbar.update(i+1)
@@ -93,17 +106,21 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                 if rTree.STr2_iEta_1[rec]+85 < 0 or rTree.STr2_iPhi_1[rec] < 0:
                     pass
                 else:
+                    if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                        continue
                     histlist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
                     translist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
                 if rTree.STr2_iEta_2[rec]+85 < 0 or rTree.STr2_iPhi_2[rec] < 0:
                     pass
                 else:
+                    if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                        continue
                     histlist2[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
                     translist2[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
             pbar.update(i+1)
         pbar.finish()
         return histlist, histlist2, translist, translist2
-    else: #is endcap CHECK
+    else: #is endcap
         for i in range(0, nentries):
             rTree.GetEntry(i)
             for rec in range(0,rTree.STr2_NPi0_rec):
@@ -113,24 +130,32 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                     if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                         pass
                     else:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                            continue
                         histlist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                         translist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
                 elif rTree.STr2_Eta_1[rec] < 1.4:
                     if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                         pass
                     else:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                            continue
                         histlist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                         translist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
                 if rTree.STr2_Eta_2[rec] > 1.4:
                     if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                         pass
                     else:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                            continue
                         histlist3[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                         translist3[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
                 elif rTree.STr2_Eta_2[rec] < 1.4:
                     if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                         pass
                     else:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                            continue
                         histlist4[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                         translist4[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
             pbar.update(i+1)
@@ -272,11 +297,15 @@ def stackTimeEta(rTree,entries,histlist,histlist2,translist,translist2):
                 if rTree.STr2_iEta_1[rec]+85 < 0:
                     pass
                 else:
+                    if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                        continue
                     histlist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Time_1[rec])
                     translist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Laser_rec_1[rec])
                 if rTree.STr2_iEta_2[rec]+85 < 0:
                     pass
                 else:
+                    if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                        continue
                     histlist[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Time_2[rec])
                     translist[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Laser_rec_2[rec])
             pbar.update(i+1)
@@ -291,12 +320,16 @@ def stackTimeEta(rTree,entries,histlist,histlist2,translist,translist2):
             if rTree.STr2_iEta_1[rec]+85 < 0:
                 pass
             else:
+                if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                    continue
                 histlist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Time_1[rec])
                 translist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Laser_rec_1[rec])
-            
+
             if rTree.STr2_iEta_2[rec]+85 < 0:
                 pass
             else:
+                if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                    continue
                 histlist2[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Time_2[rec])
                 translist2[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Laser_rec_2[rec])
         pbar.update(i+1)
