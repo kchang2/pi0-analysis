@@ -52,8 +52,8 @@ if __name__ == "__main__":
         hlaser2 = rt.TH2F("Crystal Transparency in Barrel for photon 2", "Transparency in EB for photon 2; iEta;iPhi;Transparency Factor",171,-85,86,361,0,361)
 
         #creation of numpy array for faster analysis(courtesy of Ben Bartlett)
-        dataList1 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(eta, phi, mean, mean error, sigma, sigma error, t mean, t mean error)
-        dataList2 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(eta, phi, time response, time response error, time resolution, time resolution error, laser transparency mean, laser transparency error)
+        dataList1 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(eta, phi, counts, mean, mean error, sigma, sigma error, t mean, t mean error)
+        dataList2 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(eta, phi, counts, time response, time response error, time resolution, time resolution error, laser transparency mean, laser transparency error)
 
         #creates a list of histograms
         histList1 = [[0 for phi in range(361)] for eta in range(171)]
@@ -86,7 +86,7 @@ if __name__ == "__main__":
         fname = 'c_'
         htime = rt.TH2F("Time Response in Barrel", "Time Response in Barrel; iEta;iPhi;ns",171,-85,86,361,0,361)
         hlaser = rt.TH2F("Crystal Trasnparency in Barrel", "Crystal Transparency in Barrel; iEta;iPhi;Transparency Factor",171,-85,86,361,0,361)
-        dataList = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(eta, phi, time response, time response error, time resolution, time resolution error)
+        dataList = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(eta, phi, counts, time response, time response error, time resolution, time resolution error)
         histList = [[0 for phi in range(361)] for eta in range(171)]
         transList = [[0 for phi in range(361)] for eta in range(171)]
 

@@ -43,21 +43,21 @@ if __name__ == "__main__":
     runinfo = np.array("ROOT info") #ROOT file
     
     #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett). Note in Endcap, we don't differentiate with splitPhotons -> they are all saved in their respective plus and minus sections.
-    dataListp = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, mean, mean error, sigma, sigma error, t mean, t mean error)
-    dataListm = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, time response, time response error, time resolution, time resolution error, laser transparency mean, laser transparency error)
+    dataListp = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, counts, mean, mean error, sigma, sigma error, t mean, t mean error)
+    dataListm = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, counts, time response, time response error, time resolution, time resolution error, laser transparency mean, laser transparency error)
     
     if p.splitPhotons == True:
         fname = 'p1p2_'
         #creates histogram for time response
-        htimep1 = rt.TH2F("Time Response in Endcap plus for photon 1", "Time Response in EE+ for photon 1; iEta;iPhi;ns",101,0,101,101,0,101)
-        htimep2 = rt.TH2F("Time Response in Endcap plus for photon 2", "Time Response in EE+ for photon 2; iEta;iPhi;ns",101,0,101,101,0,101)
-        htimem1 = rt.TH2F("Time Response in Endcap minus for photon 1", "Time Response in EE- for photon 1; iEta;iPhi;ns",101,0,101,101,0,101)
-        htimem2 = rt.TH2F("Time Response in Endcap minus for photon 2", "Time Response in EE- for photon 2; iEta;iPhi;ns",101,0,101,101,0,101)
+        htimep1 = rt.TH2F("Time Response in Endcap plus for photon 1", "Time Response in EE+ for photon 1; iX;iY;ns",101,0,101,101,0,101)
+        htimep2 = rt.TH2F("Time Response in Endcap plus for photon 2", "Time Response in EE+ for photon 2; iX;iY;ns",101,0,101,101,0,101)
+        htimem1 = rt.TH2F("Time Response in Endcap minus for photon 1", "Time Response in EE- for photon 1; iX;iY;ns",101,0,101,101,0,101)
+        htimem2 = rt.TH2F("Time Response in Endcap minus for photon 2", "Time Response in EE- for photon 2; iX;iY;ns",101,0,101,101,0,101)
         #creates histogram for laser response
-        hlaserp1 = rt.TH2F("Transparency in Endcap plus for photon 1", "Transparency in EE+ for photon 1; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
-        hlaserp2 = rt.TH2F("Transparency in Endcap plus for photon 2", "Transparency in EE+ for photon 2; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
-        hlaserm1 = rt.TH2F("Transparency in Endcap minus for photon 1", "Transparency in EE- for photon 1; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
-        hlaserm2 = rt.TH2F("Transparency in Endcap minus for photon 2", "Transparency in EE- for photon 2; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
+        hlaserp1 = rt.TH2F("Transparency in Endcap plus for photon 1", "Transparency in EE+ for photon 1; iX;iY;Transparency Factor",101,0,101,101,0,101)
+        hlaserp2 = rt.TH2F("Transparency in Endcap plus for photon 2", "Transparency in EE+ for photon 2; iX;iY;Transparency Factor",101,0,101,101,0,101)
+        hlaserm1 = rt.TH2F("Transparency in Endcap minus for photon 1", "Transparency in EE- for photon 1; iX;iY;Transparency Factor",101,0,101,101,0,101)
+        hlaserm2 = rt.TH2F("Transparency in Endcap minus for photon 2", "Transparency in EE- for photon 2; iX;iY;Transparency Factor",101,0,101,101,0,101)
     
         #creates a list of histograms
         histListp1 = [[0 for x in range(101)] for y in range(101)]
@@ -106,8 +106,8 @@ if __name__ == "__main__":
         fname = 'c_'
         htimep = rt.TH2F("Time Response in Endcap plus for all photons", "Time Response in EE+; iX;iY;ns",101,0,101,101,0,101)
         htimem = rt.TH2F("Time Response in Endcap minus for all photons", "Time Response in EE-; iX;iY;ns",100,0,101,101,0,101)
-        hlaserp = rt.TH2F("Transparency in Endcap plus for all photons", "Transparency in EE+; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
-        hlaserm = rt.TH2F("Transparency in Endcap minus for all photons", "Transparency in EE-; iEta;iPhi;Transparency Factor",101,0,101,101,0,101)
+        hlaserp = rt.TH2F("Transparency in Endcap plus for all photons", "Transparency in EE+; iX;iY;Transparency Factor",101,0,101,101,0,101)
+        hlaserm = rt.TH2F("Transparency in Endcap minus for all photons", "Transparency in EE-; iX;iY;Transparency Factor",101,0,101,101,0,101)
 
         histListp = [[0 for x in range(101)] for y in range(101)]
         histListm = [[0 for x in range(101)] for y in range(101)]

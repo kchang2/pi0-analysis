@@ -30,7 +30,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
 
     #makes 1 plot for both photon 1 and 2, double stacking all the way
     else: #(p,m,0,0)
-        if len(histlist) != 101: #not endcap CHECK
+        if len(histlist) != 101: #not endcap
             for i in range(0, nentries):
                 rTree.GetEntry(i)
                 for rec in range(0,rTree.STr2_NPi0_rec):
@@ -39,22 +39,30 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                     if rTree.STr2_iEta_1[rec]+85 < 0 or rTree.STr2_iPhi_1[rec] < 0:
                         pass
                     else:
-                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1
                             continue
-                        histlist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
-                        translist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                        if rTree.STr2_iEta_1[rec] >= 0: #accounting for crystal 0 being 1
+                            histlist[rTree.STr2_iEta_1[rec]+86][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
+                            translist[rTree.STr2_iEta_1[rec]+86][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                        else:
+                            histlist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
+                            translist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
                     if rTree.STr2_iEta_2[rec]+85 < 0 or rTree.STr2_iPhi_2[rec] < 0:
                         pass
                     else:
-                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2
                             continue
-                        histlist[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
-                        translist[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                        if rTree.STr2_iEta_2[rec] >= 0: #accounting for crystal 0 being 1
+                            histlist[rTree.STr2_iEta_2[rec]+86][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
+                            translist[rTree.STr2_iEta_2[rec]+86][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                        else:
+                            histlist[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
+                            translist[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
                 pbar.update(i+1)
             pbar.finish()
             return histlist, translist
 
-        else: #is endcap CHECK
+        else: #is endcap
             for i in range(0, nentries):
                 rTree.GetEntry(i)
                 for rec in range(0,rTree.STr2_NPi0_rec):
@@ -64,7 +72,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                             pass
                         else:
-                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1 in EE+
                                 continue
                             histlist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                             translist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
@@ -72,7 +80,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                             pass
                         else:
-                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1 in EE-
                                 continue
                             histlist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                             translist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
@@ -80,7 +88,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                             pass
                         else:
-                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2 in EE+
                                 continue
                             histlist[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                             translist[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
@@ -88,7 +96,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                             pass
                         else:
-                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                            if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2 in EE-
                                 continue
                             histlist2[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                             translist2[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
@@ -106,17 +114,25 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                 if rTree.STr2_iEta_1[rec]+85 < 0 or rTree.STr2_iPhi_1[rec] < 0:
                     pass
                 else:
-                    if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                    if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1
                         continue
-                    histlist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
-                    translist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                    if rTree.STr2_iEta_1[rec] >= 0: #accounting for crystal 0 being 1
+                        histlist[rTree.STr2_iEta_1[rec]+86][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
+                        translist[rTree.STr2_iEta_1[rec]+86][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                    else:
+                        histlist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
+                        translist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
                 if rTree.STr2_iEta_2[rec]+85 < 0 or rTree.STr2_iPhi_2[rec] < 0:
                     pass
                 else:
-                    if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                    if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2
                         continue
-                    histlist2[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
-                    translist2[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                    if rTree.STr2_iEta_2[rec] >= 0: #accounting for crystal 0 being 1
+                        histlist2[rTree.STr2_iEta_2[rec]+86][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
+                        translist2[rTree.STr2_iEta_2[rec]+86][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                    else:
+                        histlist2[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
+                        translist2[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
             pbar.update(i+1)
         pbar.finish()
         return histlist, histlist2, translist, translist2
@@ -130,7 +146,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                     if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                         pass
                     else:
-                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1 in EE+
                             continue
                         histlist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                         translist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
@@ -138,7 +154,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                     if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                         pass
                     else:
-                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1 in EE-
                             continue
                         histlist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                         translist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
@@ -146,7 +162,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                     if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                         pass
                     else:
-                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2 in EE+
                             continue
                         histlist3[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                         translist3[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
@@ -154,7 +170,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                     if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                         pass
                     else:
-                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                        if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2 in EE-
                             continue
                         histlist4[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                         translist4[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
@@ -165,7 +181,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
 
 # This will fit gaussians to all the individual crystal time response histograms and converge them into a 2d histogram with the mean value.
 def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manualcut, name):
-    fitdata = [[[0 for values in range(6)] for phi in range(361)] for eta in range(171)]
+    fitdata = [[[0 for values in range(7)] for phi in range(361)] for eta in range(171)]
         #(mean,error,sigma,error) for [eta or x ,phi or y]
     
     #selection of random control fit response coordinates
@@ -195,6 +211,7 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
             
             entries = pevents(hist,binmax,manualcut,40)
             seedmap.Fill(x+adjust,y,entries)
+            fitdata[x][y][0] = entries
 
             if entries < minstat:
                 htime.Fill(x+adjust,y,-999)
@@ -225,12 +242,20 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
                 frame.Draw()
                 c1.Print("timeresponse_"+name+str(x)+"_"+yaxis+"_"+str(y)+".png")
 
-            fitdata[x][y][0] = mean.getVal()
-            fitdata[x][y][1] = mean.getError()
-            fitdata[x][y][2] = sigma.getVal()
-            fitdata[x][y][3] = sigma.getError()
-            htime.Fill(x+adjust,y,mean.getVal())
-            htime.SetBinError(x+1,y+1,mean.getError()) #this value is the bin number
+            if len(histlist) != 101 and x == 85: #barrel, 0 ieta
+                fitdata[x][y][1] = 0
+                fitdata[x][y][2] = 0
+                fitdata[x][y][3] = 0
+                fitdata[x][y][4] = 0
+                htime.Fill(x+adjust,y,-999)
+                htime.SetBinError(x+1,y+1,0) #this value is the bin number
+            else: #endcap
+                fitdata[x][y][1] = mean.getVal()
+                fitdata[x][y][2] = mean.getError()
+                fitdata[x][y][3] = sigma.getVal()
+                fitdata[x][y][4] = sigma.getError()
+                htime.Fill(x+adjust,y,mean.getVal())
+                htime.SetBinError(x+1,y+1,mean.getError()) #this value is the bin number
 
 
         ## Laser Transparency
@@ -261,12 +286,18 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
                 frame.Draw()
                 c1.Print("lasertransparency_"+name+str(x)+"_"+yaxis+"_"+str(y)+".png")
             
-            fitdata[x][y][4] = mean.getVal()
-            fitdata[x][y][5] = mean.getError()
-            #fitdata[x][y][2] = sigma.getVal()
-            #fitdata[x][y][3] = sigma.getError()
-            hlaser.Fill(x+adjust,y,mean.getVal())
-            hlaser.SetBinError(x+1,y+1,mean.getError()) #this value is the bin number
+            if len(histlist) != 101 and x == 85: #barrel, 0 ieta
+                fitdata[x][y][5] = 0
+                fitdata[x][y][6] = 0
+                hlaser.Fill(x+adjust,y,-999)
+                hlaser.SetBinError(x+1,y+1,0) #this value is the bin number
+            else:
+                fitdata[x][y][5] = mean.getVal()
+                fitdata[x][y][6] = mean.getError()
+                #fitdata[x][y][2] = sigma.getVal()
+                #fitdata[x][y][3] = sigma.getError()
+                hlaser.Fill(x+adjust,y,mean.getVal())
+                hlaser.SetBinError(x+1,y+1,mean.getError()) #this value is the bin number
 
     if includehitcounter == True:
         return htime, hlaser, fitdata, seedmap
@@ -297,17 +328,25 @@ def stackTimeEta(rTree,entries,histlist,histlist2,translist,translist2):
                 if rTree.STr2_iEta_1[rec]+85 < 0:
                     pass
                 else:
-                    if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                    if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1 merged
                         continue
-                    histlist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Time_1[rec])
-                    translist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Laser_rec_1[rec])
+                    if rTree.STr2_iEta_1[rec] >= 0: #accounting for crystal 0 being 1
+                        histlist[rTree.STr2_iEta_1[rec]+86].Fill(rTree.STr2_Time_1[rec])
+                        translist[rTree.STr2_iEta_1[rec]+86].Fill(rTree.STr2_Laser_rec_1[rec])
+                    else:
+                        histlist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Time_1[rec])
+                        translist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Laser_rec_1[rec])
                 if rTree.STr2_iEta_2[rec]+85 < 0:
                     pass
                 else:
-                    if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                    if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2 merged
                         continue
-                    histlist[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Time_2[rec])
-                    translist[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Laser_rec_2[rec])
+                    if rTree.STr2_iEta_2[rec] >= 0: #accounting for crystal 0 being 1
+                        histlist[rTree.STr2_iEta_2[rec]+86].Fill(rTree.STr2_Time_2[rec])
+                        translist[rTree.STr2_iEta_2[rec]+86].Fill(rTree.STr2_Laser_rec_2[rec])
+                    else:
+                        histlist[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Time_2[rec])
+                        translist[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Laser_rec_2[rec])
             pbar.update(i+1)
         pbar.finish()
         return histlist,translist
@@ -320,25 +359,33 @@ def stackTimeEta(rTree,entries,histlist,histlist2,translist,translist2):
             if rTree.STr2_iEta_1[rec]+85 < 0:
                 pass
             else:
-                if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_1[rec], True) is False:
+                if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1 separate
                     continue
-                histlist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Time_1[rec])
-                translist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Laser_rec_1[rec])
+                if rTree.STr2_iEta_1[rec] >= 0: #accounting for crystal 0 being 1
+                    histlist[rTree.STr2_iEta_1[rec]+86].Fill(rTree.STr2_Time_1[rec])
+                    translist[rTree.STr2_iEta_1[rec]+86].Fill(rTree.STr2_Laser_rec_1[rec])
+                else:
+                    histlist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Time_1[rec])
+                    translist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Laser_rec_1[rec])
 
             if rTree.STr2_iEta_2[rec]+85 < 0:
                 pass
             else:
-                if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_2[rec], False) is False:
+                if fc.applyCutsEta(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2 separate
                     continue
-                histlist2[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Time_2[rec])
-                translist2[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Laser_rec_2[rec])
+                if rTree.STr2_iEta_2[rec] >= 0: #accounting for crystal 0 being 1
+                    histlist2[rTree.STr2_iEta_2[rec]+86].Fill(rTree.STr2_Time_2[rec])
+                    translist2[rTree.STr2_iEta_2[rec]+86].Fill(rTree.STr2_Laser_rec_2[rec])
+                else:
+                    histlist2[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Time_2[rec])
+                    translist2[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Laser_rec_2[rec])
         pbar.update(i+1)
     pbar.finish()
     return histlist, histlist2, translist, translist2
 
 #This will fit gaussians to all the eta rings
 def fitTimeEta(histlist, translist, htime, hlaser, minstat, includehitcounter, manualcut, name):
-    fitdata = [[0 for values in range(6)] for eta in range(171)] #(mean,error,sigma,error)
+    fitdata = [[0 for values in range(7)] for eta in range(171)] #(mean,error,sigma,error)
     labelnTitle = "Seed photon density for EB (min stats = %i);iEta;counts" %(minstat)
     seedmap = rt.TH1F("Spd"+name, labelnTitle,171,-85,86)
     prntableGraphs = random.sample(xrange(len(histlist)), 7)
@@ -348,6 +395,7 @@ def fitTimeEta(histlist, translist, htime, hlaser, minstat, includehitcounter, m
 
         entries = pevents(hist,binmax,manualcut,30)
         seedmap.Fill(eta-85,entries)
+        fitdata[eta][0] = entries
         if entries < minstat:
             #htime.Fill(eta-85,0) <-- you don't need for TH1
             continue
@@ -377,13 +425,21 @@ def fitTimeEta(histlist, translist, htime, hlaser, minstat, includehitcounter, m
             #c1.SetLogy()
             frame.Draw()
             c1.Print("timeresponse_"+name+"Eta_"+str(eta-85)+".png")
-
-        fitdata[eta][0]=mean.getVal()
-        fitdata[eta][1]=mean.getError()
-        fitdata[eta][2]=sigma.getVal()
-        fitdata[eta][3]=sigma.getError()
-        htime.Fill(eta-85,mean.getVal()) #this value is the physical one (bin value)
-        htime.SetBinError(eta+1,mean.getError()) #this value is the bin number
+        
+        if eta != 85:
+            fitdata[eta][1]= mean.getVal()
+            fitdata[eta][2]= mean.getError()
+            fitdata[eta][3]= sigma.getVal()
+            fitdata[eta][4]= sigma.getError()
+            htime.Fill(eta-85,mean.getVal()) #this value is the physical one (bin value)
+            htime.SetBinError(eta+1,mean.getError()) #this value is the bin number
+        else:
+            fitdata[eta][1]= 0
+            fitdata[eta][2]= 0
+            fitdata[eta][3]= 0
+            fitdata[eta][4]= 0
+            htime.Fill(eta-85,0)
+            htime.SetBinError(eta+1,0)
 
     ## Laser Tranparency
         hist = translist[eta]
@@ -414,14 +470,18 @@ def fitTimeEta(histlist, translist, htime, hlaser, minstat, includehitcounter, m
             frame.Draw()
             c1.Print("lasertransparency_"+name+"Eta_"+str(eta-85)+".png")
 
-        fitdata[eta][4]=mean.getVal()
-        fitdata[eta][5]=mean.getError()
-        #fitdata[eta][6]=sigmaL.getVal()
-        #fitdata[eta][7]=sigmaL.getError()
-        hlaser.Fill(eta-85,mean.getVal()) #this value is the physical one (bin value)
-        hlaser.SetBinError(eta+1,mean.getError()) #this value is the bin number
-        #print "eta: " + str(eta) + ", info: " + str(fitdata[eta])
-
+        if eta !=85:
+            fitdata[eta][5]= mean.getVal()
+            fitdata[eta][6]= mean.getError()
+            #fitdata[eta][6]=sigmaL.getVal()
+            #fitdata[eta][7]=sigmaL.getError()
+            hlaser.Fill(eta-85,mean.getVal()) #this value is the physical one (bin value)
+            hlaser.SetBinError(eta+1,mean.getError()) #this value is the bin number
+        else:
+            fitdata[eta][5]= 0
+            fitdata[eta][6]= 0
+            hlaser.Fill(eta-85,0)
+            hlaser.SetBinError(eta+1,0)
 
     if includehitcounter == True:
         return htime, hlaser, fitdata, seedmap

@@ -95,7 +95,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
                     histList1[eta][phi].Write()
                     transList1[eta][phi].Write()
                     #Saving value of data in tuple list
-                    dataList1 = np.vstack((dataList1, [eta-85, phi, fitdata1[eta][phi][0],fitdata1[eta][phi][1],fitdata1[eta][phi][2],fitdata1[eta][phi][3],fitdata1[eta][phi][4],fitdata1[eta][phi][5]]))
+                    dataList1 = np.vstack((dataList1, [eta-85, phi, fitdata1[eta][phi][0],fitdata1[eta][phi][1],fitdata1[eta][phi][2],fitdata1[eta][phi][3],fitdata1[eta][phi][4],fitdata1[eta][phi][5],fitdata1[eta][phi][6]]))
             htime1.Write()
             hlaser1.Write()
             if seedmap1 != 0:
@@ -108,7 +108,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
                     histList2[eta][phi].Write()
                     transList2[eta][phi].Write()
                     #Saving value of data in tuple list
-                    dataList2 = np.vstack((dataList2, [eta-85, phi, fitdata2[eta][phi][0],fitdata2[eta][phi][1],fitdata2[eta][phi][2],fitdata2[eta][phi][3],fitdata2[eta][phi][4],fitdata2[eta][phi][5]]))
+                    dataList2 = np.vstack((dataList2, [eta-85, phi, fitdata2[eta][phi][0],fitdata2[eta][phi][1],fitdata2[eta][phi][2],fitdata2[eta][phi][3],fitdata2[eta][phi][4],fitdata2[eta][phi][5],fitdata1[eta][phi][6]]))
             htime2.Write()
             hlaser2.Write()
             if seedmap1 != 0:
@@ -125,7 +125,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
                     histList1[eta][phi].Write()
                     transList1[eta][phi].Write()
                     #Saving value of data in tuple list
-                    dataList1 = np.vstack((dataList1, [eta-85, phi, fitdata1[eta][phi][0],fitdata1[eta][phi][1],fitdata1[eta][phi][2],fitdata1[eta][phi][3],fitdata1[eta][phi][4],fitdata1[eta][phi][5]]))
+                    dataList1 = np.vstack((dataList1, [eta-85, phi, fitdata1[eta][phi][0],fitdata1[eta][phi][1],fitdata1[eta][phi][2],fitdata1[eta][phi][3],fitdata1[eta][phi][4],fitdata1[eta][phi][5],fitdata1[eta][phi][6]]))
             htime1.Write()
             hlaser1.Write()
             if seedmap1 != 0:
@@ -140,7 +140,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
                 histList1[eta].Write()
                 transList1[eta].Write()
                 #Saving value of data in tuple list
-                dataList1 = np.vstack((dataList1, [eta-85, fitdata1[eta][0],fitdata1[eta][1],fitdata1[eta][2],fitdata1[eta][3],fitdata1[eta][4],fitdata1[eta][5]]))
+                dataList1 = np.vstack((dataList1, [eta-85, fitdata1[eta][0],fitdata1[eta][1],fitdata1[eta][2],fitdata1[eta][3],fitdata1[eta][4],fitdata1[eta][5],fitdata1[eta][6]]))
             htime1.Write()
             hlaser1.Write()
             if seedmap1 != 0:
@@ -152,7 +152,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
                 histList2[eta].Write()
                 transList2[eta].Write()
                 #Saving value of data in tuple list
-                dataList2 = np.vstack((dataList2, [eta-85, fitdata2[eta][0],fitdata2[eta][1],fitdata2[eta][2],fitdata2[eta][3],fitdata2[eta][4],fitdata2[eta][5]]))
+                dataList2 = np.vstack((dataList2, [eta-85, fitdata2[eta][0],fitdata2[eta][1],fitdata2[eta][2],fitdata2[eta][3],fitdata2[eta][4],fitdata2[eta][5],fitdata1[eta][6]]))
             htime2.Write()
             hlaser2.Write()
             if seedmap1 != 0:
@@ -167,7 +167,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
             for eta in range(0,len(histList1)):
                 histList1[eta].Write()
                 #Saving value of data in tuple list
-                dataList1 = np.vstack((dataList1, [eta-85, fitdata1[eta][0],fitdata1[eta][1],fitdata1[eta][2],fitdata1[eta][3],fitdata1[eta][4],fitdata1[eta][5]]))
+                dataList1 = np.vstack((dataList1, [eta-85, fitdata1[eta][0],fitdata1[eta][1],fitdata1[eta][2],fitdata1[eta][3],fitdata1[eta][4],fitdata1[eta][5],fitdata1[eta][6]]))
             htime1.Write()
             hlaser1.Write()
             if seedmap1 != 0:
@@ -189,8 +189,8 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
                 transListp1[x][y].Write()
                 transListp2[x][y].Write()
                 #Saving value of data in tuple list
-                dataListp = np.vstack((dataListp, ["p1", x, y, fitdatap1[x][y][0],fitdatap1[x][y][1],fitdatap1[x][y][2],fitdatap1[x][y][3],fitdatap1[x][y][4],fitdatap1[x][y][5]]))
-                dataListp = np.vstack((dataListp, ["p2", x, y, fitdatap2[x][y][0],fitdatap2[x][y][1],fitdatap2[x][y][2],fitdatap2[x][y][3],fitdatap2[x][y][4],fitdatap2[x][y][5]]))
+                dataListp = np.vstack((dataListp, ["p1", x, y, fitdatap1[x][y][0],fitdatap1[x][y][1],fitdatap1[x][y][2],fitdatap1[x][y][3],fitdatap1[x][y][4],fitdatap1[x][y][5],fitdatap1[x][y][6]]))
+                dataListp = np.vstack((dataListp, ["p2", x, y, fitdatap2[x][y][0],fitdatap2[x][y][1],fitdatap2[x][y][2],fitdatap2[x][y][3],fitdatap2[x][y][4],fitdatap2[x][y][5],fitdatap2[x][y][6]]))
         htimep1.Write()
         htimep2.Write()
         hlaserp1.Write()
@@ -209,8 +209,8 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
                 transListm1[x][y].Write()
                 transListm2[x][y].Write()
                 #Saving value of data in tuple list
-                dataListm = np.vstack((dataListm, ["m1", x, y, fitdatam1[x][y][0],fitdatam1[x][y][1],fitdatam1[x][y][2],fitdatam1[x][y][3],fitdatam1[x][y][4],fitdatam1[x][y][5]]))
-                dataListm = np.vstack((dataListm, ["m2", x, y, fitdatam2[x][y][0],fitdatam2[x][y][1],fitdatam2[x][y][2],fitdatam2[x][y][3],fitdatam2[x][y][4],fitdatam2[x][y][5]]))
+                dataListm = np.vstack((dataListm, ["m1", x, y, fitdatam1[x][y][0],fitdatam1[x][y][1],fitdatam1[x][y][2],fitdatam1[x][y][3],fitdatam1[x][y][4],fitdatam1[x][y][5],fitdatam1[x][y][6]]))
+                dataListm = np.vstack((dataListm, ["m2", x, y, fitdatam2[x][y][0],fitdatam2[x][y][1],fitdatam2[x][y][2],fitdatam2[x][y][3],fitdatam2[x][y][4],fitdatam2[x][y][5],fitdatam2[x][y][6]]))
         htimem1.Write()
         htimem2.Write()
         hlaserm1.Write()
@@ -229,7 +229,7 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
             for y in range(0, len(histListp1[0])):
                 histListp1[x][y].Write()
                 transListp1[x][y].Write()
-                dataListp = np.vstack((dataListp, ["p", x, y, fitdatap1[x][y][0],fitdatap1[x][y][1],fitdatap1[x][y][2],fitdatap1[x][y][3],fitdatap1[x][y][4],fitdatap1[x][y][5]]))
+                dataListp = np.vstack((dataListp, ["p", x, y, fitdatap1[x][y][0],fitdatap1[x][y][1],fitdatap1[x][y][2],fitdatap1[x][y][3],fitdatap1[x][y][4],fitdatap1[x][y][5],fitdatap1[x][y][6]]))
         htimep1.Write()
         hlaserp1.Write()
         if seedmapp1 != 0:
@@ -241,7 +241,7 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
             for y in range(0, len(histListm1[0])):
                 histListm1[x][y].Write()
                 transListm1[x][y].Write()
-                dataListm = np.vstack((dataListm, ["m", x, y, fitdatam1[x][y][0],fitdatam1[x][y][1],fitdatam1[x][y][2],fitdatam1[x][y][3],fitdatam1[x][y][4],fitdatam1[x][y][5]]))
+                dataListm = np.vstack((dataListm, ["m", x, y, fitdatam1[x][y][0],fitdatam1[x][y][1],fitdatam1[x][y][2],fitdatam1[x][y][3],fitdatam1[x][y][4],fitdatam1[x][y][5],fitdatam1[x][y][6]]))
         htimem1.Write()
         hlaserm1.Write()
         if seedmapm1 != 0:

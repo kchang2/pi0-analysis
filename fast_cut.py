@@ -97,7 +97,6 @@ def applyCuts (event, rec, eta, isOne):
     elif 1.4 < abs(eta) < 1.8: ## low eta endcap
         if p.noCorr == True: #no corrections data
             if event.STr2_ptPi0_nocor[rec] < p.Pi0PtCutEE_low:
-                print "bad STr2_ptPi0"
                 return False
             if isOne is True: #photon 1
                 if event.STr2_ptG1_nocor[rec] < p.gPtCutEE_low:
