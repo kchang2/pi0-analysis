@@ -33,10 +33,12 @@ Well, there are two easy way to do this (that I use). 1) downloading it to your 
 ```
   vim FILE_U_WANT_2_EDIT
 ```
-or in this specific case
+  or in this specific case
 ```
   vim parameters.py
 ```
+- This is great/terrible and all, but I need to set up my CMSSW, ECALpro, and pull the root files out before I can use this. What should I do?
+Well, I have a manual just for that. Email me, kchang2@caltech.edu, to get the manual.
 
 ##Want to make this better?
 Email me @ kchang2@caltech.edu if interested in commiting to this repository. I am relatively new with Github, and relatively new with programming tasks involving big data, so I have a much smaller idea of what I am doing. Basic coder.
