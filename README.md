@@ -28,7 +28,7 @@ There are ALOT of things that may seem confusing. This is because this is a work
 summer, everything should be tuned up and running smoothly and efficiently. As of 08/06/2015 (MM/DD/YYYY), there is a lack of true efficiency in the code (more of a lack of POWER in memory I can use before getting booted off batch). I will be editing this in the course of the summer so that you can run it (albeit slower) in any busy server.
 
 ##FAQs
-###How do I edit parameters?
+####How do I edit parameters?
 
 Well, there are two easy way to do this (that I use). 1) downloading it to your local machine to edit by hand. You can use editing programs such as Notepad++, XCode, WinPython. You get the point, there's a lot of these environments (or interfaces) out there. 2) You can directly edit it in terminal. For BASH, you can use vim or emacs. I only know how to use vim, so to do that, simply type in:
 ```
@@ -38,7 +38,7 @@ Well, there are two easy way to do this (that I use). 1) downloading it to your 
 ```
   vim parameters.py
 ```
-###This is great/terrible and all, but I need to set up my CMSSW, ECALpro, and pull the root files out before I can use this. What should I do?
+####This is great/terrible and all, but I need to set up my CMSSW, ECALpro, and pull the root files out before I can use this. What should I do?
 
 Well, I have a manual just for that. Email me, kchang2@caltech.edu, to get the manual.
 
