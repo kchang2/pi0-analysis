@@ -27,5 +27,16 @@ Now, based on the packages CMSSW has for python, it should run smoothly. *Edit y
 There are ALOT of things that may seem confusing. This is because this is a work in progress. At the end of the 
 summer, everything should be tuned up and running smoothly and efficiently. As of 08/06/2015 (MM/DD/YYYY), there is a lack of true efficiency in the code (more of a lack of POWER in memory I can use before getting booted off batch). I will be editing this in the course of the summer so that you can run it (albeit slower) in any busy server.
 
+##FAQs
+- How do I edit parameters?
+Well, there are two easy way to do this (that I use). 1) downloading it to your local machine to edit by hand. You can use editing programs such as Notepad++, XCode, WinPython. You get the point, there's a lot of these environments (or interfaces) out there. 2) You can directly edit it in terminal. For BASH, you can use vim or emacs. I only know how to use vim, so to do that, simply type in:
+'''
+  vim FILE_U_WANT_2_EDIT
+'''
+or in this specific case
+'''
+  vim parameters.py
+'''
+
 ##Want to make this better?
 Email me @ kchang2@caltech.edu if interested in commiting to this repository. I am relatively new with Github, and relatively new with programming tasks involving big data, so I have a much smaller idea of what I am doing. Basic coder.
