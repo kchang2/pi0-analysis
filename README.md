@@ -29,6 +29,7 @@ summer, everything should be tuned up and running smoothly and efficiently. As o
 
 ##FAQs
 - How do I edit parameters?
+
 Well, there are two easy way to do this (that I use). 1) downloading it to your local machine to edit by hand. You can use editing programs such as Notepad++, XCode, WinPython. You get the point, there's a lot of these environments (or interfaces) out there. 2) You can directly edit it in terminal. For BASH, you can use vim or emacs. I only know how to use vim, so to do that, simply type in:
 ```
   vim FILE_U_WANT_2_EDIT
@@ -38,6 +39,7 @@ Well, there are two easy way to do this (that I use). 1) downloading it to your 
   vim parameters.py
 ```
 - This is great/terrible and all, but I need to set up my CMSSW, ECALpro, and pull the root files out before I can use this. What should I do?
+
 Well, I have a manual just for that. Email me, kchang2@caltech.edu, to get the manual.
 
 ##Want to make this better?
