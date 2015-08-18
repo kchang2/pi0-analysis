@@ -45,7 +45,7 @@ manualSplit = [0,5,10,15,23,28,76,77]        #isEvenSplit = False, then manually
 
 
 ### Do NOT modify unless you know what you are doing ###
-filesforAll = ['fast_clustertimeEB','fast_clustertimeEE','fast_individualtimeEB']
+filesforAll = ['fast_clustertimeEB','fast_clustertimeEE','fast_individualtimeEB', 'fastAnalysis.sh']
 analFile = 'runAnalysis.sh'
 manualHitCounterCut = 0     #(mean-value,mean+value) -> -1 = all values, 0 = fit range, > 0 = own fit value [remember these are bin values, not the values they represent -> bin corresponding to time response instead of value of time response]
 #includeBackgroundinCount = False        #False = does not include background in minimum stat threshold + entries in seedmap. True = if inStat threshold is too low for reasonable fit.
