@@ -42,5 +42,13 @@ Well, there are two easy way to do this (that I use). 1) downloading it to your 
 
 Well, I have a manual just for that. Email me, kchang2@caltech.edu, to get the manual.
 
+####I want to print out all the pictures and graphs. How do I do that?
+
+Currently, this version does not allow it, so just wait patiently until I make a new version with this feature. If you need it urgently, I suggest you go into the stackNfit.py file and manually load the command.
+
+####Hey, where's the Eta and Phi? It's great that you iX and iY as well as iEta and iPhi, but I want to do some fits by region and analyze effects on each.
+
+This is also in the works. I have included this in our pre-selection cuts for the i-positioning. Now it's a matter of yielding the eta and phi results so we can work with it. Barrel is very simple, and is done in the pre-lim code I've included in fastFindEtaPhi.py, but endcap is much more difficult because of the weighted position of the cluster, NOT the eta of the seed crystal. Only time will tell. Cool? Cool.
+
 ##Want to make this better?
 Email me @ kchang2@caltech.edu if interested in commiting to this repository. I am relatively new with Github, and relatively new with programming tasks involving big data, so I have a much smaller idea of what I am doing. Basic coder.
