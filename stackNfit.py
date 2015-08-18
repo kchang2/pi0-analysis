@@ -68,7 +68,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                 for rec in range(0,rTree.STr2_NPi0_rec):
                     if rTree.STr2_Pi0recIsEB[rec] == True:
                         continue
-                    if rTree.STr2_Eta_1[rec] > 1.4:
+                    if rTree.STr2_Eta_1[rec] > 1.479:
                         if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                             pass
                         else:
@@ -76,7 +76,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                                 continue
                             histlist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                             translist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
-                    elif rTree.STr2_Eta_1[rec] < -1.4:
+                    elif rTree.STr2_Eta_1[rec] < -1.479:
                         if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                             pass
                         else:
@@ -84,7 +84,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                                 continue
                             histlist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                             translist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
-                    if rTree.STr2_Eta_2[rec] > 1.4:
+                    if rTree.STr2_Eta_2[rec] > 1.479:
                         if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                             pass
                         else:
@@ -92,7 +92,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                                 continue
                             histlist[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                             translist[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
-                    elif rTree.STr2_Eta_2[rec] < -1.4:
+                    elif rTree.STr2_Eta_2[rec] < -1.479:
                         if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                             pass
                         else:
@@ -142,7 +142,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
             for rec in range(0,rTree.STr2_NPi0_rec):
                 if rTree.STr2_Pi0recIsEB[rec] == True:
                     continue
-                if rTree.STr2_Eta_1[rec] > 1.4:
+                if rTree.STr2_Eta_1[rec] > 1.479:
                     if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                         pass
                     else:
@@ -150,7 +150,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                             continue
                         histlist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                         translist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
-                elif rTree.STr2_Eta_1[rec] < 1.4:
+                elif rTree.STr2_Eta_1[rec] < 1.479:
                     if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                         pass
                     else:
@@ -158,7 +158,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                             continue
                         histlist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
                         translist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
-                if rTree.STr2_Eta_2[rec] > 1.4:
+                if rTree.STr2_Eta_2[rec] > 1.479:
                     if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                         pass
                     else:
@@ -166,7 +166,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                             continue
                         histlist3[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                         translist3[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
-                elif rTree.STr2_Eta_2[rec] < 1.4:
+                elif rTree.STr2_Eta_2[rec] < 1.479:
                     if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                         pass
                     else:
@@ -185,8 +185,8 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
         #(mean,error,sigma,error) for [eta or x ,phi or y]
     
     #selection of random control fit response coordinates
-    prntableGraphsX = random.sample(xrange(len(histlist)), 11)
-    prntableGraphsY = random.sample(xrange(len(histlist[0])), 11)
+    prntableGraphsX = random.sample(xrange(len(histlist)), 7)
+    prntableGraphsY = random.sample(xrange(len(histlist[0])), 7)
     prntable = []
     for i in range (0,len(prntableGraphsX)):
         prntable.append((prntableGraphsX[i],prntableGraphsY[i]))
@@ -197,11 +197,19 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
         adjust = -85
         labelnTitle = "Seed photon density for EB (min stats = %i);iEta;iPhi;counts" %(minstat)
         seedmap = rt.TH2F("Spd"+name, labelnTitle,171,-85,86,361,0,361)
+    
+        #time evolution fixed crystal selection
+        lowerx = 100
+        upperx = 20
     else:
         yaxis = "Y"
         adjust = 0
         labelnTitle = "Seed photon density for EE (min stats = %i);iX;iY;counts" %(minstat)
         seedmap = rt.TH2F("Spd"+name, labelnTitle,101,0,101,101,0,101)
+
+        #time evolution fixed crystal selection
+        lowerx = 50
+        upperx = 50
 
     for x in range(0,len(histlist)):
         #print "completed " + str(x) + " out of " + str(len(histlist)) + " columns."
@@ -235,7 +243,7 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
 
             fr = gauss.fitTo(dh,rt.RooFit.Save(), rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
 
-            if (x,y) in prntable:
+            if (x,y) in prntable or (x,y) is (lowerx,20) or (x,y) is (upperx,80):
                 gauss.plotOn(frame)
                 c1 = rt.TCanvas()
                 c1.SetLogy()
@@ -279,7 +287,7 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
             
             fr = gauss.fitTo(dh,rt.RooFit.Save(), rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
             
-            if (x,y) in prntable:
+            if (x,y) in prntable or (x,y) is (lowerx,20) or (x,y) is (upperx,80):
                 gauss.plotOn(frame)
                 c1 = rt.TCanvas()
                 c1.SetLogy()
@@ -388,7 +396,7 @@ def fitTimeEta(histlist, translist, htime, hlaser, minstat, includehitcounter, m
     fitdata = [[0 for values in range(7)] for eta in range(171)] #(mean,error,sigma,error)
     labelnTitle = "Seed photon density for EB (min stats = %i);iEta;counts" %(minstat)
     seedmap = rt.TH1F("Spd"+name, labelnTitle,171,-85,86)
-    prntableGraphs = random.sample(xrange(len(histlist)), 7)
+    prntableGraphs = random.sample(xrange(len(histlist)), 1)
     for eta in range(0,len(histlist)):
         hist = histlist[eta]
         binmax = hist.GetMaximumBin()
@@ -419,12 +427,13 @@ def fitTimeEta(histlist, translist, htime, hlaser, minstat, includehitcounter, m
             
         fr = gauss.fitTo(dh,rt.RooFit.Save(),rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
 
-        if eta in prntableGraphs:
+        if eta in prntableGraphs or eta is 20 or eta is 100:
             gauss.plotOn(frame)
             c1 = rt.TCanvas()
             #c1.SetLogy()
             frame.Draw()
             c1.Print("timeresponse_"+name+"Eta_"+str(eta-85)+".png")
+        
         
         if eta != 85:
             fitdata[eta][1]= mean.getVal()
@@ -463,7 +472,7 @@ def fitTimeEta(histlist, translist, htime, hlaser, minstat, includehitcounter, m
         
         fr = gauss.fitTo(dh,rt.RooFit.Save(),rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
         
-        if eta in prntableGraphs:
+        if eta in prntableGraphs or eta is 20 or eta is 100:
             gauss.plotOn(frame)
             c1 = rt.TCanvas()
             #c1.SetLogy()

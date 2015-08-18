@@ -43,17 +43,17 @@ if __name__ == "__main__":
     runinfo = np.array("ROOT info") #ROOT file
     
     #Here is where it splits based on track and decision
-    if p.splitPhotons == True:
+    if p.splitPhotons == True: #separating photon 1 and 2
         fname = 'p1p2_'
-        #creates histogram of time
+        #creates histogram of time, transparency
         htime1 = rt.TH1F("Time Response in Barrel for photon 1", "Time Response vs iEta in EB for photon 1; iEta;ns",171,-85,86)
         htime2 = rt.TH1F("Time Response in Barrel for photon 2", "Time Response vs iEta in EB for photon 2; iEta;ns",171,-85,86)
         hlaser1 = rt.TH1F("Crystal Transparency in Barrel for photon 1","Laser Transparency vs iEta in EB for photon 1; iEta;Transparency Factor",171,-85,86)
         hlaser2 = rt.TH1F("Crystal Transparency in Barrel for photon 2","Laser Transparency vs iEta in EB for photon 2; iEta;Transparency Factor",171,-85,86)
     
         #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett)
-        dataList1 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, counts, mean, mean error, sigma, sigma error, t mean, t mean error]
-        dataList2 = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, counts, time response, time response error, time resolution, time resolution error, laser transparency mean, laser transparency error]
+        dataList1 = np.array([]) # 9 data entries - [eta, ieta, counts, mean, mean error, sigma, sigma error, t mean, t mean error]
+        dataList2 = np.array([]) # 9 data entries - [eta, ieta, counts, time response, time response error, time resolution, time resolution error, laser transparency mean, laser transparency error]
     
         #creates a list of histograms (for range of eta)
         histList1 = [0 for eta in range(171)] #time response
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         transList1 = [0 for eta in range(171)] #laser transparency
         transList2 = [0 for eta in range(171)]
         
-        #fills list of histograms with actual histograms
+        #fills list of histograms with actual histograms, 1 for time response and 1 for transparency
         for eta in range (0,171):
             histname1 = "time on sc eta (%i) for photon 1" %(eta-85)
             histtitle1 = "time response (ns) for eta (%i) for photon 1" %(eta-85)
@@ -85,7 +85,7 @@ if __name__ == "__main__":
         fname = 'c_'
         htime = rt.TH1F("Time Response in Barrel", "Time Response vs iEta in EB; iEta;ns",171,-85,86)
         hlaser = rt.TH1F("Crystal Transparency in Barrel","Laser Transparency vs iEta in EB; iEta; Transparency Factor",171,-85,86)
-        dataList = np.array([-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #[eta, counts, mean, mean error, sigma, sigma error, t mean, t mean error]
+        dataList = np.array([]) # 9 data entries - [eta, ieta, counts, mean, mean error, sigma, sigma error, t mean, t mean error]
         
         #creates histogram list
         histList = [0 for eta in range(171)]

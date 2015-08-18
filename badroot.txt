@@ -1,3 +1,4 @@
+No Laser
 2015A_EcalNtp_19.root
 2015A_EcalNtp_47.root
 2015A_EcalNtp_53.root
@@ -12,3 +13,22 @@
 2015A_EcalNtp_76.root
 2015A_EcalNtp_78.root
 2015A_EcalNtp_79.root
+
+
+Laser
+2015A_EcalNtp_0.root
+2015A_EcalNtp_1.root
+2015A_EcalNtp_2.root
+2015A_EcalNtp_50.root
+2015A_EcalNtp_53.root
+2015A_EcalNtp_54.root
+2015A_EcalNtp_55.root
+2015A_EcalNtp_57.root
+2015A_EcalNtp_58.root
+2015A_EcalNtp_67.root
+2015A_EcalNtp_69.root
+2015A_EcalNtp_70.root
+2015A_EcalNtp_71.root
+2015A_EcalNtp_76.root
+2015A_EcalNtp_77.root
+2015A_EcalNtp_78.root

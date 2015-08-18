@@ -43,10 +43,10 @@ if __name__ == "__main__":
     runinfo = np.array("ROOT info") #ROOT file
     
     #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett). Note in Endcap, we don't differentiate with splitPhotons -> they are all saved in their respective plus and minus sections.
-    dataListp = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, counts, mean, mean error, sigma, sigma error, t mean, t mean error)
-    dataListm = np.array(["plus or minus", -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]) #(photon, x, y, counts, time response, time response error, time resolution, time resolution error, laser transparency mean, laser transparency error)
+    dataListp = np.array([]) # 9 data entries - (eta, photon, ix, iy, counts, mean, mean error, sigma, sigma error, t mean, t mean error)
+    dataListm = np.array([]) # 11 data entries - (eta, photon, ix, iy, counts, time response, time response error, time resolution, time resolution error, laser transparency mean, laser transparency error)
     
-    if p.splitPhotons == True:
+    if p.splitPhotons == True: #split photon 1 and photon 2 statistic
         fname = 'p1p2_'
         #creates histogram for time response
         htimep1 = rt.TH2F("Time Response in Endcap plus for photon 1", "Time Response in EE+ for photon 1; iX;iY;ns",101,0,101,101,0,101)
