@@ -1,3 +1,17 @@
+##
+## Simple quick code to print out whatever
+## npy files gets produced by the package.
+## This can be used as an example or framework
+## into more analysis.
+##
+## Imported into EVERY result folder that gets
+## produced. Not really all results though..
+##
+##
+## Running as of 08/19/2015 (MM/DD/YYYY)
+##
+##
+
 import ROOT as rt
 import sys, random, math
 import os

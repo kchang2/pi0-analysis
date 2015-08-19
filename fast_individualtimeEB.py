@@ -3,8 +3,7 @@
 ## data, mapping to 1 to 1 crystals. This is the more comprehensive
 ## result, but runs much slower.
 ##
-## Updated as of 08/04/2015
-## Running as of 08/04/2015
+## Running as of 08/19/2015
 ##
 import ROOT as rt
 import sys, random, math

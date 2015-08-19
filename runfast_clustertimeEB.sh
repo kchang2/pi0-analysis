@@ -12,6 +12,5 @@ python fast_clustertimeEB.py
 ## fit, and plot all the information you need to make a significant
 ## contribution. It runs on Batch, and should be used with the fast_application.
 ##
-## Updated as of 08/03/2015
 ## Working as of 07/27/2015
 ##

@@ -2,8 +2,7 @@
 ## This is the meaty part of the code.
 ## Not too much to say about it.
 ##
-## Updated as of 07/27/2015
-## NOT Running as of 07/27/2015
+## Running as of 08/19/2015
 ##
 from __future__ import division
 import ROOT as rt
@@ -193,7 +192,8 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
     
     #differentiate between barrel and endcap
     if len(histlist) != 101:
-        yaxis = "phi"
+        xaxis = "iEta_"
+        yaxis = "iPhi_"
         adjust = -85
         labelnTitle = "Seed photon density for EB (min stats = %i);iEta;iPhi;counts" %(minstat)
         seedmap = rt.TH2F("Spd"+name, labelnTitle,171,-85,86,361,0,361)
@@ -201,8 +201,11 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
         #time evolution fixed crystal selection
         lowerx = 100
         upperx = 20
+        lowery = 150
+        uppery = 250
     else:
-        yaxis = "Y"
+        xaxis = "iX_"
+        yaxis = "iY_"
         adjust = 0
         labelnTitle = "Seed photon density for EE (min stats = %i);iX;iY;counts" %(minstat)
         seedmap = rt.TH2F("Spd"+name, labelnTitle,101,0,101,101,0,101)
@@ -210,6 +213,8 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
         #time evolution fixed crystal selection
         lowerx = 50
         upperx = 50
+        lowery = 25
+        uppery = 90
 
     for x in range(0,len(histlist)):
         #print "completed " + str(x) + " out of " + str(len(histlist)) + " columns."
@@ -237,18 +242,18 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
             dh.plotOn(frame)
                                                         
             # define gaussian
-            mean = rt.RooRealVar("mean","mean",0.,-2,2.)
-            sigma = rt.RooRealVar("sigma","sigma",0.,-2,2)
+            mean = rt.RooRealVar("mean","mean",0.1,-5,5.)
+            sigma = rt.RooRealVar("sigma","sigma",0.1,-5.,5)
             gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
 
-            fr = gauss.fitTo(dh,rt.RooFit.Save(), rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
+            fr = gauss.fitTo(dh,rt.RooFit.Save(),rt.RooFit.PrintLevel(-1),rt.RooFit.Verbose(rt.kFALSE))
 
-            if (x,y) in prntable or (x,y) is (lowerx,20) or (x,y) is (upperx,80):
+            if (x,y) in prntable or (x,y) is (lowerx,lowery) or (x,y) is (upperx,uppery):
                 gauss.plotOn(frame)
                 c1 = rt.TCanvas()
-                c1.SetLogy()
+                #c1.SetLogy()
                 frame.Draw()
-                c1.Print("timeresponse_"+name+str(x)+"_"+yaxis+"_"+str(y)+".png")
+                c1.Print("timeresponse_"+name+xaxis+str(x)+"_"+yaxis+str(y)+".png")
 
             if len(histlist) != 101 and x == 85: #barrel, 0 ieta
                 fitdata[x][y][1] = 0
@@ -285,14 +290,14 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
             sigma = rt.RooRealVar("sigma","sigma",0.1,-10.,10.)
             gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
             
-            fr = gauss.fitTo(dh,rt.RooFit.Save(), rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
+            fr = gauss.fitTo(dh,rt.RooFit.Save(),rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
             
-            if (x,y) in prntable or (x,y) is (lowerx,20) or (x,y) is (upperx,80):
+            if (x,y) in prntable or (x,y) is (lowerx,lowery) or (x,y) is (upperx,uppery):
                 gauss.plotOn(frame)
                 c1 = rt.TCanvas()
-                c1.SetLogy()
+                #c1.SetLogy()
                 frame.Draw()
-                c1.Print("lasertransparency_"+name+str(x)+"_"+yaxis+"_"+str(y)+".png")
+                c1.Print("lasertransparency_"+name+xaxis+str(x)+"_"+yaxis+str(y)+".png")
             
             if len(histlist) != 101 and x == 85: #barrel, 0 ieta
                 fitdata[x][y][5] = 0
@@ -425,7 +430,7 @@ def fitTimeEta(histlist, translist, htime, hlaser, minstat, includehitcounter, m
         sigma = rt.RooRealVar("sigma","sigma",0.1,-2.,2)
         gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
             
-        fr = gauss.fitTo(dh,rt.RooFit.Save(),rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
+        fr = gauss.fitTo(dh,rt.RooFit.Save(), rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
 
         if eta in prntableGraphs or eta is 20 or eta is 100:
             gauss.plotOn(frame)

@@ -4,8 +4,7 @@
 ## histogram fits, pulls the fits and statistics, and then packages
 ## it into readable and small files.
 ##
-## Updated as of 08/03/2015
-## Working as of 08/03/2015
+## Running as of 08/19/2015
 ##
 
 

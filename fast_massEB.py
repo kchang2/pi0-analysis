@@ -4,8 +4,7 @@
 ## this and the one by one crystal is that this uses eta clustering,
 ## which yields faster results.
 ##
-## Updated as of 07/28/2015
-## NOT Running as of 07/28/2015
+## Running as of 08/19/2015
 ##
 import ROOT as rt
 import sys, random, math

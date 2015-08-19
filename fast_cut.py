@@ -2,8 +2,7 @@
 ## Strict file for making the manual cuts needed to tighten
 ## on the data we use.
 ##
-## Updated as of 08/08/2015
-## NOT Running as of 08/08/2015
+## Running as of 08/19/2015
 ##
 
 import ROOT as rt

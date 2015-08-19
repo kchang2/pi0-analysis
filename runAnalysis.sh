@@ -3,10 +3,10 @@
 
 cd /afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_2/src/CalibCode/submit/pi0-analysis/
 eval `scramv1 runtime -sh`
-#python runFills.py
-python individualtimeEB.py
-python individualtimeEE.py
-python clustertimeEB.py
+python runFills.py
+python fast_individualtimeEB.py
+python fast_clustertimeEE.py
+python fast_clustertimeEB.py
 
 
 
@@ -17,6 +17,5 @@ python clustertimeEB.py
 ## fit, and plot all the information you need to make a significant
 ## contribution. It also runs on batch.
 ##
-## Updated as of 07/23/2015
-## Working as of 07/23/2015
+## Working as of 08/19/2015
 ##

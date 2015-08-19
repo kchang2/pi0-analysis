@@ -14,8 +14,8 @@ retdir = os.getcwd()
 print "Current working directory %s" % retdir
 
 # Now change the directory
-os.chdir("..")
-os.chdir( os.getcwd() + "/ALL_2015B_RAW_Test1/cfgFile/Fill/" )
+os.chdir("../..")
+os.chdir( os.getcwd() + "/ALL_2015A_RAW_Test1/cfgFile/Fill/" )
 
 # Check current working directory.
 retdir = os.getcwd()

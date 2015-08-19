@@ -16,7 +16,7 @@ import shutil
 if __name__ == "__main__":
 
     # Check current working directory.
-    os.chdir('..')
+    os.chdir('../..')
     retdir = os.getcwd()
     print "Current working directory %s" % retdir
     

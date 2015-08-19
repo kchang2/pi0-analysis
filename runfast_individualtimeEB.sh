@@ -15,6 +15,5 @@ python fast_individualtimeEB.py
 ## fit, and plot all the information you need to make a significant
 ## contribution. It also runs on batch.
 ##
-## Updated as of 07/27/2015
 ## Working as of 07/27/2015
 ##

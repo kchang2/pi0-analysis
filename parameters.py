@@ -8,8 +8,7 @@
 ## Note that this does NOT include runFills.py. <-- that you will need to
 ## run on your own.
 ##
-## Updated as of 08/03/2015 (mm/dd/yyyy)
-## COND Running as of 08/03/2015
+## Updated as of 08/19/2015 (mm/dd/yyyy)
 ##
 
 
@@ -34,13 +33,13 @@ folderName = 'result'       #name of folder your files will go into
 
 
 ###Script Info [fastAnalysis]###
-runFormat = 'B'             #Batch [B], LXPLUS [X], Locally [L]
+runFormat = 'X'             #Batch [B], LXPLUS [X], Locally [L]
 runBatchLength = '1nd'      #if isBatch = True, specificy how long program runs normally
 displayOutput = False       #False = don't display each fit parameters, True = display on Terminal
 runAll = False              #True = run all analysis. False = individual analysis
-ifFalsethenWhat = ['fast_clustertimeEE']       #Look at the the python files
+ifFalsethenWhat = ['fast_clustertimeEB']       #Look at the the python files
 isEvenSplit = True          #whether you want the ROOT files to be split evenly in batches
-jobIterFiles = 8           #How do you want to break down your batches in terms of files (Ex. 5 jobs per batch), -1 or 0 means directly all in 1
+jobIterFiles = 3           #How do you want to break down your batches in terms of files (Ex. 5 jobs per batch), -1 or 0 means directly all in 1
 manualSplit = [0,5,10,15,23,28,76,77]        #isEvenSplit = False, then manually split -> Refer to datedList.txt for specific days of runs
 
 
@@ -50,6 +49,10 @@ analFile = 'runAnalysis.sh'
 manualHitCounterCut = 0     #(mean-value,mean+value) -> -1 = all values, 0 = fit range, > 0 = own fit value [remember these are bin values, not the values they represent -> bin corresponding to time response instead of value of time response]
 #includeBackgroundinCount = False        #False = does not include background in minimum stat threshold + entries in seedmap. True = if inStat threshold is too low for reasonable fit.
 #specCutsIfNTupleTrueIB = []
+
+#fitBoundaries = 5 #You're fit for the time response and laser transparency come from this. 5 --> [-5,5]
+#randChkEB = 1 #Number of random histograms printed out. -1 = ALL of them (BEWARE)
+#randChkEE = 7 #Number of random histograms printed out. EE is more hit or miss b/c some positions do not have any fits. This value should be larger.
 
 
 ###Cuts for Pi0###
@@ -87,4 +90,5 @@ S4S9_EE_high = 0.8
 
 ###Extracting Results###
 isEE = True             #True = Analyze the EE data, False = Analyze the EB data
+isEta = True            #True = EB Eta clustering data, False = individual crystal
 

@@ -1,3 +1,16 @@
+##
+## Helps establish the values of phi and eta for each crystal
+## in the barrel and endcap. The crystal in the barrel
+## uses the actual eta length per crystal. The crystal
+## in the endcap uses a mean weight distribution since
+## the eta from the data takes in the weighted location
+## of the hit, and there is not real defined range for these
+## crystals and their eta lengths.
+##
+## NOT Running as of 08/19/2015
+##
+
+
 import ROOT as rt
 import sys, random, math
 import time, datetime

@@ -4,8 +4,7 @@
 ## in the endcap region. We want a general time resolution to see
 ## which sections are affected the most.
 ##
-## Updated as of 08/03/2015
-## NOT Running as of 08/03/2015
+## Running as of 08/19/2015
 ##
 import ROOT as rt
 import sys, random, math

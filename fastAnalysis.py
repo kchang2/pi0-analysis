@@ -6,8 +6,7 @@
 ## running any of the standalone non-FAST files when not on
 ## distributing jobs in BATCH.
 ##
-## Updated as of 08/03/2015
-## NOT Working as of 08/03/2015
+## Running as of 08/19/2015
 ##
 
 
