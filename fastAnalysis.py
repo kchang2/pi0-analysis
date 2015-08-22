@@ -44,11 +44,12 @@ if p.numberofFiles == -1:
         if p.isEvenSplit == True:
             splitValue = int(len(rootList)/p.jobIterFiles)
             #bins files within ranges#
-            for i in range(0,len(rootList)):
+            for i in range(0,len(rootList)+1):
                 if i % splitValue == 0:
                     iterFiles.append(i)
             #checks to see if last file is at end#
             if len(rootList) % splitValue != 0:
+                del iterFiles[-1]
                 iterFiles.append(len(rootList))
         else:
             print "applying manual split"
@@ -66,13 +67,14 @@ else:
         if p.isEvenSplit == True:
             splitValue = int(p.numberofFiles/p.jobIterFiles)
             #bins files within ranges#
-            for i in range(p.runRangeStart,p.runRangeStart + p.numberofFiles):
+            for i in range(p.runRangeStart,p.runRangeStart + p.numberofFiles + 1):
                 if i % splitValue == 0:
                     iterFiles.append(i)
             #checks to see if your boundary conditions are in file
             if p.runRangeStart not in iterFiles:
                 iterFiles.insert(0,p.runRangeStart)
             if p.runRangeStart + p.numberofFiles not in iterFiles:
+                    del iterFiles[-1]
                     iterFiles.append(p.runRangeStart + p.numberofFiles)
         else:
             print "applying manual split"
@@ -80,7 +82,11 @@ else:
             if p.runRangeStart not in iterFiles:
                 iterFiles.insert(0,p.runRangeStart)
             if p.runRangeStart + p.numberofFiles not in iterFiles:
+                del iterFiles[-1]
                 iterFiles.append(p.runRangeStart + p.numberofFiles)
+
+#print iterFiles    #check to see if the files are appropriately outputting
+#exit()
 
 ## checks which format you want to run from ##
 if p.runFormat == 'B':
