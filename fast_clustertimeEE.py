@@ -146,10 +146,10 @@ if __name__ == "__main__":
     np.save(p.runNumber+"ClusterRunInfoEE.npy", runinfo)
 
     if p.splitPhotons == True:
-        htimep1, hlaserp1, fitdatap1, seedmapp1 = snf.fitTime(histListp1,transListp1,htimep1,hlaserp1,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pp1_")
-        htimem1, hlaserm1, fitdatam1, seedmapm1 = snf.fitTime(histListm1,transListm1,htimem1,hlaserm1,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mp1_")
-        htimep2, hlaserp2, fitdatap2, seedmapp2 = snf.fitTime(histListp2,transListp2,htimep2,hlaserp2,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pp2_")
-        htimem2, hlaserm2, fitdatam2, seedmapm2 = snf.fitTime(histListm2,transListm2,htimem2,hlaserm2,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mp2_")
+        htimep1, hlaserp1, fitdatap1, seedmapp1 = snf.fitTime(histListp1,transListp1,htimep1,hlaserp1,p.minStat,p.minNormal,p.includeHitCounter,p.manualHitCounterCut,"pp1_",p.graphs2print)
+        htimem1, hlaserm1, fitdatam1, seedmapm1 = snf.fitTime(histListm1,transListm1,htimem1,hlaserm1,p.minStat,p.minNormal,p.includeHitCounter,p.manualHitCounterCut,"mp1_",p.graphs2print)
+        htimep2, hlaserp2, fitdatap2, seedmapp2 = snf.fitTime(histListp2,transListp2,htimep2,hlaserp2,p.minStat,p.minNormal,p.includeHitCounter,p.manualHitCounterCut,"pp2_",p.graphs2print)
+        htimem2, hlaserm2, fitdatam2, seedmapm2 = snf.fitTime(histListm2,transListm2,htimem2,hlaserm2,p.minStat,p.minNormal,p.includeHitCounter,p.manualHitCounterCut,"mp2_",p.graphs2print)
 
         #saving all 1D histograms in tree
         a.saveEE(p.runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histListm2,transListp1,transListp2,transListm1,transListm2,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlaserp2,hlaserm1,hlaserm2,fitdatap1,fitdatap2,fitdatam1,fitdatam2,seedmapp1,seedmapm1,seedmapp2,seedmapm2)
@@ -157,8 +157,8 @@ if __name__ == "__main__":
         #Tacks on histogram to canvas frame and ouputs on canvas
         a.printPrettyPictureEE(p.runNumber,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlaserp2,hlaserm1,hlaserm2,seedmapp1,seedmapm1,seedmapp2,seedmapm2)
     else:
-        htimep,hlaserp,fitdatap,seedmapp = snf.fitTime(histListp,transListp,htimep,hlaserp,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"pc_")
-        htimem,hlaserm,fitdatam,seedmapm = snf.fitTime(histListm,transListm,htimem,hlaserm,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"mc_")
+        htimep,hlaserp,fitdatap,seedmapp = snf.fitTime(histListp,transListp,htimep,hlaserp,p.minStat,p.minNormal,p.includeHitCounter,p.manualHitCounterCut,"pc_",p.graphs2print)
+        htimem,hlaserm,fitdatam,seedmapm = snf.fitTime(histListm,transListm,htimem,hlaserm,p.minStat,p.minNormal,p.includeHitCounter,p.manualHitCounterCut,"mc_",p.graphs2print)
 
         #saving all 1D histograms in tree
         a.saveEE(p.runNumber,dataListp,dataListm,histListp,0,histListm,0,transListp,0,transListm,0,htimep,0,htimem,0,hlaserp,0,hlaserm,0,fitdatap,0,fitdatam,0,seedmapp,0,seedmapm,0)

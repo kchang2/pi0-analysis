@@ -116,8 +116,8 @@ if __name__ == "__main__":
 
     #fits the histograms and saves 1D in tree
     if p.splitPhotons == True:
-        htime1, hlaser1, fitdata1, seedmap1 = snf.fitTimeEta(histList1, transList1, htime1, hlaser1, p.minStat,p.includeHitCounter,p.manualHitCounterCut,"p1_")
-        htime2, hlaser2, fitdata2, seedmap2 = snf.fitTimeEta(histList2, transList2, htime2, hlaser2, p.minStat,p.includeHitCounter,p.manualHitCounterCut,"p2_")
+        htime1, hlaser1, fitdata1, seedmap1 = snf.fitTimeEta(histList1, transList1, htime1, hlaser1, p.minStat, p.minNormal, p.includeHitCounter, p.manualHitCounterCut, "p1_", p.graphs2print)
+        htime2, hlaser2, fitdata2, seedmap2 = snf.fitTimeEta(histList2, transList2, htime2, hlaser2, p.minStat, p.minNormal, p.includeHitCounter, p.manualHitCounterCut, "p2_", p.graphs2print)
 
         #saving all 1D histograms in tree
         a.saveEB(p.runNumber,dataList1,dataList2,histList1,histList2,transList1,transList2,htime1,htime2,hlaser1,hlaser2,fitdata1,fitdata2,seedmap1,seedmap2)
@@ -126,7 +126,7 @@ if __name__ == "__main__":
         a.printPrettyPictureEB(p.runNumber,htime1,htime2,hlaser1,hlaser2,seedmap1,seedmap2)
 
     else:
-        htime, hlaser, fitdata, seedmap = snf.fitTimeEta(histList,transList,htime,hlaser,p.minStat,p.includeHitCounter,p.manualHitCounterCut,"c_")
+        htime, hlaser, fitdata, seedmap = snf.fitTimeEta(histList, transList, htime, hlaser, p.minStat, p.minNormal, p.includeHitCounter, p.manualHitCounterCut, "c_", p.graphs2print)
         a.saveEB(p.runNumber,dataList,0,histList,0,transList,0,htime,0,hlaser,0,fitdata,0,seedmap,0)
 
         a.printPrettyPictureEB(p.runNumber,htime,0,hlaser,0,seedmap,0)

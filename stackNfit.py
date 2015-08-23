@@ -42,10 +42,10 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                             continue
                         if rTree.STr2_iEta_1[rec] >= 0: #accounting for crystal 0 being 1
                             histlist[rTree.STr2_iEta_1[rec]+86][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
-                            translist[rTree.STr2_iEta_1[rec]+86][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                            translist[rTree.STr2_iEta_1[rec]+86][rTree.STr2_iPhi_1[rec]].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                         else:
                             histlist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
-                            translist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                            translist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                     if rTree.STr2_iEta_2[rec]+85 < 0 or rTree.STr2_iPhi_2[rec] < 0:
                         pass
                     else:
@@ -53,10 +53,10 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                             continue
                         if rTree.STr2_iEta_2[rec] >= 0: #accounting for crystal 0 being 1
                             histlist[rTree.STr2_iEta_2[rec]+86][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
-                            translist[rTree.STr2_iEta_2[rec]+86][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                            translist[rTree.STr2_iEta_2[rec]+86][rTree.STr2_iPhi_2[rec]].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
                         else:
                             histlist[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
-                            translist[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                            translist[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
                 pbar.update(i+1)
             pbar.finish()
             return histlist, translist
@@ -74,7 +74,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                             if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1 in EE+
                                 continue
                             histlist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
-                            translist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                            translist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                     elif rTree.STr2_Eta_1[rec] < -1.479:
                         if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                             pass
@@ -82,7 +82,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                             if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1 in EE-
                                 continue
                             histlist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
-                            translist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                            translist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                     if rTree.STr2_Eta_2[rec] > 1.479:
                         if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                             pass
@@ -90,7 +90,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                             if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2 in EE+
                                 continue
                             histlist[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
-                            translist[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                            translist[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
                     elif rTree.STr2_Eta_2[rec] < -1.479:
                         if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                             pass
@@ -98,7 +98,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                             if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2 in EE-
                                 continue
                             histlist2[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
-                            translist2[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                            translist2[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
                 pbar.update(i+1)
             pbar.finish()
             return histlist, histlist2, translist, translist2
@@ -117,10 +117,10 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         continue
                     if rTree.STr2_iEta_1[rec] >= 0: #accounting for crystal 0 being 1
                         histlist[rTree.STr2_iEta_1[rec]+86][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
-                        translist[rTree.STr2_iEta_1[rec]+86][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                        translist[rTree.STr2_iEta_1[rec]+86][rTree.STr2_iPhi_1[rec]].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                     else:
                         histlist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Time_1[rec])
-                        translist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                        translist[rTree.STr2_iEta_1[rec]+85][rTree.STr2_iPhi_1[rec]].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                 if rTree.STr2_iEta_2[rec]+85 < 0 or rTree.STr2_iPhi_2[rec] < 0:
                     pass
                 else:
@@ -128,10 +128,10 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         continue
                     if rTree.STr2_iEta_2[rec] >= 0: #accounting for crystal 0 being 1
                         histlist2[rTree.STr2_iEta_2[rec]+86][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
-                        translist2[rTree.STr2_iEta_2[rec]+86][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                        translist2[rTree.STr2_iEta_2[rec]+86][rTree.STr2_iPhi_2[rec]].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
                     else:
                         histlist2[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Time_2[rec])
-                        translist2[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                        translist2[rTree.STr2_iEta_2[rec]+85][rTree.STr2_iPhi_2[rec]].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
             pbar.update(i+1)
         pbar.finish()
         return histlist, histlist2, translist, translist2
@@ -148,7 +148,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1 in EE+
                             continue
                         histlist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
-                        translist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                        translist[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                 elif rTree.STr2_Eta_1[rec] < 1.479:
                     if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
                         pass
@@ -156,7 +156,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         if fc.applyCuts(rTree,rec,rTree.STr2_Eta_1[rec], True) is False: #photon 1 in EE-
                             continue
                         histlist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Time_1[rec])
-                        translist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(rTree.STr2_Laser_rec_1[rec])
+                        translist2[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                 if rTree.STr2_Eta_2[rec] > 1.479:
                     if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                         pass
@@ -164,7 +164,7 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2 in EE+
                             continue
                         histlist3[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
-                        translist3[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                        translist3[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
                 elif rTree.STr2_Eta_2[rec] < 1.479:
                     if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                         pass
@@ -172,20 +172,20 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                         if fc.applyCuts(rTree,rec,rTree.STr2_Eta_2[rec], False) is False: #photon 2 in EE-
                             continue
                         histlist4[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
-                        translist4[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Laser_rec_2[rec])
+                        translist4[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
             pbar.update(i+1)
         pbar.finish()
         return histlist, histlist2, histlist3, histlist4, translist, translist2, translist3, translist4
 
 
 # This will fit gaussians to all the individual crystal time response histograms and converge them into a 2d histogram with the mean value.
-def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manualcut, name):
+def fitTime(histlist, translist, htime, hlaser, minstat, minnorm, includehitcounter, manualcut, name, graphs2print):
     fitdata = [[[0 for values in range(7)] for phi in range(361)] for eta in range(171)]
         #(mean,error,sigma,error) for [eta or x ,phi or y]
     
     #selection of random control fit response coordinates
-    prntableGraphsX = random.sample(xrange(len(histlist)), 7)
-    prntableGraphsY = random.sample(xrange(len(histlist[0])), 7)
+    prntableGraphsX = random.sample(xrange(len(histlist)), graphs2print)
+    prntableGraphsY = random.sample(xrange(len(histlist[0])), graphs2print)
     prntable = []
     for i in range (0,len(prntableGraphsX)):
         prntable.append((prntableGraphsX[i],prntableGraphsY[i]))
@@ -219,7 +219,7 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
     for x in range(0,len(histlist)):
         #print "completed " + str(x) + " out of " + str(len(histlist)) + " columns."
         for y in range(0,len(histlist[0])):
-            hist = histlist[x][y]
+            hist = histlist[x][y] #this is before the time response section b.c. we need to see if we have enough statistic
             binmax = hist.GetMaximumBin()
             
             entries = pevents(hist,binmax,manualcut,40)
@@ -229,7 +229,24 @@ def fitTime(histlist, translist, htime, hlaser, minstat, includehitcounter, manu
             if entries < minstat:
                 htime.Fill(x+adjust,y,-999)
                 continue
-
+            if entries < minnorm: #mean fit, NOT gaussian fit
+                fitdata[x][y][1] = hist.GetMean()
+                fitdata[x][y][2] = hist.GetMeanError()
+                fitdata[x][y][3] = hist.GetStdDev()
+                fitdata[x][y][4] = hist.GetStdDevError()
+                htime.Fill(x+adjust,y,hist.GetMean())
+                htime.SetBinError(x+1,y+1,hist.GetMeanError()) #this value is the bin number
+                
+                hist = translist[x][y]
+                fitdata[x][y][5] = hist.GetMean()
+                fitdata[x][y][6] = hist.GetMeanError()
+                #fitdata[x][y][2] = sigma.getVal()
+                #fitdata[x][y][3] = sigma.getError()
+                hlaser.Fill(x+adjust,y,hist.GetMean())
+                hlaser.SetBinError(x+1,y+1,hist.GetMeanError()) #this value is the bin number
+                continue
+        
+        #### Gaussian Fit ####
         ## Time Response
             max = hist.GetXaxis().GetBinCenter(binmax)
             m = rt.RooRealVar("t","t (ns)",max-2,max+2)
@@ -345,10 +362,10 @@ def stackTimeEta(rTree,entries,histlist,histlist2,translist,translist2):
                         continue
                     if rTree.STr2_iEta_1[rec] >= 0: #accounting for crystal 0 being 1
                         histlist[rTree.STr2_iEta_1[rec]+86].Fill(rTree.STr2_Time_1[rec])
-                        translist[rTree.STr2_iEta_1[rec]+86].Fill(rTree.STr2_Laser_rec_1[rec])
+                        translist[rTree.STr2_iEta_1[rec]+86].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                     else:
                         histlist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Time_1[rec])
-                        translist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Laser_rec_1[rec])
+                        translist[rTree.STr2_iEta_1[rec]+85].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                 if rTree.STr2_iEta_2[rec]+85 < 0:
                     pass
                 else:
@@ -356,10 +373,10 @@ def stackTimeEta(rTree,entries,histlist,histlist2,translist,translist2):
                         continue
                     if rTree.STr2_iEta_2[rec] >= 0: #accounting for crystal 0 being 1
                         histlist[rTree.STr2_iEta_2[rec]+86].Fill(rTree.STr2_Time_2[rec])
-                        translist[rTree.STr2_iEta_2[rec]+86].Fill(rTree.STr2_Laser_rec_2[rec])
+                        translist[rTree.STr2_iEta_2[rec]+86].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
                     else:
                         histlist[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Time_2[rec])
-                        translist[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Laser_rec_2[rec])
+                        translist[rTree.STr2_iEta_2[rec]+85].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
             pbar.update(i+1)
         pbar.finish()
         return histlist,translist
@@ -376,10 +393,10 @@ def stackTimeEta(rTree,entries,histlist,histlist2,translist,translist2):
                     continue
                 if rTree.STr2_iEta_1[rec] >= 0: #accounting for crystal 0 being 1
                     histlist[rTree.STr2_iEta_1[rec]+86].Fill(rTree.STr2_Time_1[rec])
-                    translist[rTree.STr2_iEta_1[rec]+86].Fill(rTree.STr2_Laser_rec_1[rec])
+                    translist[rTree.STr2_iEta_1[rec]+86].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
                 else:
                     histlist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Time_1[rec])
-                    translist[rTree.STr2_iEta_1[rec]+85].Fill(rTree.STr2_Laser_rec_1[rec])
+                    translist[rTree.STr2_iEta_1[rec]+85].Fill(float(1)/rTree.STr2_Laser_rec_1[rec])
 
             if rTree.STr2_iEta_2[rec]+85 < 0:
                 pass
@@ -388,16 +405,16 @@ def stackTimeEta(rTree,entries,histlist,histlist2,translist,translist2):
                     continue
                 if rTree.STr2_iEta_2[rec] >= 0: #accounting for crystal 0 being 1
                     histlist2[rTree.STr2_iEta_2[rec]+86].Fill(rTree.STr2_Time_2[rec])
-                    translist2[rTree.STr2_iEta_2[rec]+86].Fill(rTree.STr2_Laser_rec_2[rec])
+                    translist2[rTree.STr2_iEta_2[rec]+86].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
                 else:
                     histlist2[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Time_2[rec])
-                    translist2[rTree.STr2_iEta_2[rec]+85].Fill(rTree.STr2_Laser_rec_2[rec])
+                    translist2[rTree.STr2_iEta_2[rec]+85].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
         pbar.update(i+1)
     pbar.finish()
     return histlist, histlist2, translist, translist2
 
 #This will fit gaussians to all the eta rings
-def fitTimeEta(histlist, translist, htime, hlaser, minstat, includehitcounter, manualcut, name):
+def fitTimeEta(histlist, translist, htime, hlaser, minstat, minnorm, includehitcounter, manualcut, name, graphs2print):
     fitdata = [[0 for values in range(7)] for eta in range(171)] #(mean,error,sigma,error)
     labelnTitle = "Seed photon density for EB (min stats = %i);iEta;counts" %(minstat)
     seedmap = rt.TH1F("Spd"+name, labelnTitle,171,-85,86)
@@ -412,6 +429,21 @@ def fitTimeEta(histlist, translist, htime, hlaser, minstat, includehitcounter, m
         if entries < minstat:
             #htime.Fill(eta-85,0) <-- you don't need for TH1
             continue
+        if entries < minnorm:
+            fitdata[eta][1]= hist.GetMean()
+            fitdata[eta][2]= hist.GetMeanError()
+            fitdata[eta][3]= hist.GetStdDev()
+            fitdata[eta][4]= hist.GetStdDevError()
+            htime.Fill(eta-85,hist.GetMean()) #this value is the physical one (bin value)
+            htime.SetBinError(eta+1,hist.GetMeanError()) #this value is the bin number
+
+            hist = translist[eta]
+            fitdata[eta][5]= hist.GetMean()
+            fitdata[eta][6]= hist.GetMeanError()
+            #fitdata[eta][6]=sigmaL.getVal()
+            #fitdata[eta][7]=sigmaL.getError()
+            hlaser.Fill(eta-85,hist.GetMean()) #this value is the physical one (bin value)
+            hlaser.SetBinError(eta+1,hist.GetMeanError()) #this value is the bin number
 
     ## Time Response
         max = hist.GetXaxis().GetBinCenter(binmax)

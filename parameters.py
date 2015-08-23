@@ -22,8 +22,10 @@ numberofFiles = -1          #Number of ROOT files you want to analyze
 runRangeStart = 0           #if numberofFiles != -1, specificy which file you want to start with
 splitPhotons = False         #True = maps photon 1,2 separately. False = joins photons together
 includeHitCounter = True    #True = map of hits per crystal, False = do not include a map of hits
-numberofEntries = -1        #Number of Entries per root file you want to analyze
-minStat = 10             #Number of statistic to allow fit to pass. Too small = bad fit for our CORRECTION.
+numberofEntries = 100000        #Number of Entries per root file you want to analyze
+minStat = 10             #Number of statistic to allow a fit or mean to pass. Too small = bad fit for our CORRECTION.
+minNormal = 15          #Number of statistic needed to allow a normal fit to pass. Smaller = mean
+graphs2print = 0        #These are check graphs. We will always print out 1 graph from each eta region, but these are random sampling graphs, so we can see if our fits or derivations are reasonable.
 
 
 ###Output Path###
@@ -33,7 +35,7 @@ folderName = 'result'       #name of folder your files will go into
 
 
 ###Script Info [fastAnalysis]###
-runFormat = 'B'             #Batch [B], LXPLUS [X], Locally [L]
+runFormat = 'L'             #Batch [B], LXPLUS [X], Locally [L]
 runBatchLength = '2nd'      #if isBatch = True, specificy how long program runs normally
 displayOutput = False       #False = don't display each fit parameters, True = display on Terminal
 runAll = False              #True = run all analysis. False = individual analysis
@@ -47,6 +49,9 @@ manualSplit = [0,5,10,15,23,28,76,77]        #isEvenSplit = False, then manually
 filesforAll = ['fast_clustertimeEB','fast_clustertimeEE','fast_individualtimeEB', 'fastAnalysis.sh']
 analFile = 'runAnalysis.sh'
 manualHitCounterCut = 0     #(mean-value,mean+value) -> -1 = all values, 0 = fit range, > 0 = own fit value [remember these are bin values, not the values they represent -> bin corresponding to time response instead of value of time response]
+#sigmacutoff = 1.5 #make histogram of sigmas, and anything outside of acceptable sigmas will be converted from normal fit to mean fit.
+
+
 #includeBackgroundinCount = False        #False = does not include background in minimum stat threshold + entries in seedmap. True = if inStat threshold is too low for reasonable fit.
 #specCutsIfNTupleTrueIB = []
 
