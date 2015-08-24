@@ -57,6 +57,28 @@
 
 
 
+                   
+                   #
+                   #    #fit graph
+                   #    histname = "calibration for ((%i),(%i));ns;Transparency" %(crystalx,crystaly)
+                   #    histtitle = "calibration for ((%i),(%i));ns;Transparency" %(crystalx,crystaly)
+                   #    hist = rt.TH1F(histname,histtitle) ##CHECK THIS##
+                   #
+                   #    for db in dList:
+                   #        data = np.load(db)
+                   #
+                   #        #location of important data
+                   #        time_mean_pos = len(data[0][0])-1-6
+                   #        time_uncertainty_pos = mean_pos+1
+                   #        transparency_mean_pos = len(data[0][0])-1-1
+                   ##        transparency_uncertainty_pos = transparency_mean_pos+1 ##Assumption that transparency is 100% correct
+                   #        "do something weird with transparency factor"
+                   #
+                   #        hist.fill("TRANSPARENCY", data[crystalx][crystaly][time_mean_pos], "time error", "transparency error")
+                   
+                   
+                   #take crystal ID, take time response + transparency and just time response
+                   #fit to make 2 plots
 
 
 
