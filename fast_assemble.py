@@ -184,7 +184,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
 
 
 #saves the histograms, fits, and others for the barrel
-def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histListm2,transListp1,transListp2,transListm1,transListm2,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlaserp2,hlaserm1,hlaserm2,fitdatap1,fitdatap2,fitdatam1,fitdatam2,seedmapp1,seedmapm1,seedmapp2,seedmapm2):
+def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histListm2,transListp1,transListp2,transListm1,transListm2,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlaserp2,hlaserm1,hlaserm2,fitdatap1,fitdatap2,fitdatam1,fitdatam2,seedmapp1,seedmapp2,seedmapm1,seedmapm2):
     if histListp2 != 0: #2 photons
         f = rt.TFile(runNumber+"IndivTimeEEp_p1p2.root","new")
         for x in range(0,len(histListp1)):
@@ -231,7 +231,7 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
         np.save(runNumber+"dataEEp_p1p2.npy", dataListp)
         np.save(runNumber+"dataEEm_p1p2.npy", dataListm)
     else:
-        f = rt.TFile(runNumber+"IndivTimeEEm_c.root","new")
+        f = rt.TFile(runNumber+"IndivTimeEEp_c.root","new")
         for x in range(0,len(histListp1)):
             for y in range(0, len(histListp1[0])):
                 histListp1[x][y].Write()
@@ -243,7 +243,7 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
             seedmapp1.Write()
         f.Close()
         
-        f2 = rt.TFile(runNumber+"IndivTimeEEp_c.root","new")
+        f2 = rt.TFile(runNumber+"IndivTimeEEm_c.root","new")
         for x in range(0,len(histListm1)):
             for y in range(0, len(histListm1[0])):
                 histListm1[x][y].Write()

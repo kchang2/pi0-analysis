@@ -1,5 +1,5 @@
-##Written by Chris Rogan
-##
+/*Written by Chris Rogan*/
+
 
 int color_list[10];
 

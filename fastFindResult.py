@@ -30,8 +30,10 @@ def fit (crystalx, crystaly, dList):
     
     #location of data
     time_mean_pos = len(data[0][0])-1-6
-    time_uncertain
-    
+    time_uncertain_pos = mean_pos+1
+    transparency_mean_pos = len(data[0][0])-1-1
+    transparency_uncertainty_pos = transparency_mean_pos+1
+
     g = rt.TGraph(n,x,y) //where x , y are 2 arrays of n points
     g.Draw("ap")
 
