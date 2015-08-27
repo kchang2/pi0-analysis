@@ -81,4 +81,32 @@
                    #fit to make 2 plots
 
 
+                   
+                   
+                   
+                   
+                   
+                   #### WEIGHTED AVERAGE ###
+                   #    #opens the endcap region and then stacks in clusters
+                   #    for rootfile in rootList:
+                   #        r = rt.TFile.Open(rootfile)
+                   #        if 'dataEEp_c' in rootfile:
+                   #            ht = r.Get("Time Response in Endcap plus for all photons")
+                   #            hl = r.Get("Transparency in Endcap plus for all photons")
+                   #            hd = r.Get("spdpc_")
+                   #        elif 'dataEEm_c' in rootfile:
+                   #            h = r.Get("Time Response in Endcap minus for all photons")
+                   #            hl = r.Get("Transparency in Endcap minus for all photons")
+                   #            hd = r.Get("spdmc_")
+                   #        else:
+                   #            return "sorry, no .root files with appropriate name found"
+                   #
+                   #        #clustered histograms
+                   #        htc = rt.TH2F("Cluster TR in EE+", "Cluster TR in EE+; iX;iY;ns",51,0,51,51,0,51)
+                   #        hlc = rt.TH2F("Cluster Transparency in EE+", "Cluster Transparency in EE+; iX;iY;Relative Transparency",51,0,51,51,0,51)
+                   #        hdc = rt.TH2F("Cluster SPD in EE+", "Cluster SPD in EE+; iX;iY;Photon Counts",51,0,51,51,0,51)
+                   #
+                   #        #fitting clustered histograms
+                   #        for x in range(htc.GetNbinsX()):
+
 

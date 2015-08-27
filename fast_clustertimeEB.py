@@ -47,8 +47,8 @@ if __name__ == "__main__":
         #creates histogram of time, transparency
         htime1 = rt.TH1F("Time Response in Barrel for photon 1", "Time Response vs iEta in EB for photon 1; iEta;ns",171,-85,86)
         htime2 = rt.TH1F("Time Response in Barrel for photon 2", "Time Response vs iEta in EB for photon 2; iEta;ns",171,-85,86)
-        hlaser1 = rt.TH1F("Crystal Transparency in Barrel for photon 1","Laser Transparency vs iEta in EB for photon 1; iEta;Transparency Factor",171,-85,86)
-        hlaser2 = rt.TH1F("Crystal Transparency in Barrel for photon 2","Laser Transparency vs iEta in EB for photon 2; iEta;Transparency Factor",171,-85,86)
+        hlaser1 = rt.TH1F("Crystal Transparency in Barrel for photon 1","Laser Transparency vs iEta in EB for photon 1; iEta;Transparency",171,-85,86)
+        hlaser2 = rt.TH1F("Crystal Transparency in Barrel for photon 2","Laser Transparency vs iEta in EB for photon 2; iEta;Transparency",171,-85,86)
     
         #creation of numpy array to store values for faster analysis(courtesy of Ben Bartlett)
         dataList1 = np.array([]) # 9 data entries - [eta, ieta, counts, mean, mean error, sigma, sigma error, t mean, t mean error]
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     else:
         fname = 'c_'
         htime = rt.TH1F("Time Response in Barrel", "Time Response vs iEta in EB; iEta;ns",171,-85,86)
-        hlaser = rt.TH1F("Crystal Transparency in Barrel","Laser Transparency vs iEta in EB; iEta; Transparency Factor",171,-85,86)
+        hlaser = rt.TH1F("Crystal Transparency in Barrel","Laser Transparency vs iEta in EB; iEta; Transparency",171,-85,86)
         dataList = np.array([]) # 9 data entries - [eta, ieta, counts, mean, mean error, sigma, sigma error, t mean, t mean error]
         
         #creates histogram list
@@ -110,6 +110,8 @@ if __name__ == "__main__":
     retdir = os.getcwd()
     print "Directory changed successfully %s" % retdir
     shutil.copyfile(stardir + '/' + 'unpack.py', retdir + '/unpack.py')
+    shutil.copyfile(stardir + '/' + 'setstyle.C', retdir + '/setstyle.c')
+    shutil.copyfile(stardir + '/' + 'fast_restack.py', retdir + '/fast_Restack.py')
     
     #saving run info to a numpy file for reference later
     np.save(p.runNumber+"EtaRunInfoEB.npy", runinfo)

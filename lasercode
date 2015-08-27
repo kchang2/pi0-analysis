@@ -1,0 +1,58 @@
+########FillEpsilonPlot.h########
+//LASER
+#include "CalibCalorimetry/EcalLaserCorrection/interface/EcalLaserDbRecord.h"
+#include "CalibCalorimetry/EcalLaserCorrection/interface/EcalLaserDbService.h"
+
+
+void fillEBClusters(std::vector< CaloCluster > & ebclusters, const edm::Event& iEvent, const EcalChannelStatus &channelStatus, const edm::ESHandle<EcalLaserDbService> pLaser);
+void fillEEClusters(std::vector< CaloCluster > & eseeclusters,std::vector< CaloCluster > & eseeclusters_tot, const edm::Event& iEvent, const EcalChannelStatus &channelStatus, const edm::ESHandle<EcalLaserDbService> pLaser);
+
+Float_t Op_Laser_rec_1[NPI0MAX];
+Float_t Op_Laser_rec_2[NPI0MAX];
+
+
+vector<float> v_Laser;
+vector<float> v_LaserEE;
+
+
+
+
+
+
+
+
+########FillEpsilonPlot.cc########
+//LASER
+#include "CalibCalorimetry/EcalLaserCorrection/interface/EcalLaserDbRecord.h"
+#include "CalibCalorimetry/EcalLaserCorrection/interface/EcalLaserDbService.h"
+
+Tree_Optim->Branch( "Str2_Laser_rec_1",       &Op_Laser_rec_1,      "STr2_Laser_rec_1[STr2_NPi0_rec]/F"); ///Changed///
+Tree_Optim->Branch( "Str2_Laser_rec_2",       &Op_Laser_rec_2,      "STr2_Laser_rec_2[STr2_NPi0_rec]/F");
+v_Laser.clear(); v_LaserEE.clear();
+
+edm::ESHandle<EcalLaserDbService> pLaser;
+iSetup.get<EcalLaserDbRecord>().get( pLaser );
+
+if( (Barrel_orEndcap_=="ONLY_BARREL" || Barrel_orEndcap_=="ALL_PLEASE" ) && EB_HLT ){ EventFlow_EB->Fill(1.); fillEBClusters(ebclusters, iEvent, channelStatus, pLaser);}
+if( (Barrel_orEndcap_=="ONLY_ENDCAP" || Barrel_orEndcap_=="ALL_PLEASE" ) && EE_HLT ){ EventFlow_EE->Fill(1.); fillEEClusters(eseeclusters, eseeclusters_tot, iEvent, channelStatus, pLaser);}
+
+void FillEpsilonPlot::fillEBClusters(std::vector< CaloCluster > & ebclusters, const edm::Event& iEvent, const EcalChannelStatus &channelStatus, const edm::ESHandle<EcalLaserDbService> pLaser)
+
+// get laser coefficient
+float lasercalib = pLaser->getLaserCorrection( EBDetId(itseed->id()), iEvent.time() );
+    v_Laser.push_back( lasercalib );
+
+void FillEpsilonPlot::fillEEClusters(std::vector< CaloCluster > & eseeclusters, std::vector< CaloCluster > & eseeclusters_tot, const edm::Event& iEvent, const EcalChannelStatus &channelStatus, const edm::ESHandle<EcalLaserDbService> pLaser)
+
+  vector <float> Laser_v;	Laser_v.clear();
+
+// get laser coefficient
+float lasercalibEE = pLaser->getLaserCorrection( EEDetId(eeitseed->id()), iEvent.time() );
+
+Laser_v.push_back( lasercalibEE );
+
+v_LaserEE.push_back( Laser_v[ind] );
+v_LaserEE.push_back( Laser_v[ind] );
+
+Op_Laser_rec_1[nPi0]   = subDetId==EcalBarrel ? v_Laser[ind1] : v_LaserEE[ind1];
+Op_Laser_rec_2[nPi0]   = subDetId==EcalBarrel ? v_Laser[ind2] : v_LaserEE[ind2];

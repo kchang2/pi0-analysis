@@ -53,10 +53,10 @@ if __name__ == "__main__":
         htimem1 = rt.TH2F("Time Response in Endcap minus for photon 1", "Time Response in EE- for photon 1; iX;iY;ns",101,0,101,101,0,101)
         htimem2 = rt.TH2F("Time Response in Endcap minus for photon 2", "Time Response in EE- for photon 2; iX;iY;ns",101,0,101,101,0,101)
         #creates histogram for laser response
-        hlaserp1 = rt.TH2F("Transparency in Endcap plus for photon 1", "Transparency in EE+ for photon 1; iX;iY;Transparency Factor",101,0,101,101,0,101)
-        hlaserp2 = rt.TH2F("Transparency in Endcap plus for photon 2", "Transparency in EE+ for photon 2; iX;iY;Transparency Factor",101,0,101,101,0,101)
-        hlaserm1 = rt.TH2F("Transparency in Endcap minus for photon 1", "Transparency in EE- for photon 1; iX;iY;Transparency Factor",101,0,101,101,0,101)
-        hlaserm2 = rt.TH2F("Transparency in Endcap minus for photon 2", "Transparency in EE- for photon 2; iX;iY;Transparency Factor",101,0,101,101,0,101)
+        hlaserp1 = rt.TH2F("Transparency in Endcap plus for photon 1", "Transparency in EE+ for photon 1; iX;iY;Transparency",101,0,101,101,0,101)
+        hlaserp2 = rt.TH2F("Transparency in Endcap plus for photon 2", "Transparency in EE+ for photon 2; iX;iY;Transparency",101,0,101,101,0,101)
+        hlaserm1 = rt.TH2F("Transparency in Endcap minus for photon 1", "Transparency in EE- for photon 1; iX;iY;Transparency",101,0,101,101,0,101)
+        hlaserm2 = rt.TH2F("Transparency in Endcap minus for photon 2", "Transparency in EE- for photon 2; iX;iY;Transparency",101,0,101,101,0,101)
     
         #creates a list of histograms
         histListp1 = [[0 for x in range(101)] for y in range(101)]
@@ -105,8 +105,8 @@ if __name__ == "__main__":
         fname = 'c_'
         htimep = rt.TH2F("Time Response in Endcap plus for all photons", "Time Response in EE+; iX;iY;ns",101,0,101,101,0,101)
         htimem = rt.TH2F("Time Response in Endcap minus for all photons", "Time Response in EE-; iX;iY;ns",100,0,101,101,0,101)
-        hlaserp = rt.TH2F("Transparency in Endcap plus for all photons", "Transparency in EE+; iX;iY;Transparency Factor",101,0,101,101,0,101)
-        hlaserm = rt.TH2F("Transparency in Endcap minus for all photons", "Transparency in EE-; iX;iY;Transparency Factor",101,0,101,101,0,101)
+        hlaserp = rt.TH2F("Transparency in Endcap plus for all photons", "Transparency in EE+; iX;iY;Transparency",101,0,101,101,0,101)
+        hlaserm = rt.TH2F("Transparency in Endcap minus for all photons", "Transparency in EE-; iX;iY;Transparency",101,0,101,101,0,101)
 
         histListp = [[0 for x in range(101)] for y in range(101)]
         histListm = [[0 for x in range(101)] for y in range(101)]
@@ -141,6 +141,8 @@ if __name__ == "__main__":
     retdir = os.getcwd()
     print "Directory changed successfully %s" % retdir
     shutil.copyfile(stardir + '/' + 'unpack.py', retdir + '/unpack.py')
+    shutil.copyfile(stardir + '/' + 'setstyle.C', retdir + '/setstyle.c')
+    shutil.copyfile(stardir + '/' + 'fast_restack.py', retdir + '/fast_Restack.py')
     
     #saving run info to a numpy file for reference later
     np.save(p.runNumber+"ClusterRunInfoEE.npy", runinfo)
