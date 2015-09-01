@@ -91,7 +91,7 @@ else:
 ## checks which format you want to run from ##
 if p.runFormat == 'B':
     prefix = 'bsub -q %s < ' %(p.runBatchLength)
-    if p.runAll == True:
+    if p.runAllScript == True:
         for k in range(0,len(iterFiles)-1):
             f = open(p.analFile, 'r')
             filedata = f.read()
@@ -140,7 +140,7 @@ if p.runFormat == 'B':
 # running on LXPLUS or local#
 else:
     if p.displayOutput == True or p.runFormat == 'L':
-        if p.runAll == True:
+        if p.runAllScript == True:
             for pyfiles in p.filesforAll:
                 for k in range(0,len(iterFiles)-1):
                     os.system('python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
@@ -149,7 +149,7 @@ else:
                 for k in range(0,len(iterFiles)-1):
                     os.system('python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
     else:
-        if p.runAll == True:
+        if p.runAllScript == True:
             for pyfiles in p.filesforAll:
                 for k in range(0,len(iterFiles)-1):
                     os.system('nohup python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
