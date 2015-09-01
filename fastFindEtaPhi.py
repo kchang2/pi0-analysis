@@ -86,34 +86,42 @@ if __name__ == "__main__":
             else:
 #                print "Phi: " + str(rTree.STr2_iPhi_1[rec]) + ", iEta: " + str(rTree.STr2_iEta_1[rec]) + ", iY: " + str(rTree.STr2_iY_1[rec]) + ", iX: " + str(rTree.STr2_iX_1[rec]) + ", Eta: " + str(rTree.STr2_Eta_1[rec]) + ", is in EB: " + str(rTree.STr2_Pi0recIsEB[rec])
                 if rTree.STr2_Eta_1[rec] > 1.479: #Is it EE+?
-                    endcapetaplus[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]][2] += 1
-                    endcapetaplus[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]][3] += rTree.STr2_Eta_1[rec]
+                    endcapetaplus[rTree.STr2_iX_1[rec]+1][rTree.STr2_iY_1[rec]][2] += 1
+                    endcapetaplus[rTree.STr2_iX_1[rec]+1][rTree.STr2_iY_1[rec]][3] += rTree.STr2_Eta_1[rec]
                 elif rTree.STr2_Eta_1[rec] < -1.479: #Is it EE-?
-                    endcapetaminus[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]][2] += 1
-                    endcapetaminus[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]][3] += rTree.STr2_Eta_1[rec]
-#
+                    endcapetaminus[rTree.STr2_iX_1[rec]+1][rTree.STr2_iY_1[rec]][2] += 1
+                    endcapetaminus[rTree.STr2_iX_1[rec]+1][rTree.STr2_iY_1[rec]][3] += rTree.STr2_Eta_1[rec]
+
             if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
                 pass
             else: #Now we work on the second photon hit
                 if rTree.STr2_Eta_2[rec] > 1.479: #Is it EE+?
-                    endcapetaplus[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]][2] += 1
-                    endcapetaplus[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]][3] += rTree.STr2_Eta_2[rec]
+                    endcapetaplus[rTree.STr2_iX_2[rec]+1][rTree.STr2_iY_2[rec]][2] += 1
+                    endcapetaplus[rTree.STr2_iX_2[rec]+1][rTree.STr2_iY_2[rec]][3] += rTree.STr2_Eta_2[rec]
                 elif rTree.STr2_Eta_2[rec] < -1.479: #Is it EE-?
-                    endcapetaminus[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]][2] += 1
-                    endcapetaminus[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]][3] += rTree.STr2_Eta_2[rec]
+                    endcapetaminus[rTree.STr2_iX_2[rec]+1][rTree.STr2_iY_2[rec]][2] += 1
+                    endcapetaminus[rTree.STr2_iX_2[rec]+1][rTree.STr2_iY_2[rec]][3] += rTree.STr2_Eta_2[rec]
+                        
+#            print "counts: " + str(endcapetaminus[rTree.STr2_iX_2[rec]+1][rTree.STr2_iY_2[rec]][2]) + ", eta: " + str(endcapetaminus[rTree.STr2_iX_2[rec]+1][rTree.STr2_iY_2[rec]][3])
         pbar.update(i+1)
     pbar.finish()
 
     for x in range(101):
-        print "Row x: %i" %x
+#        print "Row x: %i" %x
         for y in range(101):
-            if endcapetaplus[x][y][2] == 0:
+            if endcapetaplus[x+1][y][2] == 0:
                 continue
-            print "counts: " + endcapetaplus[x][y][2] + ", eta: " + endcapetaplus[x][y][3]
-            endcapetaplus[x][y][3] = float(endcapetaplus[x][y][3]) / float(endcapetaplus[x][y][2])
-            if endcapetaminus[x][y][2] == 0:
+#            print "counts: " + endcapetaplus[x][y][2] + ", eta: " + endcapetaplus[x][y][3]
+            endcapetaplus[x+1][y][3] = float(endcapetaplus[x+1][y][3]) / float(endcapetaplus[x+1][y][2])
+            if endcapetaminus[x+1][y][2] == 0:
                 continue
-            endcapetaminus[x][y][3] = float(endcapetaminus[x][y][3]) / float(endcapetaminus[x][y][2])
+            endcapetaminus[x+1][y][3] = float(endcapetaminus[x+1][y][3]) / float(endcapetaminus[x+1][y][2])
+
+    #Check and change current working directory.
+    print "Current working directory %s" % retdir
+    os.chdir(stardir)
+    retdir = os.getcwd()
+    print "Directory changed successfully %s" % retdir
 
     np.save("endcapEtaValuesplus.npy",endcapetaplus)
     np.save("endcapEtaValuesminus.npy",endcapetaminus)
