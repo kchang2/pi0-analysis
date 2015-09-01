@@ -110,17 +110,18 @@ if __name__ == "__main__":
     os.chdir(os.getcwd() + '/' + folder +'/')
     retdir = os.getcwd()
     print "Directory changed successfully %s" % retdir
-    shutil.copyfile(stardir + '/' + 'unpack.py', retdir + '/unpack.py')
+    shutil.copytree(startdir + '/' + 'preresult package', retdir + '/QA')
+#    shutil.copyfile(stardir + '/' + 'unpack.py', retdir + '/unpack.py')
     shutil.copyfile(stardir + '/' + 'setstyle.C', retdir + '/setstyle.c')
-    shutil.copyfile(stardir + '/' + 'fast_restack.py', retdir + '/fast_Restack.py')
-    
+#    shutil.copyfile(stardir + '/' + 'fast_restack.py', retdir + '/fast_Restack.py')
+
     #saving run info to a numpy file for reference later
     np.save(p.runNumber+"IndivRunInfoEB.npy", runinfo)
 
     #fits the histograms and saves 1D in tree
     if p.splitPhotons == True:
-        htime1, hlaser1, fitdata1, seedmap1 = snf.fitTime(histList1,transList1,htime1,hlaser1,p.minStat,p.minNormal,p.includeHitCounter,p.manualHitCounterCut,"p1_",p.graphs2print)
-        htime2, hlaser2, fitdata2, seedmap2 = snf.fitTime(histList2,transList2,htime2,hlaser2,p.minStat,p.minNormal,p.includeHitCounter,p.manualHitCounterCut,"p2_",p.graphs2print)
+        htime1, hlaser1, fitdata1, seedmap1 = snf.fitTime(histList1,transList1,htime1,hlaser1,p.minStat,p.minNormal,p.includeSeedMap,p.manualHitCounterCut,"p1_",p.graphs2print)
+        htime2, hlaser2, fitdata2, seedmap2 = snf.fitTime(histList2,transList2,htime2,hlaser2,p.minStat,p.minNormal,p.includeSeedMap,p.manualHitCounterCut,"p2_",p.graphs2print)
         
         #saving all 1D and 2D histogram(s) in tree
         a.saveEB(p.runNumber,dataList1,dataList2,histList1,histList2,transList1,transList2,htime1,htime2,hlaser1,hlaser2,fitdata1,fitdata2,seedmap1,seedmap2)
@@ -128,7 +129,7 @@ if __name__ == "__main__":
         #Tacks on histogram to canvas frame and ouputs on canvas
         a.printPrettyPictureEB(p.runNumber,htime1,htime2,hlaser1,hlaser2,seedmap1,seedmap2)
     else:
-        htime, hlaser, fitdata, seedmap = snf.fitTime(histList,transList,htime,hlaser,p.minStat,p.minNormal,p.includeHitCounter,p.manualHitCounterCut,"c_",p.graphs2print)
+        htime, hlaser, fitdata, seedmap = snf.fitTime(histList,transList,htime,hlaser,p.minStat,p.minNormal,p.includeSeedMap,p.manualHitCounterCut,"c_",p.graphs2print)
         a.saveEB(p.runNumber,dataList,0,histList,0,transList,0,htime,0,hlaser,0,fitdata,0,seedmap,0)
         
         a.printPrettyPictureEB(p.runNumber,htime,0,hlaser,0,seedmap,0)

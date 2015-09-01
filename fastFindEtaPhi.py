@@ -18,6 +18,7 @@ import os, shutil
 import numpy as np
 
 import parameters as p
+from FastProgressBar import progressbar
 
 if __name__ == "__main__":
 
@@ -32,21 +33,21 @@ if __name__ == "__main__":
         if i >= 85:
             nextpos+=1
         barreleta.append([nextpos, nexteta])
-#    np.save("barrelEtaValues.npy",barreleta)
+    np.save("barrelEtaValues.npy",barreleta)
 #    print barreleta[86] #this is the 1st positive
 
 #Endcap
 
-    endcapetaplus = [[['x','y','eta']]] #[x[y[eta]]]
-    endcapetaminus = [[['x','y','eta']]]
+    endcapetaplus = [[['x','y','counts','eta']]] #[x[y[eta]]]
+    endcapetaminus = [[['x','y','counts','eta']]]
 
     #Fill array with necessary data
     for x in range(101):
         endcapetaplus.append([])
         endcapetaminus.append([])
         for y in range(101):
-            endcapetaplus[x+1].append([x,y,-999])
-            endcapetaminus[x+1].append([x,y,-999])
+            endcapetaplus[x+1].append([x,y,0,0])
+            endcapetaminus[x+1].append([x,y,0,0])
 #    print endcapetaplus
 
     #Check and change current working directory.
@@ -71,26 +72,50 @@ if __name__ == "__main__":
     ##Find eta and fill
     nentries = rTree.GetEntries()
 
+    #creates a progress bar
+    pbar = progressbar("Stacking", nentries).start()
+    
     for i in range(0, nentries):
         rTree.GetEntry(i)
         for rec in range(0, rTree.STr2_NPi0_rec):
 #            print "Phi: " + str(rTree.STr2_iPhi_1[rec]) + ", iEta: " + str(rTree.STr2_iEta_1[rec]) + ", iY: " + str(rTree.STr2_iY_1[rec]) + ", iX: " + str(rTree.STr2_iX_1[rec]) + ", Eta: " + str(rTree.STr2_Eta_1[rec]) + ", is in EB: " + str(rTree.STr2_Pi0recIsEB[rec])
             if rTree.STr2_Pi0recIsEB[rec] == True: #If not endcap, kick out
                 continue
-            if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0:
+            if rTree.STr2_iX_1[rec] < 0 or rTree.STr2_iY_1[rec] < 0: #has to contain positive x,y values
                 pass
             else:
-                print "Phi: " + str(rTree.STr2_iPhi_1[rec]) + ", iEta: " + str(rTree.STr2_iEta_1[rec]) + ", iY: " + str(rTree.STr2_iY_1[rec]) + ", iX: " + str(rTree.STr2_iX_1[rec]) + ", Eta: " + str(rTree.STr2_Eta_1[rec]) + ", is in EB: " + str(rTree.STr2_Pi0recIsEB[rec])
-#                if rTree.STr2_Eta_1[rec] > 1.479: #Is it EE+?
-#                    endcapetaplus[rTree.STr2_iX_1[rec]+1].append([rTree.STr2_iX_1[rec], rTree.STr2_iY_1[rec], rTree.STr2_Eta_1[rec]])
-#                elif rTree.STr2_Eta_1[rec] < -1.479: #Is it EE-?
-#                    endcapetaminus[rTree.STr2_iX_1[rec]+1].append([rTree.STr2_iX_1[rec], rTree.STr2_iY_1[rec], rTree.STr2_Eta_1[rec]])
+#                print "Phi: " + str(rTree.STr2_iPhi_1[rec]) + ", iEta: " + str(rTree.STr2_iEta_1[rec]) + ", iY: " + str(rTree.STr2_iY_1[rec]) + ", iX: " + str(rTree.STr2_iX_1[rec]) + ", Eta: " + str(rTree.STr2_Eta_1[rec]) + ", is in EB: " + str(rTree.STr2_Pi0recIsEB[rec])
+                if rTree.STr2_Eta_1[rec] > 1.479: #Is it EE+?
+                    endcapetaplus[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]][2] += 1
+                    endcapetaplus[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]][3] += rTree.STr2_Eta_1[rec]
+                elif rTree.STr2_Eta_1[rec] < -1.479: #Is it EE-?
+                    endcapetaminus[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]][2] += 1
+                    endcapetaminus[rTree.STr2_iX_1[rec]][rTree.STr2_iY_1[rec]][3] += rTree.STr2_Eta_1[rec]
 #
-#            if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
-#                pass
-#            else:
-#                #Now we work on the second photon hit
-#                if rTree.STr2_Eta_2[rec] > 1.479: #Is it EE+?
-#                    endcapetaplus[rTree.STr2_iX_2[rec]+1].append([rTree.STr2_iX_2[rec], rTree.STr2_iY_2[rec], rTree.STr2_Eta_2[rec]])
-#                elif rTree.STr2_Eta_2[rec] < -1.479:
-#                    endcapetaminus[rTree.STr2_iX_2[rec]+1].append([rTree.STr2_iX_2[rec], rTree.STr2_iY_2[rec], rTree.STr2_Eta_2[rec]])
+            if rTree.STr2_iX_2[rec] < 0 or rTree.STr2_iY_2[rec] < 0:
+                pass
+            else: #Now we work on the second photon hit
+                if rTree.STr2_Eta_2[rec] > 1.479: #Is it EE+?
+                    endcapetaplus[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]][2] += 1
+                    endcapetaplus[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]][3] += rTree.STr2_Eta_2[rec]
+                elif rTree.STr2_Eta_2[rec] < -1.479: #Is it EE-?
+                    endcapetaminus[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]][2] += 1
+                    endcapetaminus[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]][3] += rTree.STr2_Eta_2[rec]
+        pbar.update(i+1)
+    pbar.finish()
+
+    for x in range(101):
+        print "Row x: %i" %x
+        for y in range(101):
+            if endcapetaplus[x][y][2] == 0:
+                continue
+            print "counts: " + endcapetaplus[x][y][2] + ", eta: " + endcapetaplus[x][y][3]
+            endcapetaplus[x][y][3] = float(endcapetaplus[x][y][3]) / float(endcapetaplus[x][y][2])
+            if endcapetaminus[x][y][2] == 0:
+                continue
+            endcapetaminus[x][y][3] = float(endcapetaminus[x][y][3]) / float(endcapetaminus[x][y][2])
+
+    np.save("endcapEtaValuesplus.npy",endcapetaplus)
+    np.save("endcapEtaValuesminus.npy",endcapetaminus)
+
+

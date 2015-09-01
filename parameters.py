@@ -17,12 +17,13 @@ runNumber = '2015A_'        #Run sequence from where data is pulled and analyzed
 rootFileLocationLocal = '/Users/kaichang/Desktop/output/'      #Location where EcalPro's fit_iter_.py files ROOT files (that are created) are located on local computer
 rootFileLocationLXPLUS = '/afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_2/src/CalibCode/submit/ALL_LASER_2015A_RAW_Test1/cfgFile/Fill/output/'        #Location where EcalPro's fit_iter_.py files ROOT files (that are created) are located on LXPLUS cluster
 
+
 ###Analyzing info###
 numberofFiles = -1          #Number of ROOT files you want to analyze
 runRangeStart = 0           #if numberofFiles != -1, specificy which file you want to start with
 splitPhotons = False         #True = maps photon 1,2 separately. False = joins photons together
-includeHitCounter = True    #True = map of hits per crystal, False = do not include a map of hits
-numberofEntries = -1        #Number of Entries per root file you want to analyze
+includeSeedMap = True    #True = map of hits per crystal, False = do not include a map of hits
+numberofEntries = 100000        #Number of Entries per root file you want to analyze
 minStat = 10             #Number of statistic to allow a fit or mean to pass. Too small = bad fit for our CORRECTION.
 minNormal = 15          #Number of statistic needed to allow a normal fit to pass. Smaller = mean
 graphs2print = 0        #These are check graphs. We will always print out 1 graph from each eta region, but these are random sampling graphs, so we can see if our fits or derivations are reasonable.
@@ -45,16 +46,26 @@ jobIterFiles = 2           #How do you want to break down your batches in terms 
 manualSplit = [0,5,10,15,23,28,76,77]        #isEvenSplit = False, then manually split -> Refer to datedList.txt for specific days of runs
 
 
-### Do NOT modify unless you know what you are doing ###
+###Post Script Tuneup###
+needCluster = False #If False, keep individual crystal. If too little statistics, choose True, clusters crystals together to bin more statistic
+clusterXtalSide = 2 #Number of crystals per cluster side (ex. 2 = 2x2)
+includeClusterSeedMap = True #True = map of hits per crystal, False = do not include a map of hits
+
+
+###Calibration###
+isEE = True             #True = Analyze the EE data, False = Analyze the EB data
+isEta = True            #True = EB Eta clustering data, False = individual crystal
+
+
+
+####### Do NOT modify unless you know what you are doing #######
 filesforAll = ['fast_clustertimeEB','fast_clustertimeEE','fast_individualtimeEB', 'fastAnalysis.sh']
 analFile = 'runAnalysis.sh'
 manualHitCounterCut = 0     #(mean-value,mean+value) -> -1 = all values, 0 = fit range, > 0 = own fit value [remember these are bin values, not the values they represent -> bin corresponding to time response instead of value of time response]
+
 #sigmacutoff = 1.5 #make histogram of sigmas, and anything outside of acceptable sigmas will be converted from normal fit to mean fit.
-
-
 #includeBackgroundinCount = False        #False = does not include background in minimum stat threshold + entries in seedmap. True = if inStat threshold is too low for reasonable fit.
 #specCutsIfNTupleTrueIB = []
-
 #fitBoundaries = 5 #You're fit for the time response and laser transparency come from this. 5 --> [-5,5]
 #randChkEB = 1 #Number of random histograms printed out. -1 = ALL of them (BEWARE)
 #randChkEE = 7 #Number of random histograms printed out. EE is more hit or miss b/c some positions do not have any fits. This value should be larger.
@@ -91,9 +102,3 @@ Pi0IsoCutEE_high = 0.3
 nXtal_1_EE_high = 4
 nXtal_2_EE_high = 5
 S4S9_EE_high = 0.8
-
-
-###Extracting Results###
-isEE = True             #True = Analyze the EE data, False = Analyze the EB data
-isEta = True            #True = EB Eta clustering data, False = individual crystal
-
