@@ -64,7 +64,7 @@ or in a specific case
 ```
   root -l 2015A_EcalNtp*
 ```
-The FAST analysis programs still work on these files, just not through batch.
+In the case that a ROOT file is bad, the program will output to 'file [2015A_EcalNtp_12.root] probably not closed, trying to recover'. The FAST analysis programs will still work on these files, just not through batch. It'll have to be locally or through LXPLUS.
 3) It could possibly be my fault. Most of the time, it'll be with the program having some bugs. Contact my email and I'll try to help/fix it in anyway.
 
 ####Corrupt datafiles?
