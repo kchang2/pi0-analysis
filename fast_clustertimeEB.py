@@ -109,7 +109,7 @@ if __name__ == "__main__":
     os.chdir(os.getcwd() + '/' + folder +'/')
     retdir = os.getcwd()
     print "Directory changed successfully %s" % retdir
-    shutil.copytree(startdir + '/' + 'preresult package', retdir + '/QA')
+    shutil.copytree(stardir + '/' + 'preresult package', retdir + '/QA')
 #    shutil.copyfile(stardir + '/' + 'unpack.py', retdir + '/unpack.py')
     shutil.copyfile(stardir + '/' + 'setstyle.C', retdir + '/setstyle.c')
 #    shutil.copyfile(stardir + '/' + 'fast_restack.py', retdir + '/fast_Restack.py')
