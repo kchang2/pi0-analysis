@@ -65,7 +65,7 @@ or in a specific case
   root -l 2015A_EcalNtp*
 ```
 The FAST analysis programs still work on these files, just not through batch.
-3)It's my fault. Most of the time, it'll be my fault, with the program having some bugs. Contact my email and I'll try to help/fix it in anyway.
+3) It could possibly be my fault. Most of the time, it'll be with the program having some bugs. Contact my email and I'll try to help/fix it in anyway.
 
 ####Corrupt datafiles?
 
