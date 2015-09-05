@@ -99,6 +99,8 @@ def stackTime(rTree, entries, histlist, histlist2, histlist3, histlist4, transli
                                 continue
                             histlist2[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(rTree.STr2_Time_2[rec])
                             translist2[rTree.STr2_iX_2[rec]][rTree.STr2_iY_2[rec]].Fill(float(1)/rTree.STr2_Laser_rec_2[rec])
+#                    print "photon 1: " + str(rTree.STr2_iX_1[rec]) + ", " + str(rTree.STr2_iY_1[rec])
+#                    print "photon 2: " + str(rTree.STr2_iX_2[rec]) + ", " + str(rTree.STr2_iY_2[rec])
                 pbar.update(i+1)
             pbar.finish()
             return histlist, histlist2, translist, translist2

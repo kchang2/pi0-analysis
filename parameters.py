@@ -23,7 +23,7 @@ numberofFiles = -1          #Number of ROOT files you want to analyze
 runRangeStart = 0           #if numberofFiles != -1, specificy which file you want to start with
 splitPhotons = False         #True = maps photon 1,2 separately. False = joins photons together
 includeSeedMap = True    #True = map of hits per crystal, False = do not include a map of hits
-numberofEntries = 100000        #Number of Entries per root file you want to analyze
+numberofEntries = -1        #Number of Entries per root file you want to analyze
 minStat = 10             #Number of statistic to allow a fit or mean to pass. Too small = bad fit for our CORRECTION.
 minNormal = 15          #Number of statistic needed to allow a normal fit to pass. Smaller = mean
 graphs2printEB = 0        #These are check graphs. We will always print out 1 graph from each eta region, but these are random sampling graphs, so we can see if our fits or derivations are reasonable.
