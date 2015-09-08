@@ -97,6 +97,7 @@ if p.runFormat == 'B':
             filedata = f.read()
             f.close()
             
+            newscript = filedata.replace("cd","cd " + os.getcwd())
             newscript = filedata.replace(".py",".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
             
             f = open(p.analFile,'w')
@@ -109,6 +110,8 @@ if p.runFormat == 'B':
             f = open(p.analFile, 'r')
             filedata = f.read()
             f.close()
+            
+            newscript = filedata.replace("cd " + os.getcwd(),"cd")
             newscript = filedata.replace(".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]), ".py")
             f = open(p.analFile,'w')
             f.write(newscript)
@@ -120,7 +123,8 @@ if p.runFormat == 'B':
                 f = open(filein,'r')
                 filedata = f.read()
                 f.close()
-            
+                
+                newscript = filedata.replace("cd","cd " + os.getcwd())
                 newscript = filedata.replace(".py",".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
                 f = open(filein,'w')
                 f.write(newscript)
@@ -132,6 +136,8 @@ if p.runFormat == 'B':
                 f = open(filein, 'r')
                 filedata = f.read()
                 f.close()
+                
+                newscript = filedata.replace("cd " + os.getcwd(),"cd")
                 newscript = filedata.replace(".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]), ".py")
                 f = open(filein,'w')
                 f.write(newscript)

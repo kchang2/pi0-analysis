@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-cd /afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_2/src/CalibCode/submit/pi0-analysis/
+cd
 eval `scramv1 runtime -sh`
 python fast_clustertimeEB.py
 
