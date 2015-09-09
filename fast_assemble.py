@@ -267,88 +267,101 @@ def printPrettyPictureEB(runNumber,htime1,htime2,hlaser1,hlaser2,seedmap1,seedma
     #Gets rid of legend
     rt.gStyle.SetOptStat(0)
     
+    #creates permanent background canvas
     rt.gROOT.LoadMacro('setstyle.c')
     rt.gROOT.Macro('setstyle.c')
-    c = rt.TCanvas("c","c",600,500)
+    c = rt.TCanvas("c","c",900,600)
     c.cd()
     
     if type(htime1) != rt.TH1F: #Individual crystals
         if htime2 != 0:
-            c1 = rt.TCanvas()
             htime1.SetAxisRange(-5., 5.,"Z")
             htime1.Draw("colz")
-            c1.Print(runNumber+"IndivTimeResponseEB_p1.png")
+            htime1.GetYaxis().SetTitleOffset(1.15)
+            htime1.GetZaxis().SetTitleOffset(0.8)
+            c.Print(runNumber+"IndivTimeResponseEB_p1.png")
             hlaser1.SetAxisRange(0., 1.,"Z")
             hlaser1.Draw("colz")
-            c1.Print(runNumber+"IndivLaserTransparencyEB_p1.png")
-            c1.Close()
+            hlaser1.GetYaxis().SetTitleOffset(1.15)
+            hlaser1.GetZaxis().SetTitleOffset(1.1)
+            c.Print(runNumber+"IndivLaserTransparencyEB_p1.png")
 
-            c2 = rt.TCanvas()
             htime2.SetAxisRange(-5., 5.,"Z")
             htime2.Draw("colz")
-            c2.Print(runNumber+"IndivTimeResponseEB_p2.png")
+            htime2.GetYaxis().SetTitleOffset(1.15)
+            htime2.GetZaxis().SetTitleOffset(0.8)
+            c.Print(runNumber+"IndivTimeResponseEB_p2.png")
             hlaser2.SetAxisRange(0., 1.,"Z")
             hlaser2.Draw("colz")
-            c2.Print(runNumber+"IndivLaserTransparencyEB_p2.png")
-            c2.Close()
+            hlaser2.GetYaxis().SetTitleOffset(1.15)
+            hlaser2.GetZaxis().SetTitleOffset(1.1)
+            c.Print(runNumber+"IndivLaserTransparencyEB_p2.png")
         else:
-            c = rt.TCanvas()
             htime1.SetAxisRange(-5., 5.,"Z")
             htime1.Draw("colz")
+            htime1.GetYaxis().SetTitleOffset(1.15)
+            htime1.GetZaxis().SetTitleOffset(0.8)
             c.Print(runNumber+"IndivTimeResponseEB_c.png")
             hlaser1.SetAxisRange(0., 1.,"Z")
             hlaser1.Draw("colz")
+            hlaser1.GetYaxis().SetTitleOffset(1.15)
+            hlaser1.GetZaxis().SetTitleOffset(1.1)
             c.Print(runNumber+"IndivLaserTransparencyEB_c.png")
-            c.Close()
     else:
         if htime2 != 0:
-            c1 = rt.TCanvas()
             htime1.SetAxisRange(-85,85,"X")
             htime1.Draw("E1")
-            c1.Print(runNumber+"EtaTimeResponseEB_p1.png")
+            c.Print(runNumber+"EtaTimeResponseEB_p1.png")
             hlaser1.SetAxisRange(0., 1.,"Y")
             hlaser1.Draw("colz")
-            c1.Print(runNumber+"EtaLaserTransparencyEB_p1.png")
-            c1.Close()
+            hlaser1.GetYaxis().SetTitleOffset(1.15)
+            hlaser1.GetZaxis().SetTitleOffset(1.1)
+            c.Print(runNumber+"EtaLaserTransparencyEB_p1.png")
             
-            c2 = rt.TCanvas()
             htime2.SetAxisRange(-85,85,"X")
             htime2.Draw("E1")
-            c2.Print(runNumber+"EtaTimeResponseEB_p2.png")
+            c.Print(runNumber+"EtaTimeResponseEB_p2.png")
             hlaser2.SetAxisRange(0., 1.,"X")
             hlaser2.Draw("colz")
-            c2.Print(runNumber+"EtaLaserTransparencyEB_p2.png")
-            c2.Close()
+            hlaser2.GetYaxis().SetTitleOffset(1.15)
+            hlaser2.GetZaxis().SetTitleOffset(1.1)
+            c.Print(runNumber+"EtaLaserTransparencyEB_p2.png")
 
         else:
-            c = rt.TCanvas()
             htime1.SetAxisRange(-85,85,"X")
             htime1.Draw("E1")
             c.Print(runNumber+"EtaTimeResponseEB_c.png")
             hlaser1.SetAxisRange(0., 1.,"X")
             hlaser1.Draw("colz")
+            hlaser1.GetYaxis().SetTitleOffset(1.15)
+            hlaser1.GetZaxis().SetTitleOffset(1.1)
             c.Print(runNumber+"EtaLaserTransparencyEB_c.png")
-            c.Close()
 
     if seedmap1 != 0: #print 1 seed map
-        s1 = rt.TCanvas()
         if type(htime1) != rt.TH1F: #individual crystal
+            seedmap1.SetMinimum(0.)
             seedmap1.Draw("colz")
+            seedmap1.GetYaxis().SetTitleOffset(1.15)
+            seedmap1.GetZaxis().SetTitleOffset(1.0)
         else:
+            seedmap1.SetMinimum(0.)
             seedmap1.SetAxisRange(-85,85,"X")
             seedmap1.Draw()
-        s1.Print(runNumber+"SeedDensityEB.png")
-        s1.Close()
+        c.Print(runNumber+"SeedDensityEB.png")
         if seedmap2 != 0: #print both seed maps
-            s2 = rt.TCanvas()
             if type(htime1) != rt.TH1F: #individual crystal
+                seedmap2.SetMinimum(0.)
                 seedmap2.Draw("colz")
+                seedmap2.GetYaxis().SetTitleOffset(1.15)
+                seedmap2.GetZaxis().SetTitleOffset(1.0)
             else:
+                seedmap2.SetMinimum(0.)
                 seedmap2.SetAxisRange(-85,85,"X")
                 seedmap2.Draw()
-            s2.Print(runNumber+"SeedDensityEB_p2.png")
-            s2.Close()
+            c.Print(runNumber+"SeedDensityEB_p2.png")
 
+    #close the canvas
+    c.Close()
 
 
 #draws the graphs you want to see and saves them as .png in respective folders
@@ -381,8 +394,8 @@ def printPrettyPictureEE(runNumber,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlas
         c.Print(runNumber+"IndivTimeResponseEEp_p2.png")
         hlaserp2.SetAxisRange(0., 1.,"Z")
         hlaserp2.Draw("colz")
-        hlaserp1.GetYaxis().SetTitleOffset(1.1)
-        hlaserp1.GetZaxis().SetTitleOffset(1.1)
+        hlaserp2.GetYaxis().SetTitleOffset(1.1)
+        hlaserp2.GetZaxis().SetTitleOffset(1.1)
         c.Print(runNumber+"IndivLaserTransparencyEEp_p2.png")
     
         htimem1.SetAxisRange(-5., 5.,"Z")
@@ -445,13 +458,13 @@ def printPrettyPictureEE(runNumber,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlas
             seedmapp2.SetMinimum(0.)
             seedmapp2.Draw("colz")
             seedmapp2.GetYaxis().SetTitleOffset(1.1)
-            seedmapp2.GetZaxis().SetTitleOffset(0.8)
+            seedmapp2.GetZaxis().SetTitleOffset(1.0) ##was 0.8
             c.Print(runNumber+"SeedDensityEEp_p2.png")
             
             seedmapm2.SetMinimum(0.)
             seedmapm2.Draw("colz")
             seedmapm2.GetYaxis().SetTitleOffset(1.1)
-            seedmapm2.GetZaxis().SetTitleOffset(0.8)
+            seedmapm2.GetZaxis().SetTitleOffset(1.0) ##was 0.8
             c.Print(runNumber+"SeedDensityEEm_p2.png")
 
     #close the canvas
