@@ -342,7 +342,7 @@ def printPrettyPictureEB(runNumber,htime1,htime2,hlaser1,hlaser2,seedmap1,seedma
             seedmap1.SetMinimum(0.)
             seedmap1.Draw("colz")
             seedmap1.GetYaxis().SetTitleOffset(1.15)
-            seedmap1.GetZaxis().SetTitleOffset(1.0)
+            seedmap1.GetZaxis().SetTitleOffset(1.1)
         else:
             seedmap1.SetMinimum(0.)
             seedmap1.SetAxisRange(-85,85,"X")
@@ -353,7 +353,7 @@ def printPrettyPictureEB(runNumber,htime1,htime2,hlaser1,hlaser2,seedmap1,seedma
                 seedmap2.SetMinimum(0.)
                 seedmap2.Draw("colz")
                 seedmap2.GetYaxis().SetTitleOffset(1.15)
-                seedmap2.GetZaxis().SetTitleOffset(1.0)
+                seedmap2.GetZaxis().SetTitleOffset(1.1)
             else:
                 seedmap2.SetMinimum(0.)
                 seedmap2.SetAxisRange(-85,85,"X")
@@ -458,13 +458,13 @@ def printPrettyPictureEE(runNumber,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlas
             seedmapp2.SetMinimum(0.)
             seedmapp2.Draw("colz")
             seedmapp2.GetYaxis().SetTitleOffset(1.1)
-            seedmapp2.GetZaxis().SetTitleOffset(1.0) ##was 0.8
+            seedmapp2.GetZaxis().SetTitleOffset(1.1) ##was 0.8
             c.Print(runNumber+"SeedDensityEEp_p2.png")
             
             seedmapm2.SetMinimum(0.)
             seedmapm2.Draw("colz")
             seedmapm2.GetYaxis().SetTitleOffset(1.1)
-            seedmapm2.GetZaxis().SetTitleOffset(1.0) ##was 0.8
+            seedmapm2.GetZaxis().SetTitleOffset(1.1) ##was 0.8
             c.Print(runNumber+"SeedDensityEEm_p2.png")
 
     #close the canvas
