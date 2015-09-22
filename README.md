@@ -71,5 +71,11 @@ In the case that a ROOT file is bad, the program will output to 'file [2015A_Eca
 
 Yes, there will be times when this happens. The only thing I can offer to you is writing an exception (throwing an exception) in the CMSSW src (source code). I am currently working on that so you do not have to. Will keep you updated soon (as of 09/03/2015).
 
+####Yo, what exactly classifies a corrupt datafile, and can you still run it on for Pi0-Analysis?
+
+A corrupt datafile is any file, when you load in ROOT through the terminal, that doesn't load with the following line: 'Attaching file 2015A_EcalNtp_10.root as _file0...'. These files are created from a mixture of exceptions and formatting between ECALpro and CMSSW.
+
+Yes, you can still run it on Pi0-Analysis (it's a tough cookie), but not using Batch (not that tough though).
+
 ##Want to make this better?
 Email me @ kchang2@caltech.edu if interested in commiting to this repository. I am relatively new with Github, and relatively new with programming tasks involving big data, so I have a much smaller idea of what I am doing. Basic coder.
