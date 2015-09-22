@@ -13,9 +13,9 @@
 
 
 ###Input Path###
-runNumber = '2015A_'        #Run sequence from where data is pulled and analyzed
+runNumber = '2015D_'        #Run sequence from where data is pulled and analyzed
 rootFileLocationLocal = '/Users/kaichang/Desktop/output/'      #Location where EcalPro's fit_iter_.py files ROOT files (that are created) are located on local computer
-rootFileLocationLXPLUS = '/afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_2/src/CalibCode/submit/ALL_LASER_2015A_RAW_Test1/cfgFile/Fill/output/'        #Location where EcalPro's fit_iter_.py files ROOT files (that are created) are located on LXPLUS cluster
+rootFileLocationLXPLUS = '/afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_6_patch6/src/CalibCode/submit/ALL_LASER_2015D_RAW_Test1/cfgFile/Fill/output/'        #Location where EcalPro's fit_iter_.py files ROOT files (that are created) are located on LXPLUS cluster
 
 
 ###Analyzing info###
@@ -25,23 +25,23 @@ splitPhotons = False         #True = maps photon 1,2 separately. False = joins p
 includeSeedMap = True    #True = map of hits per crystal, False = do not include a map of hits
 numberofEntries = -1        #Number of Entries per root file you want to analyze
 minStat = 3             #Number of statistic to allow a fit or mean to pass. Too small = bad fit for our CORRECTION.
-minNormal = 150          #Number of statistic needed to allow a normal fit to pass. Smaller = mean
+minNormal = 55          #Number of statistic needed to allow a normal fit to pass. Smaller = mean
 graphs2printEB = 0        #These are check graphs. We will always print out 1 graph from each eta region, but these are random sampling graphs, so we can see if our fits or derivations are reasonable.
 graphs2printEE = 0        #These are the same as above, just for the endcap region. Know that the endcap region is significantly different from the barrel region because in the Endcap we know that there are non Xtal regions.
 
 
 ###Output Path###
 resultPathLocal = '/Users/kaichang/Desktop/'        #Location where you want your .root, .npy, and .png files to be outputted to (local computer)
-resultPathLXPLUS = '/afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_2/src/CalibCode/submit/'           #Location where you want your .root, .npy, and .png files to be outputted to (LXPLUS cluster)
+resultPathLXPLUS = '/afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_6_patch6/src/CalibCode/submit/'           #Location where you want your .root, .npy, and .png files to be outputted to (LXPLUS cluster)
 folderName = 'result'       #name of folder your files will go into
 
 
 ###Script Info [fastAnalysis]###
-runFormat = 'B'             #Batch [B], LXPLUS [X], Locally [L]
+runFormat = 'X'             #Batch [B], LXPLUS [X], Locally [L]
 runBatchLength = '2nd'      #if isBatch = True, specificy how long program runs normally
 displayOutput = False       #False = don't display each fit parameters, True = display on Terminal
 runAllScript = False              #True = run all analysis. False = individual analysis
-ifFalsethenWhat = ['fast_individualtimeEB']       #Look at the the python files
+ifFalsethenWhat = ['fast_clustertimeEE']       #Look at the the python files
 isEvenSplit = True          #whether you want the ROOT files to be split evenly in batches
 jobIterFiles = -1           #How do you want to break down your batches in terms of jobs (Ex. all the files split into 5 jobs), -1 or 0 means directly all in 1
 manualSplit = [0,5,10,15,23,28,76,77]        #isEvenSplit = False, then manually split -> Refer to datedList.txt for specific days of runs

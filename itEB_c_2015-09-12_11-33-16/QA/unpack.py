@@ -18,7 +18,7 @@ import os
 import numpy as np
 
 if __name__ == "__main__":
-    os.chdir('..')
+    os.chdir(')..')
     if len(sys.argv)<2:
         print "give a file as input"
         sys.exit()

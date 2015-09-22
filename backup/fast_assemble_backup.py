@@ -120,7 +120,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
             np.save("dataEB_p2_" + runNumber + ".npy", dataList2)
         else:
             #saving all 1D histograms in tree
-            f = rt.TFile("IndivTimeEB_c_" + runNumber + ".root","new")
+            f = rt.TFile(runNumber+"IndivTimeEB_c.root","new")
             for eta in range(0,len(histList1)):
                 for phi in range(0, len(histList1[0])):
                     histList1[eta][phi].Write()
@@ -134,10 +134,10 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
             f.Close()
 
             dataList1.shape = (171,361,10)
-            np.save("dataEB_c_" + runNumber + ".npy", dataList1)
+            np.save("dataEB_c.npy", dataList1)
     else: #clustertimeEB
         if histList2 !=0:
-            f = rt.TFile("ClusterTimeEB_p1_" + runNumber + ".root","new")
+            f = rt.TFile(runNumber+"ClusterTimeEB_p1.root","new")
             for eta in range(0,len(histList1)):
                 histList1[eta].Write()
                 transList1[eta].Write()
@@ -149,7 +149,7 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
                 seedmap1.Write()
             f.Close()
         
-            f2 = rt.TFile("ClusterTimeEB_p2_" + runNumber + ".root","new")
+            f2 = rt.TFile(runNumber+"ClusterTimeEB_p2.root","new")
             for eta in range(0,len(histList2)):
                 histList2[eta].Write()
                 transList2[eta].Write()
@@ -164,10 +164,10 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
             #formatting and saving all data into a numpy file for analyzing later
             dataList1.shape = (171,9)
             dataList2.shape = (171,9)
-            np.save("EtadataEB_p1_" + runNumber + ".npy", dataList1)
-            np.save("EtadataEB_p2_" + runNumber + ".npy", dataList2)
+            np.save(runNumber+"EtadataEB_p1.npy", dataList1)
+            np.save(runNumber+"EtadataEB_p2.npy", dataList2)
         else:
-            f = rt.TFile("ClusterTimeEB_c_" + runNumber + ".root","new")
+            f = rt.TFile(runNumber+"ClusterTimeEB_c.root","new")
             for eta in range(0,len(histList1)):
                 histList1[eta].Write()
                 #Saving value of data in tuple list
@@ -180,13 +180,13 @@ def saveEB(runNumber, dataList1, dataList2, histList1, histList2, transList1, tr
             
             #formatting and saving all data into a numpy file for analyzing later
             dataList1.shape = (171,9)
-            np.save("EtadataEB_c_" + runNumber + ".npy", dataList1)
+            np.save(runNumber+"EtadataEB_c.npy", dataList1)
 
 
 #saves the histograms, fits, and others for the barrel
 def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histListm2,transListp1,transListp2,transListm1,transListm2,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlaserp2,hlaserm1,hlaserm2,fitdatap1,fitdatap2,fitdatam1,fitdatam2,seedmapp1,seedmapp2,seedmapm1,seedmapm2):
     if histListp2 != 0: #2 photons
-        f = rt.TFile("IndivTimeEEp_p1p2_" + runNumber + ".root","new")
+        f = rt.TFile(runNumber+"IndivTimeEEp_p1p2.root","new")
         for x in range(0,len(histListp1)):
             for y in range(0, len(histListp1[0])):
                 histListp1[x][y].Write()
@@ -206,7 +206,7 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
             seedmapp2.Write()
         f.Close()
             
-        f2 = rt.TFile("IndivTimeEEm_p1p2_" + runNumber + ".root","new")
+        f2 = rt.TFile(runNumber+"IndivTimeEEm_p1p2.root","new")
         for x in range(0,len(histListm1)):
             for y in range(0, len(histListm1[0])):
                 histListm1[x][y].Write()
@@ -228,10 +228,10 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
         
         dataListp.shape = (101,101,2,11)
         dataListm.shape = (101,101,2,11)
-        np.save("dataEEp_p1p2_" + runNumber + ".npy", dataListp)
-        np.save("dataEEm_p1p2_" + runNumber + ".npy", dataListm)
+        np.save(runNumber+"dataEEp_p1p2.npy", dataListp)
+        np.save(runNumber+"dataEEm_p1p2.npy", dataListm)
     else:
-        f = rt.TFile("IndivTimeEEp_c_" + runNumber + ".root","new")
+        f = rt.TFile(runNumber+"IndivTimeEEp_c.root","new")
         for x in range(0,len(histListp1)):
             for y in range(0, len(histListp1[0])):
                 histListp1[x][y].Write()
@@ -243,7 +243,7 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
             seedmapp1.Write()
         f.Close()
         
-        f2 = rt.TFile("IndivTimeEEm_c_" + runNumber + ".root","new")
+        f2 = rt.TFile(runNumber+"IndivTimeEEm_c.root","new")
         for x in range(0,len(histListm1)):
             for y in range(0, len(histListm1[0])):
                 histListm1[x][y].Write()
@@ -258,8 +258,8 @@ def saveEE(runNumber,dataListp,dataListm,histListp1,histListp2,histListm1,histLi
         #formatting and saving all data into a numpy file for analyzing later
         dataListp.shape = (101,101,11)
         dataListm.shape = (101,101,11)
-        np.save("dataEEp_c_" + runNumber + ".npy", dataListp)
-        np.save("dataEEm_c_" + runNumber + ".npy", dataListm)
+        np.save(runNumber+"dataEEp_c.npy", dataListp)
+        np.save(runNumber+"dataEEm_c.npy", dataListm)
 
 
 #draws the graphs you want to see and saves them as .png in respective folders
@@ -279,63 +279,63 @@ def printPrettyPictureEB(runNumber,htime1,htime2,hlaser1,hlaser2,seedmap1,seedma
             htime1.Draw("colz")
             htime1.GetYaxis().SetTitleOffset(1.15)
             htime1.GetZaxis().SetTitleOffset(0.8)
-            c.Print("IndivTimeResponseEB_p1_" + runNumber + ".png")
+            c.Print(runNumber+"IndivTimeResponseEB_p1.png")
             hlaser1.SetAxisRange(0., 1.,"Z")
             hlaser1.Draw("colz")
             hlaser1.GetYaxis().SetTitleOffset(1.15)
             hlaser1.GetZaxis().SetTitleOffset(1.1)
-            c.Print("IndivLaserTransparencyEB_p1_" + runNumber + ".png")
+            c.Print(runNumber+"IndivLaserTransparencyEB_p1.png")
 
             htime2.SetAxisRange(-5., 5.,"Z")
             htime2.Draw("colz")
             htime2.GetYaxis().SetTitleOffset(1.15)
             htime2.GetZaxis().SetTitleOffset(0.8)
-            c.Print("IndivTimeResponseEB_p2_" + runNumber + ".png")
+            c.Print(runNumber+"IndivTimeResponseEB_p2.png")
             hlaser2.SetAxisRange(0., 1.,"Z")
             hlaser2.Draw("colz")
             hlaser2.GetYaxis().SetTitleOffset(1.15)
             hlaser2.GetZaxis().SetTitleOffset(1.1)
-            c.Print("IndivLaserTransparencyEB_p2_" + runNumber + ".png")
+            c.Print(runNumber+"IndivLaserTransparencyEB_p2.png")
         else:
             htime1.SetAxisRange(-5., 5.,"Z")
             htime1.Draw("colz")
             htime1.GetYaxis().SetTitleOffset(1.15)
             htime1.GetZaxis().SetTitleOffset(0.8)
-            c.Print("IndivTimeResponseEB_c_" + runNumber + ".png")
+            c.Print(runNumber+"IndivTimeResponseEB_c.png")
             hlaser1.SetAxisRange(0., 1.,"Z")
             hlaser1.Draw("colz")
             hlaser1.GetYaxis().SetTitleOffset(1.15)
             hlaser1.GetZaxis().SetTitleOffset(1.1)
-            c.Print("IndivLaserTransparencyEB_c_" + runNumber + ".png")
+            c.Print(runNumber+"IndivLaserTransparencyEB_c.png")
     else:
         if htime2 != 0:
             htime1.SetAxisRange(-85,85,"X")
             htime1.Draw("E1")
-            c.Print("EtaTimeResponseEB_p1_" + runNumber + ".png")
+            c.Print(runNumber+"EtaTimeResponseEB_p1.png")
             hlaser1.SetAxisRange(0., 1.,"Y")
             hlaser1.Draw("colz")
             hlaser1.GetYaxis().SetTitleOffset(1.15)
             hlaser1.GetZaxis().SetTitleOffset(1.1)
-            c.Print("EtaLaserTransparencyEB_p1_" + runNumber + ".png")
+            c.Print(runNumber+"EtaLaserTransparencyEB_p1.png")
             
             htime2.SetAxisRange(-85,85,"X")
             htime2.Draw("E1")
-            c.Print("EtaTimeResponseEB_p2_" + runNumber + ".png")
+            c.Print(runNumber+"EtaTimeResponseEB_p2.png")
             hlaser2.SetAxisRange(0., 1.,"X")
             hlaser2.Draw("colz")
             hlaser2.GetYaxis().SetTitleOffset(1.15)
             hlaser2.GetZaxis().SetTitleOffset(1.1)
-            c.Print("EtaLaserTransparencyEB_p2_" + runNumber + ".png")
+            c.Print(runNumber+"EtaLaserTransparencyEB_p2.png")
 
         else:
             htime1.SetAxisRange(-85,85,"X")
             htime1.Draw("E1")
-            c.Print("EtaTimeResponseEB_c_" + runNumber + ".png")
+            c.Print(runNumber+"EtaTimeResponseEB_c.png")
             hlaser1.SetAxisRange(0., 1.,"X")
             hlaser1.Draw("colz")
             hlaser1.GetYaxis().SetTitleOffset(1.15)
             hlaser1.GetZaxis().SetTitleOffset(1.1)
-            c.Print("EtaLaserTransparencyEB_c_" + runNumber + ".png")
+            c.Print(runNumber+"EtaLaserTransparencyEB_c.png")
 
     if seedmap1 != 0: #print 1 seed map
         if type(htime1) != rt.TH1F: #individual crystal
@@ -346,7 +346,7 @@ def printPrettyPictureEB(runNumber,htime1,htime2,hlaser1,hlaser2,seedmap1,seedma
             seedmap1.SetMinimum(0.)
             seedmap1.SetAxisRange(-85,85,"X")
             seedmap1.Draw()
-        c.Print("SeedDensityEB_" + runNumber + ".png")
+        c.Print(runNumber+"SeedDensityEB.png")
         if seedmap2 != 0: #print both seed maps
             if type(htime1) != rt.TH1F: #individual crystal
                 seedmap2.SetMinimum(0.)
@@ -356,7 +356,7 @@ def printPrettyPictureEB(runNumber,htime1,htime2,hlaser1,hlaser2,seedmap1,seedma
                 seedmap2.SetMinimum(0.)
                 seedmap2.SetAxisRange(-85,85,"X")
                 seedmap2.Draw()
-            c.Print("SeedDensityEB_p2_" + runNumber + ".png")
+            c.Print(runNumber+"SeedDensityEB_p2.png")
 
     #close the canvas
     c.Close()
@@ -378,88 +378,88 @@ def printPrettyPictureEE(runNumber,htimep1,htimep2,htimem1,htimem2,hlaserp1,hlas
         htimep1.Draw("colz")
         htimep1.GetYaxis().SetTitleOffset(1.1)
         htimep1.GetZaxis().SetTitleOffset(0.8)
-        c.Print("IndivTimeResponseEEp_p1_" + runNumber + ".png")
+        c.Print(runNumber+"IndivTimeResponseEEp_p1.png")
         hlaserp1.SetAxisRange(0., 1.,"Z")
         hlaserp1.Draw("colz")
         hlaserp1.GetYaxis().SetTitleOffset(1.1)
         hlaserp1.GetZaxis().SetTitleOffset(1.1)
-        c.Print("IndivLaserTransparencyEEp_p1_" + runNumber + ".png")
+        c.Print(runNumber+"IndivLaserTransparencyEEp_p1.png")
         
         htimep2.SetAxisRange(-5., 5.,"Z")
         htimep2.Draw("colz")
         htimep2.GetYaxis().SetTitleOffset(1.1)
         htimep2.GetZaxis().SetTitleOffset(0.8)
-        c.Print("IndivTimeResponseEEp_p2_" + runNumber + ".png")
+        c.Print(runNumber+"IndivTimeResponseEEp_p2.png")
         hlaserp2.SetAxisRange(0., 1.,"Z")
         hlaserp2.Draw("colz")
         hlaserp2.GetYaxis().SetTitleOffset(1.1)
         hlaserp2.GetZaxis().SetTitleOffset(1.1)
-        c.Print("IndivLaserTransparencyEEp_p2_" + runNumber + ".png")
+        c.Print(runNumber+"IndivLaserTransparencyEEp_p2.png")
     
         htimem1.SetAxisRange(-5., 5.,"Z")
         htimem1.Draw("colz")
         htimem1.GetYaxis().SetTitleOffset(1.1)
         htimem1.GetZaxis().SetTitleOffset(0.8)
-        c.Print("IndivTimeResponseEEm_p1_" + runNumber + ".png")
+        c.Print(runNumber+"IndivTimeResponseEEm_p1.png")
         hlaserm1.SetAxisRange(0., 1.,"Z")
         hlaserm1.Draw("colz")
         hlaserm1.GetYaxis().SetTitleOffset(1.1)
         hlaserm1.GetZaxis().SetTitleOffset(1.1)
-        c.Print("IndivLaserTransparencyEEm_p1_" + runNumber + ".png")
+        c.Print(runNumber+"IndivLaserTransparencyEEm_p1.png")
         
         htimem2.SetAxisRange(-5., 5.,"Z")
         htimem2.Draw("colz")
         htimem2.GetYaxis().SetTitleOffset(1.1)
         htimem2.GetZaxis().SetTitleOffset(0.8)
-        c.Print("IndivTimeResponseEEm_p2_" + runNumber + ".png")
+        c.Print(runNumber+"IndivTimeResponseEEm_p2.png")
         hlaserm2.SetAxisRange(0., 1.,"Z")
         hlaserm2.Draw("colz")
         hlaserm2.GetYaxis().SetTitleOffset(1.1)
         hlaserm2.GetZaxis().SetTitleOffset(1.1)
-        c.Print("IndivLaserTransparencyEEm_p2_" + runNumber + ".png")
+        c.Print(runNumber+"IndivLaserTransparencyEEm_p2.png")
     else:
         htimep1.SetAxisRange(-5., 5.,"Z")
         htimep1.Draw("colz")
         htimep1.GetYaxis().SetTitleOffset(1.1)
         htimep1.GetZaxis().SetTitleOffset(0.8)
-        c.Print("IndivTimeResponseEEp_c_" + runNumber + ".png")
+        c.Print(runNumber+"IndivTimeResponseEEp_c.png")
         hlaserp1.SetAxisRange(0., 1.,"Z")
         hlaserp1.Draw("colz")
         hlaserp1.GetYaxis().SetTitleOffset(1.1)
         hlaserp1.GetZaxis().SetTitleOffset(1.1)
-        c.Print("IndivLaserTransparencyEEp_c_" + runNumber + ".png")
+        c.Print(runNumber+"IndivLaserTransparencyEEp_c.png")
 
         htimem1.SetAxisRange(-5., 5.,"Z")
         htimem1.Draw("colz")
         htimem1.GetYaxis().SetTitleOffset(1.1)
         htimem1.GetZaxis().SetTitleOffset(0.8)
-        c.Print("IndivTimeResponseEEm_c_" + runNumber + ".png")
+        c.Print(runNumber+"IndivTimeResponseEEm_c.png")
         hlaserm1.SetAxisRange(0., 1.,"Z")
         hlaserm1.Draw("colz")
         hlaserm1.GetYaxis().SetTitleOffset(1.1)
         hlaserm1.GetZaxis().SetTitleOffset(1.1)
-        c.Print("IndivLaserTransparencyEEm_c_" + runNumber + ".png")
+        c.Print(runNumber+"IndivLaserTransparencyEEm_c.png")
 
     if seedmapp1 != 0: #print 1 seed map
         seedmapp1.SetMinimum(0.)
         seedmapp1.Draw("colz")
         seedmapp1.GetYaxis().SetTitleOffset(1.1)
-        c.Print("SeedDensityEEp_" + runNumber + ".png")
+        c.Print(runNumber+"SeedDensityEEp.png")
 
         seedmapm1.SetMinimum(0.)
         seedmapm1.Draw("colz")
         seedmapm1.GetYaxis().SetTitleOffset(1.1)
-        c.Print("SeedDensityEEm_" + runNumber + ".png")
+        c.Print(runNumber+"SeedDensityEEm.png")
         if seedmapp2 != 0: #print both seed maps
             seedmapp2.SetMinimum(0.)
             seedmapp2.Draw("colz")
             seedmapp2.GetYaxis().SetTitleOffset(1.1)
-            c.Print("SeedDensityEEp_p2_" + runNumber + ".png")
+            c.Print(runNumber+"SeedDensityEEp_p2.png")
             
             seedmapm2.SetMinimum(0.)
             seedmapm2.Draw("colz")
             seedmapm2.GetYaxis().SetTitleOffset(1.1)
-            c.Print("SeedDensityEEm_p2_" + runNumber + ".png")
+            c.Print(runNumber+"SeedDensityEEm_p2.png")
 
     #close the canvas
     c.Close()

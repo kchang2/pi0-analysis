@@ -25,6 +25,7 @@ if __name__ == "__main__":
     resultLocation = sys.argv[2]
     bf = int(sys.argv[3])
     ef = int(sys.argv[4])
+    iter = sys.argv[5]
     
     #Check and change current working directory.
     stardir = os.getcwd()
@@ -32,6 +33,12 @@ if __name__ == "__main__":
     os.chdir(fileLocation)
     retdir = os.getcwd()
     print "Directory changed successfully %s" % retdir
+    
+    ## how many iterations in this run ##
+    if p.jobIterFiles == -1 or p.jobIterFiles == 0 or p.jobIterFiles == 1:
+        iterext = "iter_1_of_1_"
+    else:
+        iterext = "iter_" + iter + "_of_" + str(p.jobIterFiles) + "_"
     
     ## Root file path and file name you analyze ##
     rootList = os.listdir(fileLocation)
@@ -135,7 +142,7 @@ if __name__ == "__main__":
     retdir = os.getcwd()
     print "Current working directory %s" % retdir
     os.chdir(resultLocation + '/' + p.folderName + '/')
-    folder = 'ctEE_' + fname + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    folder = 'ctEE_' + fname + iterext + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     os.system('mkdir ' + folder)
     os.chdir(os.getcwd() + '/' + folder +'/')
     retdir = os.getcwd()
@@ -143,7 +150,21 @@ if __name__ == "__main__":
     shutil.copytree(stardir + '/' + 'preresult package', retdir + '/QA')
 #    shutil.copyfile(stardir + '/' + 'unpack.py', retdir + '/unpack.py')
     shutil.copyfile(stardir + '/' + 'setstyle.C', retdir + '/setstyle.c')
-#    shutil.copyfile(stardir + '/' + 'fast_restack.py', retdir + '/fast_Restack.py')
+#    shutil.copyfile(stardir + '/' + 'fast_restack.py', retdir + '/fast_restack.py')
+
+    # Changes the fast_restack.py file to auto-include the run number.
+    os.chdir(os.getcwd() + '/QA/')
+    f = open('fast_restack.py', 'r')
+    filedata = f.read()
+    f.close()
+
+    newscript = filedata.replace("p.runNumber", str(p.runNumber))
+    f = open('fast_restack.py','w')
+    f.write(newscript)
+    f.close()
+
+    #returns to the result folder made
+    os.chdir(retdir)
 
     #saving run info to a numpy file for reference later
     np.save(p.runNumber+"ClusterRunInfoEE.npy", runinfo)

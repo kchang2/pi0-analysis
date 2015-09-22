@@ -85,7 +85,7 @@ if __name__ == "__main__":
         print "sorry, no .root files in folder"
         exit()
 
-    #clustered histograms (htcp = *h*istgram of *t*ime response *c*luster,plus)
+    #clustered histograms
     htcp = rt.TH2F("Cluster TR in EE+", "Cluster TR in EE+; iX;iY;ns",51,0,51,51,0,51) #first column or row is 0
     htcm = rt.TH2F("Cluster TR in EE-", "Cluster TR in EE-; iX;iY;ns",51,0,51,51,0,51)
     hlcp = rt.TH2F("Cluster Transparency in EE+", "Cluster Transparency in EE+; iX;iY;Relative Transparency",51,0,51,51,0,51)
@@ -170,24 +170,21 @@ if __name__ == "__main__":
 
 
             #print out images
-            rt.gROOT.LoadMacro('setstyle.c')
-            rt.gROOT.Macro('setstyle.c')
-            c = rt.TCanvas("c","c",600,500)
-            c.cd()
+            c = rt.TCanvas()
             htcp.SetAxisRange(-5., 5.,"Z")
             htcp.Draw("colz")
-            c.Print("clusterTimeResponseEEp_c_" + p.runNumber + ".png")
+            c.Print(p.runNumber+"clusterTimeResponseEEp_c.png")
             hlcp.SetAxisRange(0., 1.,"Z")
             hlcp.Draw("colz")
-            c.Print("clusterLaserTransparencyEEp_c_" + p.runNumber + ".png")
+            c.Print(p.runNumber+"clusterLaserTransparencyEEp_c.png")
             hdcp.SetMinimum(0)
             hdcp.Draw("colz")
             if p.includeClusterSeedMap == True:
-                c.Print("clusterPhotonDensityEEp_c_" + p.runNumber + ".png")
+                c.Print(p.runNumber+"clusterPhotonDensityEEp_c.png")
             c.Close()
 
             #save files
-            f = rt.TFile("ClusterTimeEEp_c_" + p.runNumber + ".root","new")
+            f = rt.TFile(p.runNumber+"ClusterTimeEEp_c.root","new")
             htcp.Write()
             hlcp.Write()
             hdcp.Write()
@@ -195,7 +192,7 @@ if __name__ == "__main__":
             
             #formatting and saving all data into a numpy file for analyzing later
             dataList.shape = (51,51,11)
-            np.save("clusterdataEEp_c_" + p.runNumber + ".npy", dataList)
+            np.save(p.runNumber+"cluserdataEEp_c.npy", dataList)
 
         elif 'm_c' in rootfile:
             for x in range(0, htcm.GetNbinsX()):
@@ -269,24 +266,21 @@ if __name__ == "__main__":
 #                    time.sleep(0.25)
 
             #print out images
-            rt.gROOT.LoadMacro('setstyle.c')
-            rt.gROOT.Macro('setstyle.c')
-            c = rt.TCanvas("c","c",600,500)
-            c.cd()
+            c = rt.TCanvas()
             htcm.SetAxisRange(-5., 5.,"Z")
             htcm.Draw("colz")
-            c.Print("clusterTimeResponseEEm_c_" + p.runNumber + ".png")
+            c.Print(p.runNumber+"clusterTimeResponseEEm_c.png")
             hlcm.SetAxisRange(0., 1.,"Z")
             hlcm.Draw("colz")
-            c.Print("clusterLaserTransparencyEEm_c_" + p.runNumber + ".png")
+            c.Print(p.runNumber+"clusterLaserTransparencyEEm_c.png")
             hdcm.SetMinimum(0)
             hdcm.Draw("colz")
             if p.includeClusterSeedMap == True:
-                c.Print("clusterPhotonDensityEEm_c_" + p.runNumber + ".png")
+                c.Print(p.runNumber+"clusterPhotonDensityEEm_c.png")
             c.Close()
 
             #save files
-            f = rt.TFile("ClusterTimeEEm_c_" + p.runNumber + ".root","new")
+            f = rt.TFile(p.runNumber+"ClusterTimeEEm_c.root","new")
             htcm.Write()
             hlcm.Write()
             hdcm.Write()
@@ -295,30 +289,13 @@ if __name__ == "__main__":
             #formatting and saving all data into a numpy file for analyzing later
             dataList.flatten()
             dataList.shape = (51,51,11)
-            np.save("clusterdataEEm_c_" + p.runNumber + ".npy", dataList)
+            np.save(p.runNumber+"cluserdataEEm_c.npy", dataList)
 
         else:
             pass
-            #barrel - doesn't need it because when we work with the barrel, all of the data points are shown (statistics are great in the barrel (almost an order of magnitude larger)
+            #barrel?
 
-## eventually convert to main statement
-def rings():
-    #ringed histograms (htrp = *h*istgram of *t*ime response *r*ings,plus)
-    htp = rt.TH2F("TR in EE+", "TR in EE+; iX;iY;ns",101,0,101,101,0,101) #first column or row is 0
-    htm = rt.TH2F("TR in EE-", "TR in EE-; iX;iY;ns",101,0,101,101,0,101)
-    hlp = rt.TH2F("Transparency in EE+", "Cluster Transparency in EE+; iX;iY;Relative Transparency",101,0,101,101,0,101)
-    hlm = rt.TH2F("Transparency in EE-", "Cluster Transparency in EE-; iX;iY;Relative Transparency",101,0,101,101,0,101)
-    hdp = rt.TH2F("SPD in EE+", "SPD in EE+; iX;iY;Photon Counts",51,0,51)
-    hdm = rt.TH2F("SPD in EE-", "SPD in EE-; iX;iY;Photon Counts",51,0,51)
 
-    htrp = rt.TH1F("Ringed TR in EE+", "Ringed TR in EE+; iR;ns",51,0,51) #first column or row is 0
-    htrm = rt.TH1F("Ringed TR in EE-", "Ringed TR in EE-; iR;ns",51,0,51)
-    hlrp = rt.TH1F("Ringed Transparency in EE+", "Cluster Transparency in EE+; iR;Relative Transparency",51,0,51)
-    hlrm = rt.TH1F("Ringed Transparency in EE-", "Cluster Transparency in EE-; iR;Relative Transparency",51,0,51)
-    hdrp = rt.TH1F("Ringed SPD in EE+", "Ringed SPD in EE+; iR;Photon Counts",51,0,51)
-    hdrm = rt.TH1F("Ringed SPD in EE-", "Ringed SPD in EE-; iR;Photon Counts",51,0,51)
-
-    
 #def fit(hist, type):
 #    #get bin position of maximum value
 #    binmax = hist.GetMaximumBin()

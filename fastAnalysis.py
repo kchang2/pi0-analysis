@@ -98,7 +98,7 @@ if p.runFormat == 'B':
             f.close()
             
             newscript = filedata.replace("cd","cd " + os.getcwd())
-            newscript = filedata.replace(".py",".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
+            newscript = filedata.replace(".py",".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]) + " " + str(k))
             
             f = open(p.analFile,'w')
             f.write(newscript)
@@ -112,7 +112,7 @@ if p.runFormat == 'B':
             f.close()
             
             newscript = filedata.replace("cd " + os.getcwd(),"cd")
-            newscript = filedata.replace(".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]), ".py")
+            newscript = filedata.replace(".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]) + " " + str(k), ".py")
             f = open(p.analFile,'w')
             f.write(newscript)
             f.close()
@@ -125,7 +125,7 @@ if p.runFormat == 'B':
                 f.close()
                 
                 newscript = filedata.replace("cd","cd " + os.getcwd())
-                newscript = filedata.replace(".py",".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
+                newscript = filedata.replace(".py",".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]) + " " + str(k))
                 f = open(filein,'w')
                 f.write(newscript)
                 f.close()
@@ -138,7 +138,7 @@ if p.runFormat == 'B':
                 f.close()
                 
                 newscript = filedata.replace("cd " + os.getcwd(),"cd")
-                newscript = filedata.replace(".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]), ".py")
+                newscript = filedata.replace(".py " + fileLocation + " " + resultLocation + " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]) + " " + str(k), ".py")
                 f = open(filein,'w')
                 f.write(newscript)
                 f.close()
@@ -149,18 +149,18 @@ else:
         if p.runAllScript == True:
             for pyfiles in p.filesforAll:
                 for k in range(0,len(iterFiles)-1):
-                    os.system('python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
+                    os.system('python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]) + " " + str(k))
         else:
             for pyfiles in p.ifFalsethenWhat:
                 for k in range(0,len(iterFiles)-1):
-                    os.system('python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
+                    os.system('python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]) + " " + str(k))
     else:
         if p.runAllScript == True:
             for pyfiles in p.filesforAll:
                 for k in range(0,len(iterFiles)-1):
-                    os.system('nohup python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
+                    os.system('nohup python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]) + " " + str(k))
         else:
             for pyfiles in p.ifFalsethenWhat:
                 for k in range(0,len(iterFiles)-1):
-                    os.system('nohup python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]))
+                    os.system('nohup python ' + pyfiles + ".py " + fileLocation + " " + resultLocation +  " " + str(iterFiles[k]) + " " + str(iterFiles[k+1]) + " " + str(k))
 

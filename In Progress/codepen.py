@@ -109,4 +109,21 @@
                    #        #fitting clustered histograms
                    #        for x in range(htc.GetNbinsX()):
 
+                   
+                   
+                   #time response
+                   if ##GET Value in hist_t @ (x,y) ## == -999:
+                   continue
+                   if f[x][y][5] == -999:
+                   hist_t.Fill(f[x][y][2],f[x][y][3],f[x][y][5]) #response mean
+                   hist_t.SetBinError(f[x][y][2]+1,f[x][y][3]+1,f[x][y][6]) #response uncertainty
+                   else:
+                   hist_t.Fill(f[x][y][2],f[x][y][3],##hist value at position## - f[x][y][5]) #response mean
+                               hist_t.SetBinError(f[x][y][2]+1,f[x][y][3]+1,f[x][y][6]) #response uncertainty
+                               #laser transparency
+                               hist_l.Fill(f[x][y][2],f[x][y][3],f[x][y][9]) #transparency mean
+                               hist_l.SetBinError(f[x][y][2]+1,f[x][y][3]+1,f[x][y][10]) #transparency uncertainty
+                               
+                               #seed density
+                               hist_s.Fill(f[x][y][2],f[x][y][3],f[x][y][4]) #seed count
 
