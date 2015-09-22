@@ -44,7 +44,7 @@ Well, I have a manual just for that. Email me, kchang2@caltech.edu, to get the m
 
 ####I want to print out all the pictures and graphs. How do I do that?
 
-Currently, this version does not allow it, so just wait patiently until I make a new version with this feature. If you need it urgently, I suggest you go into the stackNfit.py file and manually load the command.
+Currently, this version does not allow it, so just wait patiently until I make a new version with this feature. If you need it urgently, I suggest you go into the stackNfit.py file and manually load the command. Or, another probably smart thing to do is load up the .root file and then select the ones or print the ones you want straight from terminal. Saves you're computer from heating up from printing so many images.
 
 ####Hey, where's the Eta and Phi? It's great that you iX and iY as well as iEta and iPhi, but I want to do some fits by region and analyze effects on each.
 
