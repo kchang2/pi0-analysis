@@ -13,9 +13,9 @@
 
 
 ###Input Path###
-runNumber = '2015D_'        #Run sequence from where data is pulled and analyzed
+runNumber = '2015A_'        #Run sequence from where data is pulled and analyzed
 rootFileLocationLocal = '/Users/kaichang/Desktop/output/'      #Location where EcalPro's fit_iter_.py files ROOT files (that are created) are located on local computer
-rootFileLocationLXPLUS = '/afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_6_patch6/src/CalibCode/submit/ALL_LASER_2015D_RAW_Test1/cfgFile/Fill/output/'        #Location where EcalPro's fit_iter_.py files ROOT files (that are created) are located on LXPLUS cluster
+rootFileLocationLXPLUS = '/afs/cern.ch/user/k/kachang/work/public/CMSSW_7_4_6_patch6/src/CalibCode/submit/ALL_LASER_2015A_RAW_Test1/cfgFile/Fill/output/'        #Location where EcalPro's fit_iter_.py files ROOT files (that are created) are located on LXPLUS cluster
 
 
 ###Analyzing info###
@@ -37,7 +37,7 @@ folderName = 'result'       #name of folder your files will go into
 
 
 ###Script Info [fastAnalysis]###
-runFormat = 'X'             #Batch [B], LXPLUS [X], Locally [L]
+runFormat = 'B'             #Batch [B], LXPLUS [X], Locally [L]
 runBatchLength = '2nd'      #if isBatch = True, specificy how long program runs normally
 displayOutput = False       #False = don't display each fit parameters, True = display on Terminal
 runAllScript = False              #True = run all analysis. False = individual analysis
