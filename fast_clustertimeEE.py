@@ -142,7 +142,7 @@ if __name__ == "__main__":
     retdir = os.getcwd()
     print "Current working directory %s" % retdir
     os.chdir(resultLocation + '/' + p.folderName + '/')
-    folder = 'ctEE_' + fname + iterext + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    folder = 'ctEE_' + p.runNumber + fname + iterext + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     os.system('mkdir ' + folder)
     os.chdir(os.getcwd() + '/' + folder +'/')
     retdir = os.getcwd()
