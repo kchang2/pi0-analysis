@@ -23,24 +23,29 @@ from FastProgressBar import progressbar
 def fit(npyList):
     grphlist, fitdata T, t = []
     #maybe need to draw canvas
-    for x in len(npyList[0]):
-        for y in len(npyList[0][0]):
+    for x in range(len(npyList[0])):
+        for y in range(len(npyList[0][0])):
             for file in npyList:
-                T.append(file[x][y][9])
                 t.append(file[x][y][5])
-                eT.append(file[x][y]10) # <- not sure if need
-                et.append(file[x][y][6])#transparency, time response, time response error
-                hprof.SetBinError()
+                T.append(file[x][y][9])
+                et.append(file[x][y][6])
+                eT.append(file[x][y][10]) # <- not sure if need #transparency, time response, time response error
             
             name = "transparency vs. time response (%i,%i)" %(x,y)
             title = "transparency vs. time response (%i,%i)" %(x,y)
             gr = rt.TGraphErrors(name,title,len(T),T,t,eT,et)
 
             #apply fit
-            
-            
+            gr.Fit("pol1")
+            linplot = gr.GetFunction("pol1")
+            p0 = linplot.GetParameter(0)
+            p1 = linplot.GetParameter(1)
+
             #append to grphlist
+            grphlist.append(linplot)
+
             #save fit to fitdata
+            fitdata.append(p0,p1)
 
     return grphlist, fitdata
 
