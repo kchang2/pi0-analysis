@@ -30,7 +30,7 @@ def stack(clustorindiv, f1_p, f1_m, f2_p, f2_m, addorsubtract):
         ## plus ##
             #time response
             #print "x, y, time response 1: " + str(x) + ", " + str(y) + ", " + f1_p[x][y][5]
-            if float(f1_p[x][y][4]) == 0 or float(f2_p[x][y][4]) == 0:
+            if float(f1_p[x][y][4]) == 0 or float(f1_p[x][y][5]) == 0 or float(f2_p[x][y][4]) == 0 or float(f2_p[x][y][5]) == 0:
                 time = -999
                 time_sigma = 0
                 transp = -999
@@ -42,7 +42,10 @@ def stack(clustorindiv, f1_p, f1_m, f2_p, f2_m, addorsubtract):
                 else:
                     val = float(f2_p[x][y][5])
                 time = float(f1_p[x][y][5]) + val
-                time_sigma = math.sqrt( math.pow(float(f1_p[x][y][6]),2) + math.pow(float(f2_p[x][y][6]),2) )
+                try:
+                    time_sigma = math.sqrt( math.pow(float(f1_p[x][y][6]),2) + math.pow(float(f2_p[x][y][6]),2) )
+                except:
+                    pass
                 #print f2_p[x][y][5] + ", " + f1_p[x][y][5]
                 #percent deviation is: time_sigma = time * math.sqrt( math.pow(float(f1_p[x][y][6])/f1_p[x][y][5],2) + math.pow(float(f2_p[x][y][6])/f2_p[x][y][5],2))
                 
@@ -52,7 +55,10 @@ def stack(clustorindiv, f1_p, f1_m, f2_p, f2_m, addorsubtract):
                 else:
                     val = float(f2_p[x][y][9])
                 transp = float(f1_p[x][y][9]) + val
-                transp_sigma = math.sqrt( math.pow(float(f1_p[x][y][10]),2) + math.pow(float(f2_p[x][y][10]),2) )
+                try:
+                    transp_sigma = math.sqrt( math.pow(float(f1_p[x][y][10]),2) + math.pow(float(f2_p[x][y][10]),2) )
+                except:
+                    pass
             
                 #seed density
                 dens = float(f1_p[x][y][4]) + float(f2_p[x][y][4]) #problem w/ reading file, so is float instead of int
@@ -62,7 +68,7 @@ def stack(clustorindiv, f1_p, f1_m, f2_p, f2_m, addorsubtract):
         
         ## minus ##
             #time response
-            if float(f1_m[x][y][4]) == 0 or float(f2_m[x][y][4]) == 0:
+            if float(f1_m[x][y][4]) == 0 or float(f1_m[x][y][5]) == 0 or float(f2_m[x][y][4]) == 0 or float(f2_m[x][y][5]) == 0:
                 time = -999
                 time_sigma = 0
                 transp = -999
@@ -74,7 +80,10 @@ def stack(clustorindiv, f1_p, f1_m, f2_p, f2_m, addorsubtract):
                 else:
                     val = float(f2_m[x][y][5])
                 time = float(f1_m[x][y][5]) + val
-                time_sigma = math.sqrt( math.pow(float(f1_m[x][y][6]),2) + math.pow(float(f2_m[x][y][6]),2) )
+                try:
+                    time_sigma = math.sqrt( math.pow(float(f1_m[x][y][6]),2) + math.pow(float(f2_m[x][y][6]),2) )
+                except:
+                    pass
 
                 #laser transparency
                 if addorsubtract == "subtract":
@@ -82,8 +91,10 @@ def stack(clustorindiv, f1_p, f1_m, f2_p, f2_m, addorsubtract):
                 else:
                     val = float(f2_m[x][y][9])
                 transp = float(f1_m[x][y][9]) + val
-                transp_sigma = math.sqrt( math.pow(float(f1_m[x][y][10]),2) + math.pow(float(f2_m[x][y][10]),2) )
-
+                try:
+                    transp_sigma = math.sqrt( math.pow(float(f1_m[x][y][10]),2) + math.pow(float(f2_m[x][y][10]),2) )
+                except:
+                    pass
                 #seed density
                 dens = float(f1_m[x][y][4]) + float(f2_m[x][y][4])
 
@@ -132,21 +143,26 @@ def wghtavg(f1, f2, clustorindiv):
                 T_mean = 0
                 T_sigma = 0
             else:
-                print f1[x][y][4] + ", " + f2[x][y][4] + ", " + f1[x][y][5] + ", " + f2[x][y][5]
+                #print f1[x][y][4] + ", " + f2[x][y][4] + ", " + f1[x][y][5] + ", " + f2[x][y][5]
                 t_mean = (float(f1[x][y][5]) * float(f1[x][y][4]) + float(f2[x][y][5]) * float(f2[x][y][4]))/(float(f1[x][y][4]) + float(f2[x][y][4]))
-                t_Sigma = (float(f1[x][y][7]) * float(f1[x][y][4]) + float(f2[x][y][7]) * float(f2[x][y][4]))/(float(f1[x][y][4]) + float(f2[x][y][4]))
+                try:
+                    t_Sigma = (float(f1[x][y][7]) * float(f1[x][y][4]) + float(f2[x][y][7]) * float(f2[x][y][4]))/(float(f1[x][y][4]) + float(f2[x][y][4]))
+                except:
+                    pass
                 T_mean = (float(f1[x][y][9]) * float(f1[x][y][4]) + float(f2[x][y][9]) * float(f2[x][y][4]))/(float(f1[x][y][4]) + float(f2[x][y][4]))
                 
                 #print f1[x][y][5] + ", " + str(t_mean)
                 
-                if float(f1[x][y][5]) == 0 or float(f1[x][y][7]) == 0 or float(f1[x][y][9] == 0):
+                if float(f1[x][y][5]) == 0 or float(f1[x][y][7]) == 0 or float(f1[x][y][9] == 0) or float(f2[x][y][5]) == 0 or float(f2[x][y][7]) == 0 or float(f2[x][y][9] == 0):
                         t_sigma = 0
                         t_Sigma_sigma = 0
                         T_sigma = 0
                 else:
                     t_sigma = t_mean * math.sqrt( math.pow(float(f1[x][y][6])/float(f1[x][y][5]),2) + math.pow(float(f2[x][y][6])/float(f2[x][y][5]),2) )
-                    t_Sigma_sigma = t_Sigma * math.sqrt( math.pow(float(f1[x][y][8])/float(f1[x][y][7]),2) + math.pow(float(f2[x][y][8])/float(f2[x][y][7]),2) )
-                    T_sigma = t_mean * math.sqrt( math.pow(float(f1[x][y][10])/float(f1[x][y][9]),2) + math.pow(float(f2[x][y][10])/float(f2[x][y][9]),2) )
+                    try:
+                        t_Sigma_sigma = t_Sigma * math.sqrt( math.pow(float(f1[x][y][8])/float(f1[x][y][7]),2) + math.pow(float(f2[x][y][8])/float(f2[x][y][7]),2) )
+                    except:
+                        T_sigma = t_mean * math.sqrt( math.pow(float(f1[x][y][10])/float(f1[x][y][9]),2) + math.pow(float(f2[x][y][10])/float(f2[x][y][9]),2) )
 
             count = float(f1[x][y][4]) + float(f2[x][y][4])
             f = np.append(f, [f1[x][y][0], f1[x][y][1], f1[x][y][2], f1[x][y][3], count, t_mean, t_sigma, t_Sigma, t_Sigma_sigma, T_mean, T_sigma])
@@ -198,13 +214,13 @@ if __name__ == "__main__":
 
     #2015A - 2015B
     for numpyfile in numpyList:
-        if "2015A" and "EEp" in numpyfile:
+        if "2015A" in numpyfile and "EEp" in numpyfile:
             fA_p = np.load(numpyfile)
-        if "2015A" and "EEm" in numpyfile:
+        if "2015A" in numpyfile and "EEm" in numpyfile:
             fA_m = np.load(numpyfile)
-        if "2015B" and "EEp" in numpyfile:
+        if "2015B" in numpyfile and "EEp" in numpyfile:
             fB_p = np.load(numpyfile)
-        if "2015B" and "EEm" in numpyfile:
+        if "2015B" in numpyfile and "EEm" in numpyfile:
             fB_m = np.load(numpyfile)
 
     #stack data and place into arrays
@@ -222,44 +238,44 @@ if __name__ == "__main__":
 
     #Print out results and saves them#
     #plus
-    htdp.SetAxisRange(-0.5, 0.5,"Z")
+    htdp.SetAxisRange(-5, 5,"Z")
     htdp.Draw("colz")
     htdp.GetYaxis().SetTitleOffset(1.1)
     htdp.GetZaxis().SetTitleOffset(1.1)
-    c.Print("AB_TR_D_EEp.png")
-    hldp.SetAxisRange(-0.1, 0.1,"Z")
+    c.Print("Clust_AB_TR_D_EEp.png")
+    hldp.SetAxisRange(-1, 1,"Z")
     hldp.Draw("colz")
     hldp.GetYaxis().SetTitleOffset(1.1)
     hldp.GetZaxis().SetTitleOffset(1.25)
-    c.Print("AB_LS_D_EEp.png")
+    c.Print("Clust_AB_LS_D_EEp.png")
     hddp.SetMinimum(0.)
     hddp.Draw("colz")
     hddp.GetYaxis().SetTitleOffset(1.1)
     hddp.GetZaxis().SetTitleOffset(1.1)
-    c.Print("AB_SD_D_EEp.png")
+    c.Print("Clust_AB_SD_D_EEp.png")
     #minus
-    htdm.SetAxisRange(-0.5, 0.5,"Z")
+    htdm.SetAxisRange(-5, 5,"Z")
     htdm.Draw("colz")
     htdm.GetYaxis().SetTitleOffset(1.1)
     htdm.GetZaxis().SetTitleOffset(1.1)
-    c.Print("AB_TR_D_EEm.png")
-    hldm.SetAxisRange(-0.1, 0.1,"Z")
+    c.Print("Clust_AB_TR_D_EEm.png")
+    hldm.SetAxisRange(-1, 1,"Z")
     hldm.Draw("colz")
     hldm.GetYaxis().SetTitleOffset(1.1)
     hldm.GetZaxis().SetTitleOffset(1.25)
-    c.Print("AB_LS_D_EEm.png")
+    c.Print("Clust_AB_LS_D_EEm.png")
     hddm.SetMinimum(0.)
     hddm.Draw("colz")
     hddm.GetYaxis().SetTitleOffset(1.1)
     hddm.GetZaxis().SetTitleOffset(1.1)
-    c.Print("AB_SD_D_EEm.png")
+    c.Print("Clust_AB_SD_D_EEm.png")
 
 
     #2015A - 2015C
     for numpyfile in numpyList:
-        if "2015C" and "EEp" in numpyfile:
+        if "2015C" in numpyfile and "EEp" in numpyfile:
             fC_p = np.load(numpyfile)
-        if "2015C" and "EEm" in numpyfile:
+        if "2015C" in numpyfile and "EEm" in numpyfile:
             fC_m = np.load(numpyfile)
     #stack
     dataList_p, dataList_m = stack(clustorindiv, fA_p, fA_m, fC_p, fC_m, "subtract")
@@ -270,37 +286,84 @@ if __name__ == "__main__":
 
     #Print out results and saves them#
     #plus
-    htdp.SetAxisRange(-0.2, 0.2,"Z")
+    htdp.SetAxisRange(-5, 5,"Z")
     htdp.Draw("colz")
     htdp.GetYaxis().SetTitleOffset(1.1)
     htdp.GetZaxis().SetTitleOffset(1.1)
-    c.Print("AC_TR_D_EEp.png")
-    hldp.SetAxisRange(-0.1, 0.1,"Z")
+    c.Print("Clust_AC_TR_D_EEp.png")
+    hldp.SetAxisRange(-1, 1,"Z")
     hldp.Draw("colz")
     hldp.GetYaxis().SetTitleOffset(1.1)
     hldp.GetZaxis().SetTitleOffset(1.25)
-    c.Print("AC_LS_D_EEp.png")
+    c.Print("Clust_AC_LS_D_EEp.png")
     hddp.SetMinimum(0.)
     hddp.Draw("colz")
     hddp.GetYaxis().SetTitleOffset(1.1)
     hddp.GetZaxis().SetTitleOffset(1.25)
-    c.Print("AC_SD_D_EEp.png")
+    c.Print("Clust_AC_SD_D_EEp.png")
     #minus
-    htdm.SetAxisRange(-0.2, 0.2,"Z")
+    htdm.SetAxisRange(-5, 5,"Z")
     htdm.Draw("colz")
     htdm.GetYaxis().SetTitleOffset(1.1)
     htdm.GetZaxis().SetTitleOffset(1.1)
-    c.Print("AC_TR_D_EEm.png")
-    hldm.SetAxisRange(-0.1, 0.1,"Z")
+    c.Print("Clust_AC_TR_D_EEm.png")
+    hldm.SetAxisRange(-1, 1,"Z")
     hldm.Draw("colz")
     hldm.GetYaxis().SetTitleOffset(1.1)
     hldm.GetZaxis().SetTitleOffset(1.25)
-    c.Print("AC_LS_D_EEm.png")
+    c.Print("Clust_AC_LS_D_EEm.png")
     hddm.SetMinimum(0.)
     hddm.Draw("colz")
     hddm.GetYaxis().SetTitleOffset(1.1)
     hddm.GetZaxis().SetTitleOffset(1.25)
-    c.Print("AC_SD_D_EEm.png")
+    c.Print("Clust_AC_SD_D_EEm.png")
+
+    #2015A - 2015D
+    for numpyfile in numpyList:
+        if "2015D" in numpyfile and "EEp" in numpyfile:
+            fD_p = np.load(numpyfile)
+        if "2015D" in numpyfile and "EEm" in numpyfile:
+            fD_m = np.load(numpyfile)
+    #stack
+    dataList_p, dataList_m = stack(clustorindiv, fA_p, fA_m, fD_p, fD_m, "subtract")
+    
+    #Fill the histograms
+    htdp, hldp, hddp = fill(dataList_p, htdp, hldp, hddp)
+    htdm, hldm, hddm = fill(dataList_m, htdm, hldm, hddm)
+    
+    #Print out results and saves them#
+    #plus
+    htdp.SetAxisRange(-5, 5,"Z")
+    htdp.Draw("colz")
+    htdp.GetYaxis().SetTitleOffset(1.1)
+    htdp.GetZaxis().SetTitleOffset(1.1)
+    c.Print("Clust_AD_TR_D_EEp.png")
+    hldp.SetAxisRange(-1, 1,"Z")
+    hldp.Draw("colz")
+    hldp.GetYaxis().SetTitleOffset(1.1)
+    hldp.GetZaxis().SetTitleOffset(1.25)
+    c.Print("Clust_AD_LS_D_EEp.png")
+    hddp.SetMinimum(0.)
+    hddp.Draw("colz")
+    hddp.GetYaxis().SetTitleOffset(1.1)
+    hddp.GetZaxis().SetTitleOffset(1.25)
+    c.Print("Clust_AD_SD_D_EEp.png")
+    #minus
+    htdm.SetAxisRange(-5, 5,"Z")
+    htdm.Draw("colz")
+    htdm.GetYaxis().SetTitleOffset(1.1)
+    htdm.GetZaxis().SetTitleOffset(1.1)
+    c.Print("Clust_AD_TR_D_EEm.png")
+    hldm.SetAxisRange(-1, 1,"Z")
+    hldm.Draw("colz")
+    hldm.GetYaxis().SetTitleOffset(1.1)
+    hldm.GetZaxis().SetTitleOffset(1.25)
+    c.Print("Clust_AD_LS_D_EEm.png")
+    hddm.SetMinimum(0.)
+    hddm.Draw("colz")
+    hddm.GetYaxis().SetTitleOffset(1.1)
+    hddm.GetZaxis().SetTitleOffset(1.25)
+    c.Print("Clust_AD_SD_D_EEm.png")
 
 
     #(2015A + 2015B) - 2015C
@@ -320,28 +383,28 @@ if __name__ == "__main__":
     htdp.Draw("colz")
     htdp.GetYaxis().SetTitleOffset(1.1)
     htdp.GetZaxis().SetTitleOffset(0.8)
-    c.Print("A+B-C_TR_D_EEp.png")
+    c.Print("Clust_A+B-C_TR_D_EEp.png")
     hldp.SetAxisRange(-1., 1.,"Z")
     hldp.Draw("colz")
     hldp.GetYaxis().SetTitleOffset(1.1)
     hldp.GetZaxis().SetTitleOffset(1.1)
-    c.Print("A+B-C_LS_D_EEp.png")
+    c.Print("Clust_A+B-C_LS_D_EEp.png")
     hddp.SetMinimum(0.)
     hddp.Draw("colz")
     hddp.GetYaxis().SetTitleOffset(1.1)
-    c.Print("A+B-C_SD_D_EEp.png")
+    c.Print("Clust_A+B-C_SD_D_EEp.png")
     #minus
     htdm.SetAxisRange(-5., 5.,"Z")
     htdm.Draw("colz")
     htdm.GetYaxis().SetTitleOffset(1.1)
     htdm.GetZaxis().SetTitleOffset(0.8)
-    c.Print("A+B-C_TR_D_EEm.png")
+    c.Print("Clust_A+B-C_TR_D_EEm.png")
     hldm.SetAxisRange(-1., 1.,"Z")
     hldm.Draw("colz")
     hldm.GetYaxis().SetTitleOffset(1.1)
     hldm.GetZaxis().SetTitleOffset(1.1)
-    c.Print("A+B-C_LS_D_EEm.png")
+    c.Print("Clust_A+B-C_LS_D_EEm.png")
     hddm.SetMinimum(0.)
     hddm.Draw("colz")
     hddm.GetYaxis().SetTitleOffset(1.1)
-    c.Print("A+B-C_SD_D_EEm.png")
+    c.Print("Clust_A+B-C_SD_D_EEm.png")
