@@ -25,6 +25,22 @@ eta_min = 1.479
 phi_max = 25.672 ## in degree
 phi_min = 5.7 ## in degree
 ###########################
+## time and transparency fit range (if you want to change this)
+time_fit_min = -10.0
+time_fit_max = -10.0
+trans_fit_min = 0.5
+trans_fit_max = 1.5
+##########################
+## the minimum number of events that trigger you to fit the histogram
+min_gaus = 10
+
+##plot settings
+XTitleSize =  0.06
+YTitleSize =  0.05
+XLabelSize = 0.06
+YLabelSize = 0.05
+XTitleOffset = 0.8
+YTitleOffset = 0.6
 
 ## find all the .root files
 if len(input_root_files) == 0:
@@ -46,15 +62,11 @@ f_in_m = rt.TFile(filename_in_m)
 if p.splitPhotons == True:
 		print "to be finished in the future..."
 else:
-	print "working now...."
+	print "now extracting the time response and transparency histogram in different eta rings from the iX iY data...."
 	eta_time_p = range(0,32)
 	eta_time_m = range(0,32)
 	eta_trans_p = range(0,32)
 	eta_trans_m = range(0,32)
-	h_eta_time_p = rt.TH1F("Time Response in Endcap plus for all photons","Time Response in EE+; eta; ns", 32, 1.40,3.00)
-	h_eta_time_m = rt.TH1F("Time Response in Endcap minus for all photons","Time Response in EE-; eta; ns", 32, 1.40,3.00)
-        h_eta_trans_p = rt.TH1F("Transparency in Endcap plus for all photons", "Transparency in EE+; eta; Transparency", 32, 1.40, 3.00)
-        h_eta_trans_m = rt.TH1F("Transparency in Endcap minus for all photons", "Transparency in EE-; eta; Transparency", 32, 1.40, 3.00)
 
 	histListp = [[0 for x in range(101)] for y in range(101)]
         histListm = [[0 for x in range(101)] for y in range(101)]
@@ -80,7 +92,7 @@ else:
 					
 
 	for x in range(0,50):
-		print x
+		print "iX = %i" % x
 		for y in range(0,50):
 			histnamep = "time on plus sc (%i,%i)" %(x,y)
 	                histtitlep = "time response (ns) for plus crystal (%i,%i)" %(x,y)
@@ -107,6 +119,145 @@ else:
 
 	f_in_p.Close()
 	f_in_m.Close()
+	## fit the histograms
+	time_mean_p = range(0,32)
+	time_sigma_p = range(0,32)
+	trans_mean_p = range(0,32)
+	trans_sigma_p = range(0,32)
+	
+	time_mean_m = range(0,32)
+	time_sigma_m = range(0,32)
+	trans_mean_m = range(0,32)
+	trans_sigma_m = range(0,32)
+	
+	print "Now fitting the time response and transparency histogram in different eta rings..."
+	for index in range(0,32):
+		print "iEta = %i" % index
+		TF1_timenamep = "time p %i" % index 	
+		TF1_timenamem = "time m %i" % index 	
+		TF1_transnamep = "trans p %i" % index 	
+		TF1_transnamem = "trans m %i" % index 	
+		fit_time_p = rt.TF1(TF1_timenamep,"gaus",time_fit_min,time_fit_max);
+		fit_time_m = rt.TF1(TF1_timenamem,"gaus",time_fit_min,time_fit_max);
+		fit_trans_p = rt.TF1(TF1_transnamep,"gaus",trans_fit_min,trans_fit_max);
+		fit_trans_m = rt.TF1(TF1_transnamem,"gaus",trans_fit_min,trans_fit_max);
+		
+		if eta_time_p[index].GetEntries() > min_gaus: 
+			eta_time_p[index].Fit(fit_time_p, 'q')
+			time_mean_p[index] = fit_time_p.GetParameter(1)
+			time_sigma_p[index] = fit_time_p.GetParameter(2)
+		else:
+			time_mean_p[index] = eta_time_p[index].GetMean()
+			time_sigma_p[index] = eta_time_p[index].GetStdDev()
+		if eta_time_m[index].GetEntries() > min_gaus: 
+			eta_time_m[index].Fit(fit_time_m, 'q')
+			time_mean_m[index] = fit_time_m.GetParameter(1)
+			time_sigma_m[index] = fit_time_m.GetParameter(2)
+		else:
+			time_mean_m[index] = eta_time_m[index].GetMean()
+			time_sigma_m[index] = eta_time_m[index].GetStdDev()
+		
+		if eta_trans_p[index].GetEntries() > min_gaus: 
+			eta_trans_p[index].Fit(fit_trans_p, 'q')
+			time_mean_p[index] = fit_trans_p.GetParameter(1)
+			time_sigma_p[index] = fit_trans_p.GetParameter(2)
+		else:
+			time_mean_p[index] = eta_trans_p[index].GetMean()
+			time_sigma_p[index] = eta_trans_p[index].GetStdDev()
+		if eta_trans_m[index].GetEntries() > min_gaus: 
+			eta_trans_m[index].Fit(fit_trans_m, 'q')
+			time_mean_m[index] = fit_trans_m.GetParameter(1)
+			time_sigma_m[index] = fit_trans_m.GetParameter(2)
+		else:
+			time_mean_m[index] = eta_trans_m[index].GetMean()
+			time_sigma_m[index] = eta_trans_m[index].GetStdDev()
+		
+	## get the time response and transparency vs. eta plot..
+	print "now getting the time response and transparency vs. eta plot..."
+
+	h_eta_time_p = rt.TH1F("Time Response in Endcap plus for all photons","Time Response in EE+; eta; ns", 32, 1.40,3.00)
+	h_eta_time_m = rt.TH1F("Time Response in Endcap minus for all photons","Time Response in EE-; eta; ns", 32, 1.40,3.00)
+        h_eta_trans_p = rt.TH1F("Transparency in Endcap plus for all photons", "Transparency in EE+; eta; Transparency", 32, 1.40, 3.00)
+        h_eta_trans_m = rt.TH1F("Transparency in Endcap minus for all photons", "Transparency in EE-; eta; Transparency", 32, 1.40, 3.00)
+
+	for index in range(0,32):
+		print "iEta = %i" % index
+		h_eta_time_p.SetBinContent(index+1,time_mean_p[index])
+		h_eta_time_p.SetBinError(index+1,time_sigma_p[index])
+		
+		h_eta_time_m.SetBinContent(index+1,time_mean_m[index])
+		h_eta_time_m.SetBinError(index+1,time_sigma_m[index])
+		
+		h_eta_trans_p.SetBinContent(index+1,time_mean_p[index])
+		h_eta_trans_p.SetBinError(index+1,time_sigma_p[index])
+		
+		h_eta_trans_m.SetBinContent(index+1,time_mean_m[index])
+		h_eta_trans_m.SetBinError(index+1,time_sigma_m[index])
+	
+	c_time_p = rt.TCanvas('time response EE plus','time response EE plus', 800,600)					
+	c_time_p.cd()
+	h_eta_time_p.SetTitle("time response vs. #eta in EE+")
+	h_eta_time_p.GetXaxis().SetTitleSize(XTitleSize)	
+	h_eta_time_p.GetXaxis().SetLabelSize(XLabelSize)	
+	h_eta_time_p.GetXaxis().SetTitleOffset(XTitleOffset)
+	h_eta_time_p.GetYaxis().SetTitleSize(YTitleSize)	
+	h_eta_time_p.GetYaxis().SetLabelSize(YLabelSize)	
+	h_eta_time_p.GetYaxis().SetTitleOffset(YTitleOffset)
+	h_eta_time_p.GetXaxis().SetTitle("#eta")
+	h_eta_time_p.GetYaxis().SetTitle("time response (ns)")
+	h_eta_time_p.Draw()
+	c_time_p.Print('result_eta_ring/TimeResponseVsEta_EE_p_'+runNumber_this+'.pdf')	
+	c_time_p.Print('result_eta_ring/TimeResponseVsEta_EE_p_'+runNumber_this+'.png')	
+	c_time_p.Print('result_eta_ring/TimeResponseVsEta_EE_p_'+runNumber_this+'.eps')	
+
+	c_time_m = rt.TCanvas('time response EE minus','time response EE minus', 800,600)					
+	c_time_m.cd()
+	h_eta_time_m.SetTitle("time response vs. #eta in EE-")
+	h_eta_time_m.GetXaxis().SetTitleSize(XTitleSize)	
+	h_eta_time_m.GetXaxis().SetLabelSize(XLabelSize)	
+	h_eta_time_m.GetXaxis().SetTitleOffset(XTitleOffset)
+	h_eta_time_m.GetYaxis().SetTitleSize(YTitleSize)	
+	h_eta_time_m.GetYaxis().SetLabelSize(YLabelSize)	
+	h_eta_time_m.GetYaxis().SetTitleOffset(YTitleOffset)
+	h_eta_time_m.GetXaxis().SetTitle("#eta")
+	h_eta_time_m.GetYaxis().SetTitle("time response (ns)")
+	h_eta_time_m.Draw()
+	c_time_m.Print('result_eta_ring/TimeResponseVsEta_EE_m_'+runNumber_this+'.pdf')	
+	c_time_m.Print('result_eta_ring/TimeResponseVsEta_EE_m_'+runNumber_this+'.png')	
+	c_time_m.Print('result_eta_ring/TimeResponseVsEta_EE_m_'+runNumber_this+'.eps')	
+	
+	c_trans_p = rt.TCanvas('transparency EE plus','transparency EE plus', 800,600)					
+	c_trans_p.cd()
+	h_eta_trans_p.SetTitle("transparency vs. #eta in EE+")
+	h_eta_trans_p.GetXaxis().SetTitleSize(XTitleSize)	
+	h_eta_trans_p.GetXaxis().SetLabelSize(XLabelSize)	
+	h_eta_trans_p.GetXaxis().SetTitleOffset(XTitleOffset)
+	h_eta_trans_p.GetYaxis().SetTitleSize(YTitleSize)	
+	h_eta_trans_p.GetYaxis().SetLabelSize(YLabelSize)	
+	h_eta_trans_p.GetYaxis().SetTitleOffset(YTitleOffset)
+	h_eta_trans_p.GetXaxis().SetTitle("#eta")
+	h_eta_trans_p.GetYaxis().SetTitle("transparency")
+	h_eta_trans_p.Draw()
+	c_trans_p.Print('result_eta_ring/TransparencyVsEta_EE_p_'+runNumber_this+'.pdf')	
+	c_trans_p.Print('result_eta_ring/TransparencyVsEta_EE_p_'+runNumber_this+'.png')	
+	c_trans_p.Print('result_eta_ring/TransparencyVsEta_EE_p_'+runNumber_this+'.eps')	
+
+	c_trans_m = rt.TCanvas('transparency EE minus','transparency EE minus', 800,600)					
+	c_trans_m.cd()
+	h_eta_trans_m.SetTitle("transparency vs. #eta in EE-")
+	h_eta_trans_m.GetXaxis().SetTitleSize(XTitleSize)	
+	h_eta_trans_m.GetXaxis().SetLabelSize(XLabelSize)	
+	h_eta_trans_m.GetXaxis().SetTitleOffset(XTitleOffset)
+	h_eta_trans_m.GetYaxis().SetTitleSize(YTitleSize)	
+	h_eta_trans_m.GetYaxis().SetLabelSize(YLabelSize)	
+	h_eta_trans_m.GetYaxis().SetTitleOffset(YTitleOffset)
+	h_eta_trans_m.GetXaxis().SetTitle("#eta")
+	h_eta_trans_m.GetYaxis().SetTitle("transparency")
+	h_eta_trans_m.Draw()
+	c_trans_m.Print('result_eta_ring/TransparencyVsEta_EE_m_'+runNumber_this+'.pdf')	
+	c_trans_m.Print('result_eta_ring/TransparencyVsEta_EE_m_'+runNumber_this+'.png')	
+	c_trans_m.Print('result_eta_ring/TransparencyVsEta_EE_m_'+runNumber_this+'.eps')	
+	
 	## save the time response and transparency histograms to .root file
 	f_out_time_hist = rt.TFile('result_eta_ring/TimeResponseHistEta_EE_'+runNumber_this+'.root','RECREATE')
 	for index in range(0,32):
@@ -119,4 +270,10 @@ else:
 		eta_trans_p[index].Write()
 		eta_trans_m[index].Write()
 	f_out_trans_hist.Close()
-
+	
+	f_out_vs_eta = rt.TFile('result_eta_ring/Time_Trans_VsEta_EE_'+runNumber_this+'.root','RECREATE')
+ 	h_eta_time_p.Write()
+	h_eta_time_m.Write()
+	h_eta_trans_p.Write()
+	h_eta_trans_m.Write()
+	f_out_vs_eta.Close()
