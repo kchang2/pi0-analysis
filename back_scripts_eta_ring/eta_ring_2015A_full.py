@@ -18,7 +18,7 @@ import parameters as p
 runNumber_this = '2015A'
 ##specific region in EE
 iX_min = 0
-iX_max = 101 
+iX_max = 101
 iY_min = 0
 iY_max = 101
 ## the input file lists

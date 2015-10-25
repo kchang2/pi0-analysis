@@ -14,13 +14,7 @@ import numpy as np
 import glob
 import parameters as p
 
-##run Nuber
-runNumber_this = '2015A'
-##specific region in EE
-iX_min = 0
-iX_max = 101 
-iY_min = 0
-iY_max = 101
+runNumber_this = '2015D'
 ## the input file lists
 input_root_files = glob.glob('/afs/cern.ch/user/z/zhicaiz/private/ECALpro/local/CMSSW_7_4_2/src/result/ctEE_'+runNumber_this+'*/*.root')
 input_root_files.sort()
@@ -108,9 +102,9 @@ else:
 		eta_trans_m[index] = rt.TH1F(eta_transnamem,eta_transtitlem,1000,-5,5)
 					
 
-	for x in range(iX_min,iX_max):
+	for x in range(0,50):
 		print "iX = %i" % x
-		for y in range(iY_min,iY_max):
+		for y in range(0,50):
 			histnamep = "time on plus sc (%i,%i)" %(x,y)
 	                histtitlep = "time response (ns) for plus crystal (%i,%i)" %(x,y)
        		        histnamem = "time on minus sc (%i,%i)" %(x,y)

@@ -15,11 +15,11 @@ import glob
 import parameters as p
 
 ##run Nuber
-runNumber_this = '2015A'
+runNumber_this = '2015C'
 ##specific region in EE
-iX_min = 0
-iX_max = 101 
-iY_min = 0
+iX_min = 50
+iX_max = 101
+iY_min = 50
 iY_max = 101
 ## the input file lists
 input_root_files = glob.glob('/afs/cern.ch/user/z/zhicaiz/private/ECALpro/local/CMSSW_7_4_2/src/result/ctEE_'+runNumber_this+'*/*.root')
