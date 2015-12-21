@@ -137,6 +137,8 @@ with open(listofFillspy[0], 'r') as infile:
                 continue
             if 'EcalNtp' in line:
                 line = line.replace('EcalNtp_0.root','EcalNtp_')
+            if '/tmp/' in line:
+                line = line.replace('/tmp/', './')
             outfile.write(line)
 
 print "removed all pre-exisiting root sources and specific EcalNtp_0.roots"
