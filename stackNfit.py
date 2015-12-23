@@ -7,6 +7,7 @@
 from __future__ import division
 import ROOT as rt
 import sys, random, math
+import copy
 from FastProgressBar import progressbar
 import fast_cut as fc
 
@@ -221,7 +222,7 @@ def fitTime(histlist, translist, htime, hlaser, minstat, minnorm, includehitcoun
     for x in range(0,len(histlist)):
         #print "completed " + str(x) + " out of " + str(len(histlist)) + " columns."
         for y in range(0,len(histlist[0])):
-            hist = histlist[x][y] #this is before the time response section b.c. we need to see if we have enough statistic
+            hist = copy.deepcopy(histlist[x][y]) #this is before the time response section b.c. we need to see if we have enough statistic
             binmax = hist.GetMaximumBin()
             
             entries = pevents(hist,binmax,manualcut,40)
