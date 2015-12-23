@@ -231,6 +231,7 @@ def fitTime(histlist, translist, htime, hlaser, minstat, minnorm, includehitcoun
             if entries < minstat:
                 htime.Fill(x+adjust,y,-999)
                 continue
+            
             if entries < minnorm: #mean fit, NOT gaussian fit
                 fitdata[x][y][1] = hist.GetMean()
                 fitdata[x][y][2] = hist.GetMeanError()
@@ -295,29 +296,39 @@ def fitTime(histlist, translist, htime, hlaser, minstat, minnorm, includehitcoun
             binmax = hist.GetMaximumBin()
             max = hist.GetXaxis().GetBinCenter(binmax)
             
-            m = rt.RooRealVar("Transparency","Transparency Factor",max-0.05,max+0.05)
-            dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
+            #### added 12/23/2015 ####
+            hist = translist[x][y]
+            fitdata[x][y][5] = hist.GetMean()
+            fitdata[x][y][6] = hist.GetMeanError()
+            #fitdata[x][y][2] = sigma.getVal()
+            #fitdata[x][y][3] = sigma.getError()
+            hlaser.Fill(x+adjust,y,hist.GetMean())
+            hlaser.SetBinError(x+1,y+1,hist.GetMeanError()) #this value is the bin number
+            ##########################
             
-            frame = m.frame(rt.RooFit.Title("Transparency"))
-            frame.SetYTitle("Counts")
-            frame.SetTitleOffset (2.6, "Y")
-            
-            dh.plotOn(frame)
-            
-            # define gaussian
-            mean = rt.RooRealVar("mean","mean",1.,-10.,10)
-            sigma = rt.RooRealVar("sigma","sigma",0.1,-10.,10.)
-            gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
-            
-            fr = gauss.fitTo(dh,rt.RooFit.Save(),rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
-            
-            if (x,y) in prntable or (x,y) is (lowerx,lowery) or (x,y) is (upperx,uppery):
-                gauss.plotOn(frame)
-                c1 = rt.TCanvas()
-                #c1.SetLogy()
-                frame.Draw()
-                c1.Print("lasertransparency_"+name+xaxis+str(x)+"_"+yaxis+str(y)+".png")
-            
+#            m = rt.RooRealVar("Transparency","Transparency Factor",max-0.05,max+0.05)
+#            dh = rt.RooDataHist("dh","dh",rt.RooArgList(m),rt.RooFit.Import(hist))
+#            
+#            frame = m.frame(rt.RooFit.Title("Transparency"))
+#            frame.SetYTitle("Counts")
+#            frame.SetTitleOffset (2.6, "Y")
+#            
+#            dh.plotOn(frame)
+#            
+#            # define gaussian
+#            mean = rt.RooRealVar("mean","mean",1.,-10.,10)
+#            sigma = rt.RooRealVar("sigma","sigma",0.1,-10.,10.)
+#            gauss = rt.RooGaussian("gauss","gauss",m,mean,sigma)
+#            
+#            fr = gauss.fitTo(dh,rt.RooFit.Save(),rt.RooFit.PrintLevel(-1), rt.RooFit.Verbose(rt.kFALSE))
+#            
+#            if (x,y) in prntable or (x,y) is (lowerx,lowery) or (x,y) is (upperx,uppery):
+#                gauss.plotOn(frame)
+#                c1 = rt.TCanvas()
+#                #c1.SetLogy()
+#                frame.Draw()
+#                c1.Print("lasertransparency_"+name+xaxis+str(x)+"_"+yaxis+str(y)+".png")
+
             if len(histlist) != 101 and x == 85: #barrel, 0 ieta
                 fitdata[x][y][5] = 0
                 fitdata[x][y][6] = 0
